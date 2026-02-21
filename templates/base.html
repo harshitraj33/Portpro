@@ -172,6 +172,42 @@
                     <a href="{% url 'accounts:admin_logout' %}" class="text-gray-500 hover:text-[#ff0000] mr-3 text-sm">[LOGOUT]</a>
                     {% endif %}
                 </div>
+                <!-- Mobile menu button -->
+                <div class="flex items-center sm:hidden">
+                    <button id="mobile-menu-btn" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-[#00a8e8] hover:bg-[#0a0a0a] focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#00a8e8]" aria-controls="mobile-menu" aria-expanded="false">
+                        <span class="sr-only">Open main menu</span>
+                        <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden sm:hidden bg-[#0d1117]/95 border-b border-[#333]">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                {% with request.resolver_match.view_name as view_name %}
+                {% with 'bg-[#0a0a0a] text-[#00a8e8]' as active_mobile_class %}
+                {% with 'text-gray-300 hover:bg-[#0a0a0a] hover:text-[#00a8e8]' as inactive_mobile_class %}
+                    <a href="{% url 'projects_app:home' %}" class="{% if view_name == 'projects_app:home' %}{{ active_mobile_class }}{% else %}{{ inactive_mobile_class }}{% endif %} block px-3 py-2 rounded-md text-base font-medium">[HOME]</a>
+                    <a href="{% url 'projects_app:about' %}" class="{% if view_name == 'projects_app:about' %}{{ active_mobile_class }}{% else %}{{ inactive_mobile_class }}{% endif %} block px-3 py-2 rounded-md text-base font-medium">[ABOUT]</a>
+                    <a href="{% url 'projects_app:projects' %}" class="{% if view_name == 'projects_app:projects' %}{{ active_mobile_class }}{% else %}{{ inactive_mobile_class }}{% endif %} block px-3 py-2 rounded-md text-base font-medium">[PROJECTS]</a>
+                    <a href="{% url 'contact:contact' %}" class="{% if view_name == 'contact:contact' %}{{ active_mobile_class }}{% else %}{{ inactive_mobile_class }}{% endif %} block px-3 py-2 rounded-md text-base font-medium">[CONTACT]</a>
+                {% endwith %}{% endwith %}{% endwith %}
+                
+                <div class="border-t border-[#333] my-2"></div>
+                
+                <a href="https://drive.google.com/uc?export=download&id=1y7-lQQI_pLSsenDCa4fWgG96PMkteWnT" target="_blank" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-[#0a0a0a] hover:text-[#ff0000]" download>
+                    <i class="fas fa-file-pdf mr-2"></i>DOWNLOAD_CV
+                </a>
+                <a href="{% url 'accounts:admin_login' %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-[#0a0a0a] hover:text-[#00a8e8]">UPDATE_ME</a>
+                {% if user.is_superuser %}
+                <a href="{% url 'accounts:admin_dashboard' %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-[#0a0a0a] hover:text-[#00a8e8]">[ADMIN]</a>
+                {% endif %}
+                {% if user.is_authenticated %}
+                <a href="{% url 'accounts:admin_logout' %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-[#0a0a0a] hover:text-[#ff0000]">[LOGOUT]</a>
+                {% endif %}
             </div>
         </div>
     </nav>
