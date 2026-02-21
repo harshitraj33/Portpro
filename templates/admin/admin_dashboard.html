@@ -131,43 +131,4 @@
         {% endif %}
     </div>
 </div>
-
-<div class="mt-6 bg-white rounded-lg shadow p-6">
-    <div class="flex items-center justify-between mb-4">
-        <h2 class="text-lg font-semibold">Recent Messages</h2>
-        <a href="/admin/contact_app/contactmessage/" class="text-sm text-indigo-600 hover:text-indigo-800">View All</a>
-    </div>
-    {% if recent_messages %}
-        <div class="overflow-x-auto">
-            <table class="w-full">
-                <thead>
-                    <tr class="border-b">
-                        <th class="text-left py-3 px-4 font-medium text-gray-500">Name</th>
-                        <th class="text-left py-3 px-4 font-medium text-gray-500">Subject</th>
-                        <th class="text-left py-3 px-4 font-medium text-gray-500">Date</th>
-                        <th class="text-left py-3 px-4 font-medium text-gray-500">Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for message in recent_messages %}
-                        <tr class="border-b hover:bg-gray-50">
-                            <td class="py-3 px-4">{{ message.name }}</td>
-                            <td class="py-3 px-4">{{ message.subject }}</td>
-                            <td class="py-3 px-4 text-gray-500">{{ message.created_at|date:"M d, Y" }}</td>
-                            <td class="py-3 px-4">
-                                {% if message.is_read %}
-                                    <span class="px-2 py-1 text-xs bg-green-100 text-green-700 rounded">Read</span>
-                                {% else %}
-                                    <span class="px-2 py-1 text-xs bg-red-100 text-red-700 rounded">Unread</span>
-                                {% endif %}
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    {% else %}
-        <p class="text-gray-500 text-center py-4">No messages yet.</p>
-    {% endif %}
-</div>
 {% endblock %}
