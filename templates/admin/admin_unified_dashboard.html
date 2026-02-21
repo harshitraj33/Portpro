@@ -98,7 +98,7 @@
                                 <td class="py-3 px-4">
                                     <div class="flex items-center gap-3">
                                         {% if project.image %}
-                                            <img src="{{ project.image.url }}" alt="{{ project.title }}" class="w-10 h-10 rounded object-cover">
+                                            <img src="{{ project.image_url }}" alt="{{ project.title }}" class="w-10 h-10 rounded object-cover">
                                         {% else %}
                                             <div class="w-10 h-10 rounded bg-gray-200 flex items-center justify-center">
                                                 <i class="fas fa-folder text-gray-400"></i>
@@ -182,7 +182,7 @@
                                 <td class="py-3 px-4">
                                     <div class="flex items-center gap-3">
                                         {% if experience.company_logo %}
-                                            <img src="{{ experience.company_logo.url }}" alt="{{ experience.company }}" class="w-10 h-10 rounded object-cover">
+                                            <img src="{{ experience.company_logo_url }}" alt="{{ experience.company }}" class="w-10 h-10 rounded object-cover">
                                         {% else %}
                                             <div class="w-10 h-10 rounded bg-gray-200 flex items-center justify-center">
                                                 <i class="fas fa-building text-gray-400"></i>

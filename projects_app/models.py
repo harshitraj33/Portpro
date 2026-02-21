@@ -71,6 +71,13 @@ class Project(models.Model):
     def get_absolute_url(self):
         return reverse('project_detail', kwargs={'slug': self.slug})
 
+    @property
+    def image_url(self):
+        """Get the correct image URL, handling both local and Cloudinary images."""
+        if self.image:
+            return self.image.url
+        return None
+
     def get_technologies_list(self):
         if self.technologies:
             return [tech.strip() for tech in self.technologies.split(',')]
@@ -107,6 +114,13 @@ class WorkExperience(models.Model):
         if self.technologies:
             return [tech.strip() for tech in self.technologies.split(',')]
         return []
+
+    @property
+    def company_logo_url(self):
+        """Get the correct logo URL, handling both local and Cloudinary images."""
+        if self.company_logo:
+            return self.company_logo.url
+        return None
 
 
 class Skill(models.Model):

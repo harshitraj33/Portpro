@@ -121,7 +121,7 @@
                 <div class="poi-card rounded-lg overflow-hidden hover:border-[#00a8e8] transition-all duration-300">
                     {% if project.image %}
                         <div class="relative">
-                            <img src="{{ project.image.url }}" alt="{{ project.title }}" class="w-full h-48 object-cover grayscale hover:grayscale-0 transition-all duration-300">
+                            <img src="{{ project.image_url }}" alt="{{ project.title }}" class="w-full h-48 object-cover grayscale hover:grayscale-0 transition-all duration-300">
                             <div class="absolute inset-0 bg-[#0a0a0a]/50"></div>
                         </div>
                     {% else %}

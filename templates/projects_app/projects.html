@@ -31,7 +31,7 @@
             <div class="poi-card rounded-lg overflow-hidden group">
                 {% if project.image %}
                     <div class="relative overflow-hidden">
-                        <img src="{{ project.image.url }}" alt="{{ project.title }}" class="w-full h-48 object-cover grayscale group-hover:grayscale-0 transition-all duration-300">
+                        <img src="{{ project.image_url }}" alt="{{ project.title }}" class="w-full h-48 object-cover grayscale group-hover:grayscale-0 transition-all duration-300">
                         <div class="absolute inset-0 bg-linear-to-t from-[#0a0a0a] to-transparent"></div>
                         <div class="absolute top-2 right-2 bg-[#00a8e8] text-[#0a0a0a] text-xs px-2 py-1 font-bold">ID:{{ forloop.counter }}</div>
                     </div>
