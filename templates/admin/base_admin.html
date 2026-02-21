@@ -89,9 +89,12 @@
     </style>
 </head>
 <body class="bg-[#0a0a0a]">
+    <!-- Mobile Overlay -->
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-40 hidden md:hidden" onclick="toggleMobileSidebar()"></div>
+
     <div class="flex h-screen overflow-hidden">
         <!-- Left Sidebar -->
-        <aside class="w-64 bg-[#0d1117] text-white flex flex-col border-r border-[#333]">
+        <aside id="sidebar" class="w-64 bg-[#0d1117] text-white flex flex-col border-r border-[#333] fixed md:static inset-y-0 left-0 z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-300">
             <!-- Logo -->
             <div class="p-6 border-b border-[#333]">
                 <a href="{% url 'accounts:admin_dashboard' %}" class="text-2xl font-bold text-[#00a8e8] poi-glow">
@@ -173,19 +176,19 @@
     </div>
 
     <script>
-        // Mobile menu toggle
+        // Mobile menu toggle function
+        function toggleMobileSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            
+            sidebar.classList.toggle('-translate-x-full');
+            overlay.classList.toggle('hidden');
+        }
+        
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         
         if (mobileMenuBtn) {
-            mobileMenuBtn.addEventListener('click', function() {
-                // Toggle sidebar visibility on mobile
-                const sidebar = document.querySelector('aside');
-                sidebar.classList.toggle('hidden');
-                sidebar.classList.toggle('fixed');
-                sidebar.classList.toggle('inset-0');
-                sidebar.classList.toggle('z-50');
-                sidebar.classList.toggle('w-full');
-            });
+            mobileMenuBtn.addEventListener('click', toggleMobileSidebar);
         }
     </script>
 </body>
