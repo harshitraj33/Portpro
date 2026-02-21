@@ -50,7 +50,7 @@ class ContactView(View):
 
             messages.success(request, 'Your message has been sent successfully! We will get back to you soon.')
         except Exception as e:
-            print(e)
+            print("EMAIL ERROR:", e)
             messages.error(request, f'Email error: {str(e)}')
         return redirect('contact:contact')
 
