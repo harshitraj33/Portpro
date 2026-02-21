@@ -171,17 +171,6 @@
                 </div>
             </div>
         </header>
-
-        <main class="flex-1 overflow-y-auto p-4 md:p-6 bg-[#0a0a0a]">
-            {% if messages %}
-                {% for message in messages %}
-                    <div class="p-4 mb-4 border {% if message.tags == 'success' %}border-[#00a8e8] text-[#00a8e8]{% elif message.tags == 'error' %}border-[#ff0000] text-[#ff0000]{% else %}border-[#00a8e8] text-[#00a8e8]{% endif %} bg-[#0d1117] rounded">
-                        <span class="prompt"></span>{{ message }}
-                    </div>
-                {% endfor %}
-            {% endif %}
-            {% block admin_content %}{% endblock %}
-        </main>
     </div>
 
     <script>
