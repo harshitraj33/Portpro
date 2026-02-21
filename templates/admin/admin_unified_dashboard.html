@@ -330,6 +330,7 @@
                             <th class="text-left py-3 px-4 font-medium text-gray-500">Message</th>
                             <th class="text-left py-3 px-4 font-medium text-gray-500">Date</th>
                             <th class="text-center py-3 px-4 font-medium text-gray-500">Status</th>
+                            <th class="text-center py-3 px-4 font-medium text-gray-500">Actions</th>
                         </thead>
                     <tr>
                     </tbody>
@@ -346,6 +347,25 @@
                                     {% else %}
                                         <span class="px-2 py-1 text-xs bg-red-100 text-red-700 rounded">Unread</span>
                                     {% endif %}
+                                </td>
+                                <td class="py-3 px-4 text-center">
+                                    <div class="flex items-center justify-center gap-2">
+                                        {% if message.is_read %}
+                                            <form method="post" action="{% url 'accounts:admin_message_mark_unread' message.pk %}" style="display: inline;">
+                                                {% csrf_token %}
+                                                <button type="submit" class="p-2 text-yellow-600 hover:bg-yellow-50 rounded transition-colors" title="Mark as Unread">
+                                                    <i class="fas fa-envelope-open"></i>
+                                                </button>
+                                            </form>
+                                        {% else %}
+                                            <form method="post" action="{% url 'accounts:admin_message_mark_read' message.pk %}" style="display: inline;">
+                                                {% csrf_token %}
+                                                <button type="submit" class="p-2 text-green-600 hover:bg-green-50 rounded transition-colors" title="Mark as Read">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            </form>
+                                        {% endif %}
+                                    </div>
                                 </td>
                             </tr>
                         {% endfor %}
