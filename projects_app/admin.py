@@ -89,14 +89,21 @@ class HomeContentAdmin(admin.ModelAdmin):
     """
     Admin configuration for HomeContent model.
     """
-    list_display = ('__str__', 'is_active', 'created_at', 'updated_at')
+    list_display = ('__str__', 'name', 'is_active', 'created_at', 'updated_at')
     list_filter = ('is_active',)
     list_editable = ('is_active',)
     list_per_page = 25
     
     fieldsets = (
         ('Profile Picture', {
-            'fields': ('profile_picture', 'profile_picture_url')
+            'fields': ('profile_picture', 'profile_picture_url'),
+            'description': 'Upload a profile picture or use an external URL'
+        }),
+        ('Personal Information', {
+            'fields': ('name', 'title', 'education')
+        }),
+        ('Contact Information', {
+            'fields': ('email', 'phone', 'github_url', 'linkedin_url')
         }),
         ('Status', {
             'fields': ('is_active',)

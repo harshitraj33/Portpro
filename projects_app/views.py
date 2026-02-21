@@ -15,7 +15,14 @@ class HomeView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['featured_projects'] = Project.objects.filter(featured=True)[:6]
         context['all_projects'] = Project.objects.filter(featured=False)[:3]
-        context['home_content'] = HomeContent.objects.filter(is_active=True).first()
+        
+        # Get active home content or create default one if none exists
+        try:
+            home_content = HomeContent.get_active_content()
+            context['home_content'] = home_content
+        except Exception as e:
+            print(f"Error loading home content: {e}")
+        
         return context
 
 

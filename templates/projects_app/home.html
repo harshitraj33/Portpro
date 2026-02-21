@@ -29,15 +29,15 @@
             </div>
             
             <h1 class="text-4xl md:text-7xl font-bold mb-4 text-white poi-glow-white tracking-wider">
-                HARSHIT RAJ<span class="cursor-blink text-[#ff0000]">_</span>
+                {{ home_content.name|default:"HARSHIT RAJ" }}<span class="cursor-blink text-[#ff0000]">_</span>
             </h1>
             
             <p class="text-xl md:text-2xl mb-8 text-gray-400">
-                <span class="text-[#00a8e8]">> </span>Full Stack Developer <span class="text-white">|</span> Cybersecurity Enthusiast<span class="cursor-blink text-[#ff0000]">_</span>
+                <span class="text-[#00a8e8]">> </span>{{ home_content.title|default:"Full Stack Developer | Cybersecurity Enthusiast" }}<span class="cursor-blink text-[#ff0000]">_</span>
             </p>
             
             <div class="mb-8 text-xs text-gray-500">
-                <span class="text-[#00a8e8]">//</span> B.Tech CSE @ LPU
+                <span class="text-[#00a8e8]">//</span> {{ home_content.education|default:"B.Tech CSE @ LPU" }}
             </div>
             
             <a href="{% url 'projects_app:about' %}" class="poi-btn inline-block px-8 py-3 font-semibold text-lg">
@@ -57,22 +57,53 @@
 <section class="py-8 bg-[#0d1117] border-y border-[#333]">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-wrap justify-center gap-8 text-xs font-mono">
+            {% if home_content.email %}
+            <div class="flex items-center gap-2">
+                <span class="text-[#00a8e8]">✉</span>
+                <span class="text-white">{{ home_content.email }}</span>
+            </div>
+            {% else %}
             <div class="flex items-center gap-2">
                 <span class="text-[#00a8e8]">✉</span>
                 <span class="text-white">harshitpriv.3@gmail.com</span>
             </div>
+            {% endif %}
+            
+            {% if home_content.phone %}
+            <div class="flex items-center gap-2">
+                <span class="text-[#00a8e8]">☎</span>
+                <span class="text-white">{{ home_content.phone }}</span>
+            </div>
+            {% else %}
             <div class="flex items-center gap-2">
                 <span class="text-[#00a8e8]">☎</span>
                 <span class="text-white">+91 7654958933</span>
             </div>
+            {% endif %}
+            
+            {% if home_content.github_url %}
+            <div class="flex items-center gap-2">
+                <span class="text-[#00a8e8]">⚡</span>
+                <span class="text-white">{{ home_content.github_url|truncatechars:20 }}</span>
+            </div>
+            {% else %}
             <div class="flex items-center gap-2">
                 <span class="text-[#00a8e8]">⚡</span>
                 <span class="text-white">github.com/harshitraj33</span>
             </div>
+            {% endif %}
+            
+            {% if home_content.linkedin_url %}
+            <div class="flex items-center gap-2">
+                <span class="text-[#00a8e8]">◈</span>
+                <span class="text-white">{{ home_content.linkedin_url|truncatechars:20 }}</span>
+            </div>
+            {% else %}
             <div class="flex items-center gap-2">
                 <span class="text-[#00a8e8]">◈</span>
                 <span class="text-white">linkedin.com/in/harshitraj3</span>
             </div>
+            {% endif %}
         </div>
     </div>
 </section>

@@ -120,6 +120,9 @@
                 <a href="{% url 'accounts:admin_dashboard' %}" class="sidebar-link {% if request.resolver_match.view_name == 'accounts:admin_dashboard' %}active{% endif %}">
                     <i class="fas fa-home w-5"></i>[DASHBOARD]
                 </a>
+                <a href="{% url 'accounts:admin_home_content_edit' %}" class="sidebar-link {% if 'home-content' in request.resolver_match.view_name %}active{% endif %}">
+                    <i class="fas fa-user-circle w-5"></i>[HOME_CONTENT]
+                </a>
                 <a href="{% url 'accounts:admin_projects' %}" class="sidebar-link {% if 'projects' in request.resolver_match.view_name %}active{% endif %}">
                     <i class="fas fa-folder w-5"></i>[PROJECTS]
                 </a>
@@ -128,9 +131,6 @@
                 </a>
                 <a href="{% url 'accounts:admin_skills' %}" class="sidebar-link {% if 'skill' in request.resolver_match.view_name %}active{% endif %}">
                     <i class="fas fa-code w-5"></i>[SKILLS]
-                </a>
-                <a href="/admin/projects_app/homecontent/" class="sidebar-link {% if 'homecontent' in request.resolver_match.view_name %}active{% endif %}">
-                    <i class="fas fa-user-circle w-5"></i>[HOME_CONTENT]
                 </a>
                 <a href="/admin/" class="sidebar-link">
                     <i class="fas fa-cog w-5"></i>[DJANGO_ADMIN]

@@ -146,20 +146,63 @@ class Skill(models.Model):
 
 class HomeContent(models.Model):
     """
-    Home content model for storing home page content like profile picture.
+    Home content model for storing home page content like profile picture, name, title, etc.
     Only one instance should exist.
     """
+    # Profile Picture
     profile_picture = models.ImageField(
         upload_to='home_content/',
         blank=True,
         null=True,
-        help_text="Profile picture to display on home page"
+        help_text="Profile picture to display on home page (stored in Cloudinary)"
     )
     profile_picture_url = models.URLField(
         blank=True,
         null=True,
         help_text="Or use external URL for profile picture"
     )
+    
+    # Home Page Content
+    name = models.CharField(
+        max_length=200,
+        default="HARSHIT RAJ",
+        help_text="Your name to display on home page"
+    )
+    title = models.CharField(
+        max_length=500,
+        default="Full Stack Developer | Cybersecurity Enthusiast",
+        help_text="Your job title/description"
+    )
+    education = models.CharField(
+        max_length=300,
+        default="B.Tech CSE @ LPU",
+        help_text="Your education details"
+    )
+    
+    # Contact Info
+    email = models.EmailField(
+        blank=True,
+        null=True,
+        help_text="Email address"
+    )
+    phone = models.CharField(
+        max_length=20,
+        blank=True,
+        null=True,
+        help_text="Phone number"
+    )
+    github_url = models.URLField(
+        blank=True,
+        null=True,
+        help_text="GitHub profile URL"
+    )
+    linkedin_url = models.URLField(
+        blank=True,
+        null=True,
+        help_text="LinkedIn profile URL"
+    )
+    
+    # Status
     is_active = models.BooleanField(
         default=True,
         help_text="Make this the active home content"
@@ -179,3 +222,16 @@ class HomeContent(models.Model):
             # Deactivate all other HomeContent instances
             HomeContent.objects.filter(is_active=True).exclude(pk=self.pk).update(is_active=False)
         super().save(*args, **kwargs)
+    
+    @classmethod
+    def get_active_content(cls):
+        """Get the active home content or create a default one"""
+        content = cls.objects.filter(is_active=True).first()
+        if not content:
+            content = cls.objects.create(
+                is_active=True,
+                name="HARSHIT RAJ",
+                title="Full Stack Developer | Cybersecurity Enthusiast",
+                education="B.Tech CSE @ LPU"
+            )
+        return content

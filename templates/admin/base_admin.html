@@ -120,6 +120,9 @@
                 <a href="{% url 'accounts:admin_dashboard' %}" class="sidebar-link {% if request.resolver_match.view_name == 'accounts:admin_dashboard' %}active{% endif %}">
                     <i class="fas fa-home w-5"></i>[DASHBOARD]
                 </a>
+                <a href="{% url 'accounts:admin_home_content_edit' %}" class="sidebar-link {% if 'home-content' in request.resolver_match.view_name %}active{% endif %}">
+                    <i class="fas fa-user-circle w-5"></i>[HOME_CONTENT]
+                </a>
                 <a href="{% url 'accounts:admin_projects' %}" class="sidebar-link {% if 'projects' in request.resolver_match.view_name %}active{% endif %}">
                     <i class="fas fa-folder w-5"></i>[PROJECTS]
                 </a>
@@ -128,9 +131,6 @@
                 </a>
                 <a href="{% url 'accounts:admin_skills' %}" class="sidebar-link {% if 'skill' in request.resolver_match.view_name %}active{% endif %}">
                     <i class="fas fa-code w-5"></i>[SKILLS]
-                </a>
-                <a href="/admin/projects_app/homecontent/" class="sidebar-link {% if 'homecontent' in request.resolver_match.view_name %}active{% endif %}">
-                    <i class="fas fa-user-circle w-5"></i>[HOME_CONTENT]
                 </a>
                 <a href="/admin/" class="sidebar-link">
                     <i class="fas fa-cog w-5"></i>[DJANGO_ADMIN]
@@ -174,7 +174,13 @@
 
             <!-- Main Content -->
             <main class="flex-1 overflow-y-auto p-4 md:p-6 bg-[#0a0a0a] pt-20 md:pt-6">
-
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="p-4 mb-4 border {% if message.tags == 'success' %}border-[#00a8e8] text-[#00a8e8]{% elif message.tags == 'error' %}border-[#ff0000] text-[#ff0000]{% else %}border-[#00a8e8] text-[#00a8e8]{% endif %} bg-[#0d1117] rounded">
+                            <span class="prompt"></span>{{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
                 {% block admin_content %}{% endblock %}
             </main>
         </div>

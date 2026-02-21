@@ -20,4 +20,5 @@ urlpatterns = [
     path('skills/add/', views.SkillCreateView.as_view(), name='admin_skill_add'),
     path('skills/<int:pk>/edit/', views.SkillUpdateView.as_view(), name='admin_skill_edit'),
     path('skills/<int:pk>/delete/', views.SkillDeleteView.as_view(), name='admin_skill_delete'),
+    path('home-content/edit/', views.HomeContentEditView.as_view(), name='admin_home_content_edit'),
 ]

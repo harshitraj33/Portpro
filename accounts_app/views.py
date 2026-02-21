@@ -9,7 +9,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
 from django import forms
-from projects_app.models import Project, WorkExperience, Skill
+from projects_app.models import Project, WorkExperience, Skill, HomeContent
 from contact_app.models import ContactMessage
 
 
@@ -268,4 +268,45 @@ class SkillDeleteView(AdminRequiredMixin, DeleteView):
 
     def form_valid(self, form):
         messages.success(self.request, 'Skill deleted successfully!')
+        return super().form_valid(form)
+
+
+class HomeContentForm(forms.ModelForm):
+    class Meta:
+        model = HomeContent
+        fields = ['profile_picture', 'profile_picture_url', 'name', 'title', 'education', 
+                  'email', 'phone', 'github_url', 'linkedin_url', 'is_active']
+        widgets = {
+            'name': forms.TextInput(attrs={'placeholder': 'HARSHIT RAJ'}),
+            'title': forms.TextInput(attrs={'placeholder': 'Full Stack Developer | Cybersecurity Enthusiast'}),
+            'education': forms.TextInput(attrs={'placeholder': 'B.Tech CSE @ LPU'}),
+            'email': forms.EmailInput(attrs={'placeholder': 'harshitpriv.3@gmail.com'}),
+            'phone': forms.TextInput(attrs={'placeholder': '+91 7654958933'}),
+            'github_url': forms.URLInput(attrs={'placeholder': 'https://github.com/username'}),
+            'linkedin_url': forms.URLInput(attrs={'placeholder': 'https://linkedin.com/in/username'}),
+        }
+
+
+class HomeContentEditView(AdminRequiredMixin, UpdateView):
+    model = HomeContent
+    form_class = HomeContentForm
+    template_name = 'admin/homecontent_form.html'
+    
+    def get_object(self, queryset=None):
+        # Get the active home content or create a new one if none exists
+        home_content = HomeContent.objects.filter(is_active=True).first()
+        if not home_content:
+            home_content = HomeContent.objects.create(
+                is_active=True,
+                name="HARSHIT RAJ",
+                title="Full Stack Developer | Cybersecurity Enthusiast",
+                education="B.Tech CSE @ LPU"
+            )
+        return home_content
+
+    def get_success_url(self):
+        return reverse('accounts:admin_dashboard')
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Home content updated successfully!')
         return super().form_valid(form)
