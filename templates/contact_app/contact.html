@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}HR | Contact{% endblock %}
+
+{% block content %}
+<div class="bg-[#0a0a0a] py-16 min-h-screen">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-8">
+            <div class="text-[#00a8e8] text-sm mb-2"><span class="prompt"></span>ESTABLISHING SECURE CONNECTION...</div>
+            <h1 class="text-4xl font-bold text-white poi-glow-white">INITIATE_CONTACT<span class="cursor-blink text-[#ff0000]">_</span></h1>
+            <p class="text-gray-400 mt-4"><span class="text-[#00a8e8]">//</span> Send a message. I will respond at the earliest convenience.</p>
+        </div>
+        
+        <div class="bg-[#0d1117] border border-[#333] rounded-lg p-8">
+            <div class="text-xs text-[#00a8e8] mb-6"><span class="prompt"></span>INPUT_FORM v2.4.1</div>
+            
+            <form method="post" class="space-y-6">
+                {% csrf_token %}
+                
+                <div>
+                    <label for="name" class="block text-sm font-medium text-[#00a8e8] mb-2">> IDENTIFIER_NAME</label>
+                    <input type="text" name="name" id="name" required class="poi-input w-full px-4 py-2 rounded-lg" placeholder="Enter your identifier...">
+                </div>
+                
+                <div>
+                    <label for="email" class="block text-sm font-medium text-[#00a8e8] mb-2">> CONTACT_PROTOCOL (EMAIL)</label>
+                    <input type="email" name="email" id="email" required class="poi-input w-full px-4 py-2 rounded-lg" placeholder="email@domain.ext">
+                </div>
+                
+                <div>
+                    <label for="subject" class="block text-sm font-medium text-[#00a8e8] mb-2">> SUBJECT_LINE</label>
+                    <input type="text" name="subject" id="subject" required class="poi-input w-full px-4 py-2 rounded-lg" placeholder="Communication subject...">
+                </div>
+                
+                <div>
+                    <label for="message" class="block text-sm font-medium text-[#00a8e8] mb-2">> MESSAGE_BODY</label>
+                    <textarea name="message" id="message" rows="6" required class="poi-input w-full px-4 py-2 rounded-lg" placeholder="Enter your message..."></textarea>
+                </div>
+                
+                <div>
+                    <button type="submit" class="poi-btn w-full py-3 font-semibold text-lg rounded-lg">> TRANSMIT_MESSAGE</button>
+                </div>
+            </form>
+        </div>
+        
+        <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-[#0d1117] border border-[#333] p-6 text-center hover:border-[#00a8e8] transition-colors">
+                <div class="text-[#00a8e8] mb-3">
+                    <svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                </div>
+                <h3 class="text-white font-semibold mb-2">EMAIL</h3>
+                <p class="text-gray-400 text-sm">harshitpriv.3<br>@gmail.com</p>
+            </div>
+            
+            <div class="bg-[#0d1117] border border-[#333] p-6 text-center hover:border-[#00a8e8] transition-colors">
+                <div class="text-[#00a8e8] mb-3">
+                    <svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                </div>
+                <h3 class="text-white font-semibold mb-2">PHONE</h3>
+                <p class="text-gray-400 text-sm">+91 765495<br>8933</p>
+            </div>
+            
+            <div class="bg-[#0d1117] border border-[#333] p-6 text-center hover:border-[#00a8e8] transition-colors">
+                <div class="text-[#00a8e8] mb-3">
+                    <svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                </div>
+                <h3 class="text-white font-semibold mb-2">LOCATION</h3>
+                <p class="text-gray-400 text-sm">Punjab,<br>India</p>
+            </div>
+        </div>
+        
+        <div class="mt-12 text-center text-xs text-gray-500">
+            <div class="border border-[#333] inline-block px-4 py-2">
+                <span class="text-[#00a8e8]">🔒</span> SECURE_CHANNEL | ENCRYPTION: ACTIVE | <span class="text-white">STATUS:</span> <span class="text-[#00a8e8]">READY</span><span class="cursor-blink text-[#ff0000]">_</span>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

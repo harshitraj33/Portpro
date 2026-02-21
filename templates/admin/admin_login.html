@@ -1,0 +1,138 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR | Admin Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+        
+        :root {
+            --poi-black: #0a0a0a;
+            --poi-dark: #0d1117;
+            --poi-blue: #00a8e8;
+            --poi-white: #ffffff;
+            --poi-red: #ff0000;
+        }
+        
+        body {
+            background-color: var(--poi-black);
+            font-family: 'Orbitron', 'Courier New', monospace;
+        }
+        
+        .poi-glow {
+            text-shadow: 0 0 5px var(--poi-blue), 0 0 10px var(--poi-blue);
+        }
+        
+        .poi-border {
+            border: 1px solid var(--poi-blue);
+            box-shadow: 0 0 10px rgba(0, 168, 232, 0.3);
+        }
+        
+        .poi-input {
+            background: var(--poi-black);
+            border: 1px solid #333;
+            color: var(--poi-blue);
+            font-family: 'Orbitron', monospace;
+        }
+        
+        .poi-input:focus {
+            border-color: var(--poi-blue);
+            box-shadow: 0 0 10px var(--poi-blue);
+            outline: none;
+        }
+        
+        .poi-btn {
+            background: transparent;
+            border: 1px solid var(--poi-blue);
+            color: var(--poi-blue);
+            transition: all 0.3s ease;
+        }
+        
+        .poi-btn:hover {
+            background: var(--poi-blue);
+            color: var(--poi-black);
+            box-shadow: 0 0 20px var(--poi-blue);
+        }
+        
+        .cursor-blink { animation: blink 1s step-end infinite; }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        .scanlines::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(0deg, rgba(0,0,0,0.15), rgba(0,0,0,0.15) 1px, transparent 1px, transparent 2px);
+            pointer-events: none;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body class="bg-[#0a0a0a] min-h-screen flex items-center justify-center scanlines">
+    <div class="max-w-md w-full relative z-20">
+        <div class="text-center mb-8">
+            <a href="{% url 'projects_app:home' %}" class="text-4xl font-bold text-[#00a8e8] poi-glow">
+                <span class="text-white">◈</span> HR<span class="cursor-blink text-[#ff0000]">_</span>
+            </a>
+            <p class="text-gray-500 mt-2 text-sm">
+                <span class="text-[#00a8e8]">//</span> ADMIN_ACCESS_PORTAL
+            </p>
+        </div>
+
+        <div class="bg-[#0d1117] border border-[#333] rounded-lg p-8">
+            <div class="text-center mb-6">
+                <div class="text-[#00a8e8] text-sm mb-2"><span class="prompt"></span>AUTHENTICATION_REQUIRED</div>
+                <h2 class="text-2xl font-bold text-white">ADMIN_LOGIN<span class="cursor-blink text-[#ff0000]">_</span></h2>
+            </div>
+            
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="p-4 mb-4 border {% if message.tags == 'success' %}border-[#00a8e8] text-[#00a8e8]{% elif message.tags == 'error' %}border-[#ff0000] text-[#ff0000]{% else %}border-[#00a8e8] text-[#00a8e8]{% endif %} bg-[#0a0a0a] rounded">
+                        <span class="prompt"></span>{{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="post" class="space-y-6">
+                {% csrf_token %}
+                
+                <div>
+                    <label for="id_username" class="block text-sm font-medium text-[#00a8e8] mb-2">> USERNAME</label>
+                    <div class="relative">
+                        <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#00a8e8]"><i class="fas fa-user"></i></span>
+                        <input type="text" name="username" id="id_username" class="poi-input w-full pl-10 pr-4 py-3 rounded-lg" placeholder="Enter credentials..." required>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="id_password" class="block text-sm font-medium text-[#00a8e8] mb-2">> PASSWORD</label>
+                    <div class="relative">
+                        <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#00a8e8]"><i class="fas fa-lock"></i></span>
+                        <input type="password" name="password" id="id_password" class="poi-input w-full pl-10 pr-4 py-3 rounded-lg" placeholder="Enter password..." required>
+                    </div>
+                </div>
+
+                <button type="submit" class="poi-btn w-full py-3 rounded-lg font-medium text-lg">> AUTHENTICATE</button>
+            </form>
+
+            <div class="mt-6 text-center">
+                <a href="{% url 'projects_app:home' %}" class="text-sm text-[#00a8e8] hover:text-white transition-colors"><i class="fas fa-arrow-left mr-1"></i> RETURN_TO_SITE</a>
+            </div>
+        </div>
+
+        <p class="text-center text-gray-600 text-xs mt-8">
+            <span class="text-white">©</span> {% now "Y" %} HR | <span class="text-[#00a8e8]">STATUS:</span> <span class="text-[#00a8e8]">SECURE</span><span class="cursor-blink text-[#ff0000]">_</span>
+        </p>
+    </div>
+</body>
+</html>

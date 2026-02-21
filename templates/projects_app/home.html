@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}HR | Home{% endblock %}
+
+{% block content %}
+<section class="bg-[#0a0a0a] text-white py-24 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10" style="background-image: linear-gradient(#00a8e8 1px, transparent 1px), linear-gradient(90deg, #00a8e8 1px, transparent 1px); background-size: 50px 50px;"></div>
+    
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center">
+            <div class="mb-4 text-[#00a8e8] text-sm">
+                <span class="prompt"></span>INITIALIZING USER DATA...
+            </div>
+            
+            <h1 class="text-4xl md:text-7xl font-bold mb-4 text-white poi-glow-white tracking-wider">
+                HARSHIT RAJ<span class="cursor-blink text-[#ff0000]">_</span>
+            </h1>
+            
+            <p class="text-xl md:text-2xl mb-8 text-gray-400">
+                <span class="text-[#00a8e8]">> </span>Full Stack Developer <span class="text-white">|</span> Cybersecurity Enthusiast<span class="cursor-blink text-[#ff0000]">_</span>
+            </p>
+            
+            <div class="mb-8 text-xs text-gray-500">
+                <span class="text-[#00a8e8]">//</span> B.Tech CSE @ LPU <span class="text-white">
+            </div>
+            
+            <a href="{% url 'projects_app:projects' %}" class="poi-btn inline-block px-8 py-3 font-semibold text-lg">
+                > VIEW_PROJECTS
+            </a>
+        </div>
+    </div>
+    
+    <div class="absolute top-4 left-4 text-[#00a8e8] text-xs opacity-50">
+        +----------------------------------------+
+    </div>
+    <div class="absolute top-4 right-4 text-[#00a8e8] text-xs opacity-50">
+        +----------------------------------------+
+    </div>
+</section>
+
+<section class="py-8 bg-[#0d1117] border-y border-[#333]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-wrap justify-center gap-8 text-xs font-mono">
+            <div class="flex items-center gap-2">
+                <span class="text-[#00a8e8]">✉</span>
+                <span class="text-white">harshitpriv.3@gmail.com</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="text-[#00a8e8]">☎</span>
+                <span class="text-white">+91 7654958933</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="text-[#00a8e8]">⚡</span>
+                <span class="text-white">github.com/harshitraj33</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="text-[#00a8e8]">◈</span>
+                <span class="text-white">linkedin.com/in/harshitraj3</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-16 bg-[#0a0a0a]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-center mb-12">
+            <span class="text-[#00a8e8] mr-2">>></span>
+            <h2 class="text-3xl font-bold text-white poi-glow-white">FEATURED_PROJECTS</h2>
+            <span class="text-[#00a8e8] ml-2">_</span>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {% for project in featured_projects %}
+                <div class="poi-card rounded-lg overflow-hidden hover:border-[#00a8e8] transition-all duration-300">
+                    {% if project.image %}
+                        <div class="relative">
+                            <img src="{{ project.image.url }}" alt="{{ project.title }}" class="w-full h-48 object-cover grayscale hover:grayscale-0 transition-all duration-300">
+                            <div class="absolute inset-0 bg-[#0a0a0a]/50"></div>
+                        </div>
+                    {% else %}
+                        <div class="w-full h-48 bg-[#0d1117] flex items-center justify-center border-b border-[#333]">
+                            <span class="text-gray-600">[NO_IMAGE]</span>
+                        </div>
+                    {% endif %}
+                    
+                    <div class="p-6">
+                        <div class="text-xs text-[#00a8e8] mb-2"><span class="prompt"></span>PROJECT_ID: {{ forloop.counter }}</div>
+                        <h3 class="text-xl font-semibold mb-2 text-white">{{ project.title }}</h3>
+                        <p class="text-gray-400 mb-4 text-sm">{{ project.description|truncatechars:100 }}</p>
+                        <a href="{% url 'projects_app:project_detail' slug=project.slug %}" class="text-[#00a8e8] hover:text-white font-medium text-sm">
+                            > VIEW_DETAILS <span class="cursor-blink text-[#ff0000]">_</span>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+            
+            {% if not featured_projects %}
+                <div class="col-span-3 text-center text-gray-500">
+                    <span class="text-[#ff0000]">ERROR:</span> No featured projects found<span class="cursor-blink">_</span>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<section class="bg-[#0d1117] py-16 border-t border-[#333]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+            <div class="mb-4 text-[#00a8e8] text-sm"><span class="prompt"></span>INPUT_REQUIRED</div>
+            <h2 class="text-3xl font-bold mb-4 text-white">
+                <span class="text-[#00a8e8]">>></span> READY TO COLLABORATE<span class="cursor-blink text-[#ff0000]">_</span>
+            </h2>
+            <p class="text-lg text-gray-400 mb-8"><span class="text-[#00a8e8]">//</span> Your project ideas await execution</p>
+            <a href="{% url 'contact:contact' %}" class="poi-btn-red poi-btn inline-block px-8 py-3 font-semibold text-lg">
+                > INITIATE_CONTACT
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="py-4 bg-[#0a0a0a] border-t border-[#333]">
+    <div class="max-w-7xl mx-auto px-4 text-center text-xs text-gray-500">
+        <span class="text-[#00a8e8]">>></span> END_OF_STREAM <span class="text-white">|</span> <span class="text-white">VISITOR_COUNT:</span> 0001 <span class="cursor-blink text-[#ff0000]">_</span>
+    </div>
+</section>
+{% endblock %}

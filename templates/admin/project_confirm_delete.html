@@ -1,0 +1,37 @@
+{% extends 'admin/base_admin.html' %}
+
+{% block title %}Delete Project - Admin Dashboard{% endblock %}
+{% block header %}Delete Project{% endblock %}
+
+{% block admin_content %}
+<div class="max-w-md mx-auto">
+    <a href="{% url 'accounts:admin_projects' %}" class="inline-flex items-center gap-2 text-gray-600 hover:text-indigo-600 mb-4">
+        <i class="fas fa-arrow-left"></i>Back to Projects
+    </a>
+
+    <div class="bg-white rounded-lg shadow p-6">
+        <div class="text-center">
+            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-red-100 flex items-center justify-center">
+                <i class="fas fa-exclamation-triangle text-red-600 text-2xl"></i>
+            </div>
+            <h2 class="text-xl font-semibold mb-2">Delete Project</h2>
+            <p class="text-gray-600 mb-6">
+                Are you sure you want to delete "<strong>{{ object.title }}</strong>"? 
+                This action cannot be undone.
+            </p>
+        </div>
+
+        <form method="post" class="flex items-center justify-center gap-4">
+            {% csrf_token %}
+            <a href="{% url 'accounts:admin_projects' %}" 
+               class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors">
+                Cancel
+            </a>
+            <button type="submit" 
+                    class="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
+                Delete Project
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

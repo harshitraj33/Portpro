@@ -1,0 +1,148 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}HR | Admin Panel{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+        
+        :root {
+            --poi-black: #0a0a0a;
+            --poi-dark: #0d1117;
+            --poi-blue: #00a8e8;
+            --poi-white: #ffffff;
+            --poi-red: #ff0000;
+        }
+        
+        body {
+            background-color: var(--poi-black);
+            font-family: 'Orbitron', 'Courier New', monospace;
+        }
+        
+        .poi-glow {
+            text-shadow: 0 0 5px var(--poi-blue), 0 0 10px var(--poi-blue);
+        }
+        
+        .poi-border {
+            border: 1px solid var(--poi-blue);
+            box-shadow: 0 0 5px var(--poi-blue);
+        }
+        
+        .sidebar-link {
+            @apply flex items-center gap-3 px-4 py-3 text-gray-400 hover:bg-[#1a1a1a] hover:text-[#00a8e8] rounded-lg transition-colors;
+        }
+        .sidebar-link.active {
+            @apply bg-[#00a8e8]/10 text-[#00a8e8] border-l-2 border-[#00a8e8];
+        }
+        
+        .cursor-blink { animation: blink 1s step-end infinite; }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        .poi-btn {
+            background: transparent;
+            border: 1px solid var(--poi-blue);
+            color: var(--poi-blue);
+            transition: all 0.3s ease;
+        }
+        
+        .poi-btn:hover {
+            background: var(--poi-blue);
+            color: var(--poi-black);
+            box-shadow: 0 0 15px var(--poi-blue);
+        }
+        
+        .poi-input {
+            background: var(--poi-black);
+            border: 1px solid #333;
+            color: var(--poi-blue);
+            font-family: 'Orbitron', monospace;
+        }
+        
+        .poi-input:focus {
+            border-color: var(--poi-blue);
+            box-shadow: 0 0 5px var(--poi-blue);
+            outline: none;
+        }
+    </style>
+</head>
+<body class="bg-[#0a0a0a]">
+    <div class="flex h-screen overflow-hidden">
+        <aside class="w-64 bg-[#0d1117] text-white flex flex-col border-r border-[#333]">
+            <div class="p-6 border-b border-[#333]">
+                <a href="{% url 'accounts:admin_dashboard' %}" class="text-2xl font-bold text-[#00a8e8] poi-glow">
+                    <span class="text-white">◈</span> ADMIN<span class="cursor-blink text-[#ff0000]">_</span>
+                </a>
+            </div>
+
+            <nav class="flex-1 p-4 space-y-2">
+                <a href="{% url 'accounts:admin_dashboard' %}" class="sidebar-link {% if request.resolver_match.view_name == 'accounts:admin_dashboard' %}active{% endif %}">
+                    <i class="fas fa-home w-5"></i>[DASHBOARD]
+                </a>
+                <a href="{% url 'accounts:admin_projects' %}" class="sidebar-link {% if 'projects' in request.resolver_match.view_name %}active{% endif %}">
+                    <i class="fas fa-folder w-5"></i>[PROJECTS]
+                </a>
+                <a href="{% url 'accounts:admin_experience' %}" class="sidebar-link {% if 'experience' in request.resolver_match.view_name %}active{% endif %}">
+                    <i class="fas fa-briefcase w-5"></i>[EXPERIENCE]
+                </a>
+                <a href="{% url 'accounts:admin_skills' %}" class="sidebar-link {% if 'skill' in request.resolver_match.view_name %}active{% endif %}">
+                    <i class="fas fa-code w-5"></i>[SKILLS]
+                </a>
+                <a href="/admin/" class="sidebar-link">
+                    <i class="fas fa-cog w-5"></i>[DJANGO_ADMIN]
+                </a>
+            </nav>
+
+            <div class="p-4 border-t border-[#333]">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-10 h-10 rounded-full bg-[#00a8e8]/20 flex items-center justify-center border border-[#00a8e8]">
+                        <span class="font-semibold text-[#00a8e8]">{{ user.username|make_list|first|upper }}</span>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-white">{{ user.username }}</p>
+                        <p class="text-xs text-gray-500">ADMINISTRATOR</p>
+                    </div>
+                </div>
+                <a href="{% url 'accounts:admin_logout' %}" class="flex items-center justify-center gap-2 w-full py-2 border border-[#ff0000] text-[#ff0000] hover:bg-[#ff0000] hover:text-[#0a0a0a] transition-colors rounded">
+                    <i class="fas fa-sign-out-alt"></i>[LOGOUT]
+                </a>
+            </div>
+        </aside>
+
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <header class="bg-[#0d1117] shadow-sm border-b border-[#333]">
+                <div class="px-6 py-4 flex items-center justify-between">
+                    <h1 class="text-xl font-semibold text-white">{% block header %}DASHBOARD{% endblock %}</h1>
+                    <div class="flex items-center gap-4">
+                        <div class="flex items-center gap-2 text-xs text-[#00a8e8] mr-4">
+                            <span class="w-2 h-2 bg-[#00a8e8] rounded-full animate-pulse"></span>
+                            SYSTEM ONLINE
+                        </div>
+                        <a href="{% url 'projects_app:home' %}" class="text-[#00a8e8] hover:text-white transition-colors">
+                            <i class="fas fa-external-link-alt mr-1"></i>VIEW_SITE
+                        </a>
+                    </div>
+                </div>
+            </header>
+
+            <main class="flex-1 overflow-y-auto p-6 bg-[#0a0a0a]">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="p-4 mb-4 border {% if message.tags == 'success' %}border-[#00a8e8] text-[#00a8e8]{% elif message.tags == 'error' %}border-[#ff0000] text-[#ff0000]{% else %}border-[#00a8e8] text-[#00a8e8]{% endif %} bg-[#0d1117] rounded">
+                            <span class="prompt"></span>{{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                {% block admin_content %}{% endblock %}
+            </main>
+        </div>
+    </div>
+</body>
+</html>

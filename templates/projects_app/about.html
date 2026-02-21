@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}HR | About{% endblock %}
+
+{% block content %}
+<div class="bg-[#0a0a0a] py-16 min-h-screen">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <div class="text-[#00a8e8] text-sm mb-2"><span class="prompt"></span>LOADING USER PROFILE...</div>
+            <h1 class="text-4xl font-bold text-white poi-glow-white">ABOUT_ME<span class="cursor-blink text-[#ff0000]">_</span></h1>
+        </div>
+        
+        <div class="mb-12 bg-[#0d1117] border border-[#333] p-6 rounded-lg">
+            <div class="text-xs text-[#00a8e8] mb-4"><span class="prompt"></span>USER_BIO v1.0</div>
+            <p class="text-gray-300 text-center max-w-3xl mx-auto leading-relaxed">
+                <span class="text-[#00a8e8]">>></span> I am a passionate <span class="text-white">Full Stack Developer</span> and <span class="text-white">Cybersecurity Enthusiast</span> currently pursuing my B.Tech in Computer Science and Engineering at Lovely Professional University. 
+                <br><br>
+                With hands-on experience in <span class="text-[#00a8e8]">Python</span>, <span class="text-[#00a8e8]">Django</span>, <span class="text-[#00a8e8]">React</span>, and various cybersecurity tools, I am eager to contribute to innovative projects and continue learning new technologies.
+                <span class="cursor-blink text-[#ff0000]">_</span>
+            </p>
+        </div>
+
+        <div class="mt-16">
+            <div class="flex items-center justify-center mb-8">
+                <span class="text-[#00a8e8] mr-2">>></span>
+                <h2 class="text-3xl font-bold text-white poi-glow-white">SKILLS_DATABASE</h2>
+                <span class="text-[#00a8e8] ml-2">_</span>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-[#0d1117] border border-[#333] p-6 rounded-lg hover:border-[#00a8e8] transition-all">
+                    <h3 class="text-xl font-semibold mb-4 text-[#00a8e8]"><span class="text-white">> </span>LANGUAGES</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><span class="text-[#00a8e8]">▸</span> Python</li>
+                        <li><span class="text-[#00a8e8]">▸</span> Java</li>
+                        <li><span class="text-[#00a8e8]">▸</span> C++</li>
+                    </ul>
+                </div>
+                <div class="bg-[#0d1117] border border-[#333] p-6 rounded-lg hover:border-[#00a8e8] transition-all"> 
+                    <h3 class="text-xl font-semibold mb-4 text-[#00a8e8]"><span class="text-white">> </span>FRAMEWORKS</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><span class="text-[#00a8e8]">▸</span> React</li>
+                        <li><span class="text-[#00a8e8]">▸</span> Django</li>
+                    </ul>
+                </div>
+                <div class="bg-[#0d1117] border border-[#333] p-6 rounded-lg hover:border-[#00a8e8] transition-all">
+                    <h3 class="text-xl font-semibold mb-4 text-[#00a8e8]"><span class="text-white">> </span>TOOLS & PLATFORMS</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><span class="text-[#00a8e8]">▸</span> MySQL</li>
+                        <li><span class="text-[#00a8e8]">▸</span> Git</li>
+                        <li><span class="text-[#00a8e8]">▸</span> AWS</li>
+                        <li><span class="text-[#00a8e8]">▸</span> Kali Linux</li>
+                    </ul>
+                </div>
+                <div class="bg-[#0d1117] border border-[#333] p-6 rounded-lg hover:border-[#00a8e8] transition-all">
+                    <h3 class="text-xl font-semibold mb-4 text-[#00a8e8]"><span class="text-white">> </span>SOFT_SKILLS</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><span class="text-[#00a8e8]">▸</span> Creative</li>
+                        <li><span class="text-[#00a8e8]">▸</span> Problem Solver</li>
+                        <li><span class="text-[#00a8e8]">▸</span> Active Listener</li>
+                        <li><span class="text-[#00a8e8]">▸</span> Adaptability</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-16">
+            <div class="flex items-center justify-center mb-8">
+                <span class="text-[#00a8e8] mr-2">>></span>
+                <h2 class="text-3xl font-bold text-white poi-glow-white">INTERNSHIP_LOGS</h2>
+                <span class="text-[#00a8e8] ml-2">_</span>
+            </div>
+            
+            <div class="space-y-6">
+                <div class="bg-[#0d1117] border-l-2 border-[#00a8e8] p-6 rounded-r-lg">
+                    <div class="text-xs text-[#00a8e8] mb-2"><span class="prompt"></span>ENTRY_ID: 001</div>
+                    <h3 class="text-xl font-bold mb-1 text-white">Conquest Tech Solutions</h3>
+                    <p class="text-sm text-gray-500 mb-4">| INTERNSHIP | COMPUTER ANALYST | JUN-JUL 2023 |</p>
+                    <ul class="list-disc list-inside space-y-2 text-gray-300 mb-4">
+                        <li>Conducted software test evaluations, identified issues, and reviewed system functionalities</li>
+                        <li>Created and maintained structured documentation, reports, and workflow summaries</li>
+                        <li>Interacted with team members to understand requirements</li>
+                    </ul>
+                    <p class="text-sm text-gray-500"><span class="text-[#00a8e8]">TECH_STACK:</span> Git/Github, MS Office, Bug Tracking Systems</p>
+                </div>
+                <div class="bg-[#0d1117] border-l-2 border-[#00a8e8] p-6 rounded-r-lg">
+                    <div class="text-xs text-[#00a8e8] mb-2"><span class="prompt"></span>ENTRY_ID: 002</div>
+                    <h3 class="text-xl font-bold mb-1 text-white">Coincent.ai</h3>
+                    <p class="text-sm text-gray-500 mb-4">| TRAINING | CYBER SECURITY & ETHICAL HACKING | JAN-MAR 2023 |</p>
+                    <ul class="list-disc list-inside space-y-2 text-gray-300 mb-4">
+                        <li>Gained Hands-on experience in network security, penetration testing, and threat analysis</li>
+                        <li>Worked with tools to identify vulnerabilities and understand secure solutions</li>
+                    </ul>
+                    <p class="text-sm text-gray-500"><span class="text-[#00a8e8]">TECH_STACK:</span> Kali Linux Tools, Nmap, Burp Suite, Wireshark</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-16">
+            <div class="flex items-center justify-center mb-8">
+                <span class="text-[#00a8e8] mr-2">>></span>
+                <h2 class="text-3xl font-bold text-white poi-glow-white">PROJECT_ARCHIVES</h2>
+                <span class="text-[#00a8e8] ml-2">_</span>
+            </div>
+            
+            {% if projects %}
+            <div class="space-y-6">
+                {% for project in projects %}
+                <a href="{% url 'projects_app:project_detail' project.slug %}" class="block bg-[#0d1117] border-l-2 border-[#ff0000] p-6 rounded-r-lg hover:border-[#00a8e8] transition-all group">
+                    <div class="text-xs text-[#ff0000] mb-2"><span class="prompt"></span>PROJECT_ID: PRJ-{{ forloop.counter|stringformat:"03d" }}</div>
+                    <h3 class="text-xl font-bold mb-1 text-[#00a8e8] group-hover:text-white transition-colors">{{ project.title }}</h3>
+                    <p class="text-sm text-gray-500 mb-4">| EXECUTION_PERIOD: {{ project.created_at|date:"M Y" }} |</p>
+                    <p class="text-gray-300 mb-4">{{ project.description|truncatewords:20 }}</p>
+                    <p class="text-sm text-gray-500"><span class="text-[#00a8e8]">TECH_STACK:</span> {{ project.technologies }}</p>
+                </a>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="bg-[#0d1117] border border-[#333] p-6 rounded-lg text-center">
+                <p class="text-gray-500">No projects found. <a href="{% url 'accounts:admin_login' %}" class="text-[#00a8e8] hover:text-white">[Login to add projects]</a></p>
+            </div>
+            {% endif %}
+            
+            <div class="mt-8 text-center">
+                <a href="{% url 'projects_app:projects' %}" class="poi-btn px-6 py-3 rounded-lg inline-block">
+                    <i class="fas fa-arrow-right mr-2"></i>VIEW_ALL_PROJECTS
+                </a>
+            </div>
+        </div>
+
+        <div class="mt-16">
+            <div class="flex items-center justify-center mb-8">
+                <span class="text-[#00a8e8] mr-2">>></span>
+                <h2 class="text-3xl font-bold text-white poi-glow-white">CERTIFICATIONS</h2>
+                <span class="text-[#00a8e8] ml-2">_</span>
+            </div>
+            
+            <div class="bg-[#0d1117] border border-[#333] rounded-lg p-6">
+                <ul class="space-y-4 text-gray-300">
+                    <li><span class="text-[#00a8e8]">▸</span> Master Generative AI by Infosys Springboard <span class="text-white">(AUG 2025)</span></li>
+                    <li><span class="text-[#00a8e8]">▸</span> Privacy and Security in Online Social Media by NPTEL <span class="text-white">(APR 2025)</span></li>
+                    <li><span class="text-[#00a8e8]">▸</span> AWS Certified by Infosys Springboard <span class="text-white">(APR 2024)</span></li>
+                    <li><span class="text-[#00a8e8]">▸</span> GCP Cloud Digital Leader by KodeKloud <span class="text-white">(APR 2023)</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="mt-16 mb-12">
+            <div class="flex items-center justify-center mb-8">
+                <span class="text-[#00a8e8] mr-2">>></span>
+                <h2 class="text-3xl font-bold text-white poi-glow-white">EDUCATION_HISTORY</h2>
+                <span class="text-[#00a8e8] ml-2">_</span>
+            </div>
+            
+            <div class="bg-[#0d1117] border border-[#333] p-6 rounded-lg mb-4 hover:border-[#00a8e8] transition-all">
+                <div class="text-xs text-[#00a8e8] mb-2"><span class="prompt"></span>ACADEMY_ID: 002</div>
+                <h3 class="text-xl font-bold mb-1 text-white">Lovely Professional University</h3>
+                <p class="text-sm text-gray-500 mb-2">| LOCATION: PHAGWARA, PUNJAB | STATUS: CURRENT |</p>
+                <p class="text-gray-300">B.Tech - Computer Science and Engineering | CGPA: 6.65</p>
+            </div>
+            <div class="bg-[#0d1117] border border-[#333] p-6 rounded-lg hover:border-[#00a8e8] transition-all">
+                <div class="text-xs text-[#00a8e8] mb-2"><span class="prompt"></span>ACADEMY_ID: 001</div>
+                <h3 class="text-xl font-bold mb-1 text-white">Lovely Professional University</h3>
+                <p class="text-sm text-gray-500 mb-2">| PERIOD: AUG 2021 - JUN 2024 |</p>
+                <p class="text-gray-300">Diploma Computer Science and Engineering | CGPA: 7.3</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="text-center text-xs text-gray-500 pb-8">
+        <span class="text-[#00a8e8]">>></span> PROFILE_LOAD COMPLETE <span class="cursor-blink text-[#ff0000]">_</span>
+    </div>
+</div>
+{% endblock %}

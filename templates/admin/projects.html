@@ -1,0 +1,97 @@
+{% extends 'admin/base_admin.html' %}
+
+{% block title %}Projects - Admin Dashboard{% endblock %}
+{% block header %}Projects Management{% endblock %}
+
+{% block admin_content %}
+<div class="flex items-center justify-between mb-6">
+    <p class="text-gray-600">Manage your portfolio projects</p>
+    <a href="{% url 'accounts:admin_project_add' %}" 
+       class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors flex items-center gap-2">
+        <i class="fas fa-plus"></i>Add Project
+    </a>
+</div>
+
+<div class="bg-white rounded-lg shadow overflow-hidden">
+    {% if projects %}
+        <div class="overflow-x-auto">
+            <table class="w-full">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="text-left py-3 px-4 font-medium text-gray-500">Title</th>
+                        <th class="text-left py-3 px-4 font-medium text-gray-500">Category</th>
+                        <th class="text-left py-3 px-4 font-medium text-gray-500">Technologies</th>
+                        <th class="text-center py-3 px-4 font-medium text-gray-500">Featured</th>
+                        <th class="text-center py-3 px-4 font-medium text-gray-500">Order</th>
+                        <th class="text-center py-3 px-4 font-medium text-gray-500">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for project in projects %}
+                        <tr class="border-b hover:bg-gray-50">
+                            <td class="py-3 px-4">
+                                <div class="flex items-center gap-3">
+                                    {% if project.image %}
+                                        <img src="{{ project.image.url }}" alt="{{ project.title }}" class="w-10 h-10 rounded object-cover">
+                                    {% else %}
+                                        <div class="w-10 h-10 rounded bg-gray-200 flex items-center justify-center">
+                                            <i class="fas fa-folder text-gray-400"></i>
+                                        </div>
+                                    {% endif %}
+                                    <span class="font-medium">{{ project.title }}</span>
+                                </div>
+                            </td>
+                            <td class="py-3 px-4">
+                                <span class="px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded">
+                                    {{ project.category|default:"None" }}
+                                </span>
+                            </td>
+                            <td class="py-3 px-4 text-sm text-gray-600">
+                                {{ project.technologies|truncatechars:40 }}
+                            </td>
+                            <td class="py-3 px-4 text-center">
+                                {% if project.featured %}
+                                    <span class="px-2 py-1 text-xs bg-yellow-100 text-yellow-700 rounded">
+                                        <i class="fas fa-star mr-1"></i>Featured
+                                    </span>
+                                {% else %}
+                                    <span class="text-gray-400">-</span>
+                                {% endif %}
+                            </td>
+                            <td class="py-3 px-4 text-center">
+                                <span class="text-gray-600">{{ project.order }}</span>
+                            </td>
+                            <td class="py-3 px-4 text-center">
+                                <div class="flex items-center justify-center gap-2">
+                                    <a href="{% url 'accounts:admin_project_edit' project.pk %}" 
+                                       class="p-2 text-blue-600 hover:bg-blue-50 rounded transition-colors" 
+                                       title="Edit">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="{% url 'accounts:admin_project_delete' project.pk %}" 
+                                       class="p-2 text-red-600 hover:bg-red-50 rounded transition-colors" 
+                                       title="Delete">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="p-8 text-center">
+            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gray-100 flex items-center justify-center">
+                <i class="fas fa-folder text-gray-400 text-2xl"></i>
+            </div>
+            <h3 class="text-lg font-medium text-gray-900 mb-2">No projects yet</h3>
+            <p class="text-gray-500 mb-4">Create your first project to get started.</p>
+            <a href="{% url 'accounts:admin_project_add' %}" 
+               class="inline-flex items-center gap-2 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">
+                <i class="fas fa-plus"></i>Add Project
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

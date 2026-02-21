@@ -1,0 +1,99 @@
+{% extends 'admin/base_admin.html' %}
+
+{% block title %}{% if object %}Edit{% else %}Add{% endif %} Skill - Admin Dashboard{% endblock %}
+{% block header %}{% if object %}Edit{% else %}Add{% endif %} Skill{% endblock %}
+
+{% block admin_content %}
+<div class="max-w-2xl">
+    <a href="{% url 'accounts:admin_skills' %}" class="inline-flex items-center gap-2 text-gray-600 hover:text-indigo-600 mb-4">
+        <i class="fas fa-arrow-left"></i>Back to Skills
+    </a>
+
+    <div class="bg-white rounded-lg shadow p-6">
+        <form method="post" class="space-y-6">
+            {% csrf_token %}
+            
+            <div>
+                <label for="id_name" class="block text-sm font-medium text-gray-700 mb-2">Skill Name *</label>
+                <input type="text" name="name" id="id_name" value="{{ form.name.value|default:'' }}"
+                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500" 
+                       placeholder="e.g., Python, Django, React" required>
+                {% if form.name.errors %}
+                    <p class="mt-1 text-sm text-red-600">{{ form.name.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="id_category" class="block text-sm font-medium text-gray-700 mb-2">Category *</label>
+                <select name="category" id="id_category" 
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500" required>
+                    <option value="">Select a category</option>
+                    <option value="programming" {% if form.category.value == 'programming' %}selected{% endif %}>Programming Languages</option>
+                    <option value="framework" {% if form.category.value == 'framework' %}selected{% endif %}>Frameworks</option>
+                    <option value="database" {% if form.category.value == 'database' %}selected{% endif %}>Databases</option>
+                    <option value="tool" {% if form.category.value == 'tool' %}selected{% endif %}>Tools & Platforms</option>
+                    <option value="soft" {% if form.category.value == 'soft' %}selected{% endif %}>Soft Skills</option>
+                    <option value="other" {% if form.category.value == 'other' %}selected{% endif %}>Other</option>
+                </select>
+                {% if form.category.errors %}
+                    <p class="mt-1 text-sm text-red-600">{{ form.category.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="id_proficiency_level" class="block text-sm font-medium text-gray-700 mb-2">
+                    Proficiency Level: <span id="proficiency_value">{{ form.proficiency_level.value|default:50 }}</span>%
+                </label>
+                <input type="range" name="proficiency_level" id="id_proficiency_level" 
+                       value="{{ form.proficiency_level.value|default:50 }}" min="0" max="100" step="5"
+                       class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                       oninput="document.getElementById('proficiency_value').textContent = this.value">
+                <div class="flex justify-between text-xs text-gray-500 mt-1">
+                    <span>Beginner</span>
+                    <span>Intermediate</span>
+                    <span>Expert</span>
+                </div>
+            </div>
+
+            <div>
+                <label for="id_icon" class="block text-sm font-medium text-gray-700 mb-2">Icon Class</label>
+                <div class="flex gap-2">
+                    <input type="text" name="icon" id="id_icon" value="{{ form.icon.value|default:'' }}"
+                           class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                           placeholder="e.g., fab fa-python">
+                    <a href="https://fontawesome.com/search" target="_blank" 
+                       class="px-4 py-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-colors flex items-center gap-2">
+                        <i class="fas fa-external-link-alt"></i>Browse Icons
+                    </a>
+                </div>
+                <p class="mt-1 text-xs text-gray-500">Use Font Awesome icon classes (e.g., fab fa-python, fas fa-database)</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="id_order" class="block text-sm font-medium text-gray-700 mb-2">Display Order</label>
+                    <input type="number" name="order" id="id_order" value="{{ form.order.value|default:0 }}"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                </div>
+                <div class="flex items-center mt-6">
+                    <input type="checkbox" name="is_visible" id="id_is_visible" 
+                           {% if form.is_visible.value %}checked{% endif %}
+                           class="w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500">
+                    <label for="id_is_visible" class="ml-2 text-sm text-gray-700">Show in Portfolio</label>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-end gap-4 pt-4 border-t">
+                <a href="{% url 'accounts:admin_skills' %}" 
+                   class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors">
+                    Cancel
+                </a>
+                <button type="submit" 
+                        class="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors">
+                    {% if object %}Update Skill{% else %}Create Skill{% endif %}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

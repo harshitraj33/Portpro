@@ -1,0 +1,226 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}HR | Portfolio{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        document.documentElement.classList.add('dark');
+    </script>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+        
+        :root {
+            --poi-black: #0a0a0a;
+            --poi-dark: #0d1117;
+            --poi-blue: #00a8e8;
+            --poi-white: #ffffff;
+            --poi-red: #ff0000;
+        }
+        
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: var(--poi-blue) var(--poi-black);
+        }
+        
+        body {
+            background-color: var(--poi-black);
+            color: #e0e0e0;
+            font-family: 'Orbitron', 'Courier New', monospace;
+        }
+        
+        .poi-glow {
+            text-shadow: 0 0 5px var(--poi-blue), 0 0 10px var(--poi-blue);
+        }
+        
+        .poi-glow-red {
+            text-shadow: 0 0 5px var(--poi-red), 0 0 10px var(--poi-red);
+        }
+        
+        .poi-glow-white {
+            text-shadow: 0 0 5px var(--poi-white), 0 0 10px var(--poi-white);
+        }
+        
+        .poi-border {
+            border: 1px solid var(--poi-blue);
+            box-shadow: 0 0 5px var(--poi-blue);
+        }
+        
+        .poi-border-red {
+            border: 1px solid var(--poi-red);
+            box-shadow: 0 0 5px var(--poi-red);
+        }
+        
+        .scanlines::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(0deg, rgba(0,0,0,0.15), rgba(0,0,0,0.15) 1px, transparent 1px, transparent 2px);
+            pointer-events: none;
+            z-index: 10;
+        }
+        
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            92% { opacity: 1; }
+            93% { opacity: 0.8; }
+            94% { opacity: 1; }
+        }
+        
+        .flicker { animation: flicker 4s infinite; }
+        
+        .cursor-blink { animation: blink 1s step-end infinite; }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        .poi-card {
+            background: var(--poi-dark);
+            border: 1px solid #333;
+            transition: all 0.3s ease;
+        }
+        
+        .poi-card:hover {
+            border-color: var(--poi-blue);
+            box-shadow: 0 0 10px rgba(0, 168, 232, 0.3);
+        }
+        
+        .poi-btn {
+            background: transparent;
+            border: 1px solid var(--poi-blue);
+            color: var(--poi-blue);
+            transition: all 0.3s ease;
+        }
+        
+        .poi-btn:hover {
+            background: var(--poi-blue);
+            color: var(--poi-black);
+            box-shadow: 0 0 15px var(--poi-blue);
+        }
+        
+        .poi-btn-red {
+            border-color: var(--poi-red);
+            color: var(--poi-red);
+        }
+        
+        .poi-btn-red:hover {
+            background: var(--poi-red);
+            color: var(--poi-black);
+            box-shadow: 0 0 15px var(--poi-red);
+        }
+        
+        .poi-input {
+            background: var(--poi-black);
+            border: 1px solid #333;
+            color: var(--poi-blue);
+            font-family: 'Orbitron', monospace;
+        }
+        
+        .poi-input:focus {
+            border-color: var(--poi-blue);
+            box-shadow: 0 0 5px var(--poi-blue);
+            outline: none;
+        }
+        
+        .prompt::before { content: "> "; color: var(--poi-blue); }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="bg-[#0a0a0a] font-mono text-gray-300 scanlines">
+    <nav class="bg-[#0d1117]/95 border-b border-[#333] fixed w-full z-50 top-0 backdrop-blur-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex">
+                    <div class="shrink-0 flex items-center">
+                        <a href="{% url 'projects_app:home' %}" class="text-2xl font-bold text-[#00a8e8] poi-glow tracking-wider">
+                            <span class="text-white">◈</span> HR <span class="text-[#ff0000] poi-glow-red">_</span>
+                        </a>
+                    </div>
+                    <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                        {% with request.resolver_match.view_name as view_name %}
+                        {% with 'border-[#00a8e8] text-[#00a8e8]' as active_class %}
+                        {% with 'border-transparent text-gray-500 hover:border-gray-500 hover:text-gray-300' as inactive_class %}
+                            <a href="{% url 'projects_app:home' %}" class="{% if view_name == 'projects_app:home' %}{{ active_class }}{% else %}{{ inactive_class }}{% endif %} inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">[HOME]</a>
+                            <a href="{% url 'projects_app:about' %}" class="{% if view_name == 'projects_app:about' %}{{ active_class }}{% else %}{{ inactive_class }}{% endif %} inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">[ABOUT]</a>
+                            <a href="{% url 'projects_app:projects' %}" class="{% if view_name == 'projects_app:projects' %}{{ active_class }}{% else %}{{ inactive_class }}{% endif %} inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">[PROJECTS]</a>
+                            <a href="{% url 'contact:contact' %}" class="{% if view_name == 'contact:contact' %}{{ active_class }}{% else %}{{ inactive_class }}{% endif %} inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">[CONTACT]</a>
+                        {% endwith %}{% endwith %}{% endwith %}
+                    </div>
+                </div>
+                <div class="hidden sm:ml-6 sm:flex sm:items-center">
+                    <div class="flex items-center gap-2 mr-4 text-xs text-[#00a8e8]">
+                        <span class="w-2 h-2 bg-[#00a8e8] rounded-full animate-pulse"></span>
+                        <span class="flicker">SYSTEM ONLINE</span>
+                    </div>
+                    <a href="https://drive.google.com/uc?export=download&id=1y7-lQQI_pLSsenDCa4fWgG96PMkteWnT" target="_blank" class="poi-btn-red poi-btn px-4 py-2 text-sm font-medium mr-3" download>
+                        <i class="fas fa-file-pdf mr-2"></i>DOWNLOAD_CV
+                    </a>
+                    <a href="{% url 'accounts:admin_login' %}" class="poi-btn px-4 py-2 text-sm font-medium mr-3">UPDATE_ME</a>
+                    {% if user.is_superuser %}
+                    <a href="{% url 'accounts:admin_dashboard' %}" class="text-white hover:text-[#00a8e8] mr-3 text-sm">[ADMIN]</a>
+                    {% endif %}
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'accounts:admin_logout' %}" class="text-gray-500 hover:text-[#ff0000] mr-3 text-sm">[LOGOUT]</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-16 min-h-screen">
+        {% if messages %}
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+            {% for message in messages %}
+            <div class="p-4 mb-4 border {% if message.tags == 'success' %}border-[#00a8e8] text-[#00a8e8]{% elif message.tags == 'error' %}border-[#ff0000] text-[#ff0000]{% else %}border-[#00a8e8] text-[#00a8e8]{% endif %} bg-[#0d1117]">
+                <span class="prompt"></span>{{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="bg-[#0d1117] border-t border-[#333] text-gray-400 mt-16">
+        <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-white font-bold mb-4 poi-glow-white"><span class="text-[#00a8e8]">◈</span> HARSHIT RAJ<span class="text-[#ff0000] poi-glow-red">_</span></h3>
+                    <p class="text-xs text-gray-500"><span class="text-[#00a8e8]">//</span> Full Stack Developer<br><span class="text-[#00a8e8]">//</span> Cybersecurity Enthusiast</p>
+                </div>
+                <div>
+                    <h3 class="text-[#00a8e8] font-bold mb-4">// NAV_LINKS</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="{% url 'projects_app:home' %}" class="hover:text-[#00a8e8]">[HOME]</a></li>
+                        <li><a href="{% url 'projects_app:about' %}" class="hover:text-[#00a8e8]">[ABOUT]</a></li>
+                        <li><a href="{% url 'projects_app:projects' %}" class="hover:text-[#00a8e8]">[PROJECTS]</a></li>
+                        <li><a href="{% url 'contact:contact' %}" class="hover:text-[#00a8e8]">[CONTACT]</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-[#00a8e8] font-bold mb-4">// CONNECT</h3>
+                    <div class="flex space-x-4 text-sm">
+                        <a href="#" class="hover:text-[#00a8e8]">[GITHUB]</a>
+                        <a href="#" class="hover:text-[#00a8e8]">[LINKEDIN]</a>
+                        <a href="#" class="hover:text-[#00a8e8]">[TWITTER]</a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 border-t border-[#333] pt-8 text-center text-xs text-gray-500">
+                <p><span class="text-white">©</span> {% now "Y" %} HR <span class="text-[#00a8e8]">|</span> <span class="text-[#00a8e8]">SYSTEM_STATUS:</span> <span class="text-[#00a8e8]">OPERATIONAL</span><span class="cursor-blink text-[#ff0000]">_</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{% static 'js/main.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
