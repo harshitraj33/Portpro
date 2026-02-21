@@ -61,16 +61,24 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Portpro.wsgi.application'
 
-
 import dj_database_url
 import os
 
+# Use dj_database_url to pull from the environment variable
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL')
+        # Replace 'DATABASE_URL' with the exact name used in Vercel
+        default=os.environ.get('DATABASE_URL'),
+        conn_max_age=600
     )
 }
 
+# IMPORTANT: Fallback for local development or if Vercel variable is missing
+if not DATABASES['default']:
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 # DB_NAME = os.getenv('DB_NAME', '')
 
 # if DB_NAME:
