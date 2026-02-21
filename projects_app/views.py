@@ -5,7 +5,7 @@ from django.views import View
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
-from .models import Project, Profile
+from .models import Project, Profile, HomeContent
 
 
 class HomeView(TemplateView):
@@ -15,6 +15,7 @@ class HomeView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['featured_projects'] = Project.objects.filter(featured=True)[:6]
         context['all_projects'] = Project.objects.filter(featured=False)[:3]
+        context['home_content'] = HomeContent.objects.filter(is_active=True).first()
         return context
 
 

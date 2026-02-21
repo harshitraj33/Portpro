@@ -142,3 +142,40 @@ class Skill(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class HomeContent(models.Model):
+    """
+    Home content model for storing home page content like profile picture.
+    Only one instance should exist.
+    """
+    profile_picture = models.ImageField(
+        upload_to='home_content/',
+        blank=True,
+        null=True,
+        help_text="Profile picture to display on home page"
+    )
+    profile_picture_url = models.URLField(
+        blank=True,
+        null=True,
+        help_text="Or use external URL for profile picture"
+    )
+    is_active = models.BooleanField(
+        default=True,
+        help_text="Make this the active home content"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'Home Content'
+        verbose_name_plural = 'Home Content'
+
+    def __str__(self):
+        return "Home Content"
+    
+    def save(self, *args, **kwargs):
+        if self.is_active:
+            # Deactivate all other HomeContent instances
+            HomeContent.objects.filter(is_active=True).exclude(pk=self.pk).update(is_active=False)
+        super().save(*args, **kwargs)

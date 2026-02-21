@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Profile, Project, WorkExperience, Skill
+from .models import Profile, Project, WorkExperience, Skill, HomeContent
 
 
 @admin.register(Profile)
@@ -81,3 +81,30 @@ class SkillAdmin(admin.ModelAdmin):
     search_fields = ('name',)
     list_editable = ('is_visible', 'order', 'proficiency_level')
     ordering = ('category', 'order', 'name')
+    list_per_page = 25
+
+
+@admin.register(HomeContent)
+class HomeContentAdmin(admin.ModelAdmin):
+    """
+    Admin configuration for HomeContent model.
+    """
+    list_display = ('__str__', 'is_active', 'created_at', 'updated_at')
+    list_filter = ('is_active',)
+    list_editable = ('is_active',)
+    list_per_page = 25
+    
+    fieldsets = (
+        ('Profile Picture', {
+            'fields': ('profile_picture', 'profile_picture_url')
+        }),
+        ('Status', {
+            'fields': ('is_active',)
+        }),
+    )
+    
+    def has_add_permission(self, request):
+        # Only allow one instance
+        if HomeContent.objects.exists():
+            return False
+        return super().has_add_permission(request)

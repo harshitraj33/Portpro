@@ -89,12 +89,25 @@
     </style>
 </head>
 <body class="bg-[#0a0a0a]">
-    <!-- Mobile Overlay -->
-    <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-40 hidden md:hidden" onclick="toggleMobileSidebar()"></div>
+    <!-- Mobile Header -->
+    <header class="md:hidden fixed top-0 left-0 right-0 h-16 bg-[#0d1117] border-b border-[#333] z-40 flex items-center justify-between px-4">
+        <button id="mobile-menu-btn" type="button" class="p-2 rounded-md text-gray-400 hover:text-[#00a8e8] hover:bg-[#1a1a1a] focus:outline-none">
+            <i class="fas fa-bars text-xl"></i>
+        </button>
+        <a href="{% url 'accounts:admin_dashboard' %}" class="text-xl font-bold text-[#00a8e8] poi-glow">
+            <span class="text-white">◈</span> ADMIN<span class="cursor-blink text-[#ff0000]">_</span>
+        </a>
+        <a href="{% url 'projects_app:home' %}" class="p-2 text-[#00a8e8] hover:text-white transition-colors">
+            <i class="fas fa-external-link-alt"></i>
+        </a>
+    </header>
+
+    <!-- Mobile Overlay Backdrop -->
+    <div id="sidebar-overlay" class="md:hidden fixed inset-0 bg-black/50 z-40 hidden" onclick="toggleSidebar()"></div>
 
     <div class="flex h-screen overflow-hidden">
         <!-- Left Sidebar -->
-        <aside id="sidebar" class="w-64 bg-[#0d1117] text-white flex flex-col border-r border-[#333] fixed md:static inset-y-0 left-0 z-40 transform -translate-x-full md:translate-x-0 transition-transform duration-300">
+        <aside id="sidebar" class="fixed md:static inset-y-0 left-0 z-50 w-64 bg-[#0d1117] text-white flex flex-col border-r border-[#333] transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out">
             <!-- Logo -->
             <div class="p-6 border-b border-[#333]">
                 <a href="{% url 'accounts:admin_dashboard' %}" class="text-2xl font-bold text-[#00a8e8] poi-glow">
@@ -115,6 +128,9 @@
                 </a>
                 <a href="{% url 'accounts:admin_skills' %}" class="sidebar-link {% if 'skill' in request.resolver_match.view_name %}active{% endif %}">
                     <i class="fas fa-code w-5"></i>[SKILLS]
+                </a>
+                <a href="/admin/projects_app/homecontent/" class="sidebar-link {% if 'homecontent' in request.resolver_match.view_name %}active{% endif %}">
+                    <i class="fas fa-user-circle w-5"></i>[HOME_CONTENT]
                 </a>
                 <a href="/admin/" class="sidebar-link">
                     <i class="fas fa-cog w-5"></i>[DJANGO_ADMIN]
@@ -141,16 +157,11 @@
         <!-- Main Content Area -->
         <div class="flex-1 flex flex-col overflow-hidden">
             <!-- Top Header -->
-            <header class="bg-[#0d1117] shadow-sm border-b border-[#333]">
-                <div class="px-6 py-4 flex items-center justify-between">
+            <header class="hidden md:flex bg-[#0d1117] shadow-sm border-b border-[#333]">
+                <div class="px-6 py-4 flex items-center justify-between w-full">
+                    <h1 class="text-xl font-semibold text-white">{% block header %}DASHBOARD{% endblock %}</h1>
                     <div class="flex items-center gap-4">
-                        <button id="mobile-menu-btn" class="md:hidden p-2 rounded-md text-gray-400 hover:text-[#00a8e8] hover:bg-[#1a1a1a] focus:outline-none">
-                            <i class="fas fa-bars text-xl"></i>
-                        </button>
-                        <h1 class="text-xl font-semibold text-white">{% block header %}DASHBOARD{% endblock %}</h1>
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <div class="hidden md:flex items-center gap-2 text-xs text-[#00a8e8]">
+                        <div class="flex items-center gap-2 text-xs text-[#00a8e8]">
                             <span class="w-2 h-2 bg-[#00a8e8] rounded-full animate-pulse"></span>
                             SYSTEM ONLINE
                         </div>
@@ -162,27 +173,40 @@
             </header>
 
             <!-- Main Content -->
-            <main class="flex-1 overflow-y-auto p-4 md:p-6 bg-[#0a0a0a]">
+            <main class="flex-1 overflow-y-auto p-4 md:p-6 bg-[#0a0a0a] pt-20 md:pt-6">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="p-4 mb-4 border {% if message.tags == 'success' %}border-[#00a8e8] text-[#00a8e8]{% elif message.tags == 'error' %}border-[#ff0000] text-[#ff0000]{% else %}border-[#00a8e8] text-[#00a8e8]{% endif %} bg-[#0d1117] rounded">
+                            <span class="prompt"></span>{{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
                 {% block admin_content %}{% endblock %}
             </main>
         </div>
     </div>
 
     <script>
-        // Mobile menu toggle function
-        function toggleMobileSidebar() {
+        function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('sidebar-overlay');
             
             sidebar.classList.toggle('-translate-x-full');
             overlay.classList.toggle('hidden');
         }
-        
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        
-        if (mobileMenuBtn) {
-            mobileMenuBtn.addEventListener('click', toggleMobileSidebar);
-        }
+
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            toggleSidebar();
+        });
+
+        // Close sidebar when clicking a link on mobile
+        document.querySelectorAll('#sidebar a').forEach(link => {
+            link.addEventListener('click', function() {
+                if (window.innerWidth < 768) {
+                    toggleSidebar();
+                }
+            });
+        });
     </script>
 </body>
 </html>
