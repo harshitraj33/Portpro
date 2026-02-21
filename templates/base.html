@@ -141,12 +141,12 @@
             <div class="flex justify-between h-16">
                 <!-- Left Side: Logo and Nav Links -->
                 <div class="flex items-center">
-                    <div class="shrink-0 flex items-center mr-16">
+                    <div class="shrink-0 flex items-center mr-8">
                         <a href="{% url 'projects_app:home' %}" class="text-2xl font-bold text-[#00a8e8] poi-glow tracking-wider">
                             <span class="text-white">◈</span> HR <span class="text-[#ff0000] poi-glow-red">_</span>
                         </a>
                     </div>
-                    <div class="hidden md:flex md:space-x-12">
+                    <div class="hidden md:flex md:space-x-6">
                         {% with request.resolver_match.view_name as view_name %}
                         {% with 'border-[#00a8e8] text-[#00a8e8]' as active_class %}
                         {% with 'border-transparent text-gray-500 hover:border-gray-500 hover:text-gray-300' as inactive_class %}
@@ -270,4 +270,3 @@
     </script>
     {% block extra_js %}{% endblock %}
 </body>
-</html>
