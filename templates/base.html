@@ -257,6 +257,11 @@
     </footer>
 
     <script src="{% static 'js/main.js' %}"></script>
+    <script>
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+    </script>
     {% block extra_js %}{% endblock %}
 </body>
 </html>
