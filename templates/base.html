@@ -160,20 +160,20 @@
                 
                 <!-- Right Side: System Status and Actions -->
                 <div class="flex items-center">
-                    <div class="hidden md:flex items-center gap-2 mr-6 text-xs text-[#00a8e8]">
+                    <div class="hidden md:flex items-center gap-2 mr-4 text-xs text-[#00a8e8]">
                         <span class="w-2 h-2 bg-[#00a8e8] rounded-full animate-pulse"></span>
                         <span class="flicker">SYSTEM ONLINE</span>
                     </div>
                     <div class="hidden md:flex items-center">
-                        <a href="https://drive.google.com/uc?export=download&id=1y7-lQQI_pLSsenDCa4fWgG96PMkteWnT" target="_blank" class="poi-btn-red poi-btn px-4 py-2 text-sm font-medium mr-4" download>
+                        <a href="https://drive.google.com/uc?export=download&id=1y7-lQQI_pLSsenDCa4fWgG96PMkteWnT" target="_blank" class="poi-btn-red poi-btn px-4 py-2 text-sm font-medium mr-3" download>
                             <i class="fas fa-file-pdf mr-2"></i>DOWNLOAD_CV
                         </a>
-                        <a href="{% url 'accounts:admin_login' %}" class="poi-btn px-4 py-2 text-sm font-medium mr-4">UPDATE_ME</a>
+                        <a href="{% url 'accounts:admin_login' %}" class="poi-btn px-4 py-2 text-sm font-medium mr-3">UPDATE_ME</a>
                         {% if user.is_superuser %}
-                        <a href="{% url 'accounts:admin_dashboard' %}" class="text-white hover:text-[#00a8e8] mr-4 text-sm">[ADMIN]</a>
+                        <a href="{% url 'accounts:admin_dashboard' %}" class="text-white hover:text-[#00a8e8] mr-3 text-sm">[ADMIN]</a>
                         {% endif %}
                         {% if user.is_authenticated %}
-                        <a href="{% url 'accounts:admin_logout' %}" class="text-gray-500 hover:text-[#ff0000] text-sm">[LOGOUT]</a>
+                        <a href="{% url 'accounts:admin_logout' %}" class="text-gray-500 hover:text-[#ff0000] mr-3 text-sm">[LOGOUT]</a>
                         {% endif %}
                     </div>
                     
