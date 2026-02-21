@@ -7,10 +7,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView, ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy, reverse
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseRedirect
 from django import forms
-from django.views.decorators.http import require_POST
-from django.utils.decorators import method_decorator
 from projects_app.models import Project, WorkExperience, Skill, HomeContent
 from contact_app.models import ContactMessage
 
@@ -312,27 +310,3 @@ class HomeContentEditView(AdminRequiredMixin, UpdateView):
     def form_valid(self, form):
         messages.success(self.request, 'Home content updated successfully!')
         return super().form_valid(form)
-
-
-@method_decorator(require_POST, name='dispatch')
-class MarkMessageAsReadView(AdminRequiredMixin, View):
-    """View to mark a message as read."""
-    
-    def post(self, request, pk):
-        message = get_object_or_404(ContactMessage, pk=pk)
-        message.is_read = True
-        message.save()
-        messages.success(request, f'Message from {message.name} marked as read.')
-        return redirect('accounts:admin_dashboard')
-
-
-@method_decorator(require_POST, name='dispatch')
-class MarkMessageAsUnreadView(AdminRequiredMixin, View):
-    """View to mark a message as unread."""
-    
-    def post(self, request, pk):
-        message = get_object_or_404(ContactMessage, pk=pk)
-        message.is_read = False
-        message.save()
-        messages.success(request, f'Message from {message.name} marked as unread.')
-        return redirect('accounts:admin_dashboard')

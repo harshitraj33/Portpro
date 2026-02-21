@@ -21,6 +21,4 @@ urlpatterns = [
     path('skills/<int:pk>/edit/', views.SkillUpdateView.as_view(), name='admin_skill_edit'),
     path('skills/<int:pk>/delete/', views.SkillDeleteView.as_view(), name='admin_skill_delete'),
     path('home-content/edit/', views.HomeContentEditView.as_view(), name='admin_home_content_edit'),
-    path('messages/<int:pk>/mark-read/', views.MarkMessageAsReadView.as_view(), name='admin_message_mark_read'),
-    path('messages/<int:pk>/mark-unread/', views.MarkMessageAsUnreadView.as_view(), name='admin_message_mark_unread'),
 ]
