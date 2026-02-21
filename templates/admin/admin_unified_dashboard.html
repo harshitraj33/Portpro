@@ -65,6 +65,9 @@
         <button onclick="switchTab('skills')" id="tab-skills" class="tab-btn border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
             <i class="fas fa-code mr-2"></i>Skills
         </button>
+        <button onclick="switchTab('messages')" id="tab-messages" class="tab-btn border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+            <i class="fas fa-envelope mr-2"></i>Messages
+        </button>
     </nav>
 </div>
 
@@ -302,6 +305,59 @@
                 <button onclick="openModal('skill-modal')" class="inline-flex items-center gap-2 bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700">
                     <i class="fas fa-plus"></i>Add Skill
                 </button>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<div id="content-messages" class="tab-content hidden">
+    <div class="flex items-center justify-between mb-6">
+        <h2 class="text-xl font-semibold">Messages</h2>
+        <a href="/admin/contact_app/contactmessage/" class="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition-colors flex items-center gap-2">
+            <i class="fas fa-external-link-alt"></i>View in Admin
+        </a>
+    </div>
+
+    <div class="bg-white rounded-lg shadow overflow-hidden">
+        {% if messages %}
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="text-left py-3 px-4 font-medium text-gray-500">Name</th>
+                            <th class="text-left py-3 px-4 font-medium text-gray-500">Email</th>
+                            <th class="text-left py-3 px-4 font-medium text-gray-500">Subject</th>
+                            <th class="text-left py-3 px-4 font-medium text-gray-500">Message</th>
+                            <th class="text-left py-3 px-4 font-medium text-gray-500">Date</th>
+                            <th class="text-center py-3 px-4 font-medium text-gray-500">Status</th>
+                        </thead>
+                    <tr>
+                    </tbody>
+                        {% for message in messages %}
+                            <tr class="border-b hover:bg-gray-50">
+                                <td class="py-3 px-4 font-medium">{{ message.name }}</td>
+                                <td class="py-3 px-4 text-sm text-gray-600">{{ message.email }}</td>
+                                <td class="py-3 px-4">{{ message.subject }}</td>
+                                <td class="py-3 px-4 text-sm text-gray-600">{{ message.message|truncatechars:50 }}</td>
+                                <td class="py-3 px-4 text-sm text-gray-500">{{ message.created_at|date:"M d, Y" }}</td>
+                                <td class="py-3 px-4 text-center">
+                                    {% if message.is_read %}
+                                        <span class="px-2 py-1 text-xs bg-green-100 text-green-700 rounded">Read</span>
+                                    {% else %}
+                                        <span class="px-2 py-1 text-xs bg-red-100 text-red-700 rounded">Unread</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="p-8 text-center">
+                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gray-100 flex items-center justify-center">
+                    <i class="fas fa-envelope text-gray-400 text-2xl"></i>
+                </div>
+                <h3 class="text-lg font-medium text-gray-900 mb-2">No messages yet</h3>
             </div>
         {% endif %}
     </div>
