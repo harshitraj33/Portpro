@@ -624,7 +624,7 @@
         document.getElementById('project-featured').checked = featured;
         
         document.getElementById('project-modal-title').textContent = 'Edit Project';
-        document.getElementById('project-form').action = '/admin-panel/projects/' + pk + '/edit/';
+        document.getElementById('project-form').action = '/dashboard/projects/' + pk + '/edit/';
         openModal('project-modal');
     }
 
@@ -640,7 +640,7 @@
         document.getElementById('experience-is_visible').checked = isVisible;
         
         document.getElementById('experience-modal-title').textContent = 'Edit Work Experience';
-        document.getElementById('experience-form').action = '/admin-panel/experience/' + pk + '/edit/';
+        document.getElementById('experience-form').action = '/dashboard/experience/' + pk + '/edit/';
         openModal('experience-modal');
     }
 
@@ -653,7 +653,7 @@
         document.getElementById('skill-is_visible').checked = isVisible;
         
         document.getElementById('skill-modal-title').textContent = 'Edit Skill';
-        document.getElementById('skill-form').action = '/admin-panel/skills/' + pk + '/edit/';
+        document.getElementById('skill-form').action = '/dashboard/skills/' + pk + '/edit/';
         openModal('skill-modal');
     }
 
