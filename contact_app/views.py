@@ -50,8 +50,8 @@ class ContactView(View):
 
             messages.success(request, 'Your message has been sent successfully! We will get back to you soon.')
         except Exception as e:
-            messages.error(request, 'There was an error sending your message. Please try again later.')
-
+            print(e)
+            messages.error(request, f'Email error: {str(e)}')
         return redirect('contact:contact')
 
     def get_client_ip(self, request):
