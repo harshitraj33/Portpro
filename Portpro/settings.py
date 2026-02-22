@@ -71,14 +71,25 @@ WSGI_APPLICATION = 'Portpro.wsgi.application'
 #     }
 # }
 
-import dj_database_url
-
 DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL'),
-        conn_max_age=600
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres.ijgrxctbxztxvsukgqid',
+        'PASSWORD': 'gWwAct6PFOIrwPl4',
+        'HOST': 'aws-1-ap-south-1.pooler.supabase.com',
+        'PORT': '6543',
+    }
 }
+
+# import dj_database_url
+
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         default=os.environ.get('DATABASE_URL'),
+#         conn_max_age=600
+#     )
+# }
 
 # DB_NAME = os.getenv('DB_NAME', '')
 
