@@ -71,46 +71,26 @@ WSGI_APPLICATION = 'Portpro.wsgi.application'
 #     }
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres.ijgrxctbxztxvsukgqid',
-        'PASSWORD': 'gWwAct6PFOIrwPl4',
-        'HOST': 'aws-1-ap-south-1.pooler.supabase.com',
-        'PORT': '6543',
-    }
-}
-
-# import dj_database_url
-
 # DATABASES = {
-#     'default': dj_database_url.config(
-#         default=os.environ.get('DATABASE_URL'),
-#         conn_max_age=600
-#     )
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'postgres',
+#         'USER': 'postgres.ijgrxctbxztxvsukgqid',
+#         'PASSWORD': 'gWwAct6PFOIrwPl4',
+#         'HOST': 'aws-1-ap-south-1.pooler.supabase.com',
+#         'PORT': '6543',
+#     }
 # }
 
-# DB_NAME = os.getenv('DB_NAME', '')
+import dj_database_url
 
-# if DB_NAME:
-#     DATABASES = {
-#         'default': {
-#             'ENGINE': 'django.db.backends.postgresql',
-#             'NAME': DB_NAME,
-#             'USER': os.getenv('DB_USER', 'postgres'),
-#             'PASSWORD': os.getenv('DB_PASSWORD', 'postgres'),
-#             'HOST': os.getenv('DB_HOST', 'localhost'),
-#             'PORT': os.getenv('DB_PORT', '5432'),
-#         }
-#     }
-# else:
-#     DATABASES = {
-#         'default': {
-#             'ENGINE': 'django.db.backends.sqlite3',
-#             'NAME': BASE_DIR / 'db.sqlite3',
-#         }
-#     }
+DATABASES = {
+    'default': dj_database_url.config(
+        default=os.environ.get('DATABASE_URL'),
+        conn_max_age=600
+    )
+}
+
 
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -176,9 +156,10 @@ EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', EMAIL_HOST_USER)
 
-SECURE_SSL_REDIRECT = False
-SESSION_COOKIE_SECURE = False
-CSRF_COOKIE_SECURE = False
+SECURE_SSL_REDIRECT = not DEBUG
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
+
 
 # ---------------------------
 # Cloudinary Configuration
