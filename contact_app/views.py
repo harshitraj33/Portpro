@@ -33,7 +33,7 @@ class ContactView(View):
         try:
             send_mail(
                 subject=f"Thank you for contacting us, {name}!",
-                message=f"Hi {name},\n\nThank you for reaching out. We have received your message regarding '{subject}' and will get back to you soon.\n\nBest regards,\nThe Team",
+                message=f"Hi {name},\n\nThank you for reaching out. I have received your message regarding '{subject}' and will get back to you soon.\n\nBest regards,\nHarshit Raj",
                 from_email=settings.DEFAULT_FROM_EMAIL,
                 recipient_list=[email],
                 fail_silently=False,
