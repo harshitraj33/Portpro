@@ -48,7 +48,7 @@ class ContactView(View):
                     fail_silently=False,
                 )
 
-            messages.success(request, 'Your message has been sent successfully! We will get back to you soon.')
+            messages.success(request, 'Your message has been sent successfully! I will get back to you soon.')
         except Exception as e:
             print("EMAIL ERROR:", e)
             messages.error(request, f'Email error: {str(e)}')
