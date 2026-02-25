@@ -5,21 +5,15 @@
     {
       "src": "Portpro/wsgi.py",
       "use": "@vercel/python"
-    },
-    {
-      "src": "staticfiles/(.*)",
-      "use": "@vercel/static"
     }
   ],
 
   "routes": [
     {
-      "src": "/static/(.*)",
-      "dest": "/staticfiles/$1"
-    },
-    {
       "src": "/(.*)",
       "dest": "Portpro/wsgi.py"
     }
-  ]
+  ],
+
+  "buildCommand": "bash build.sh"
 }
