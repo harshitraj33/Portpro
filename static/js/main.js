@@ -4,10 +4,7 @@ const mobileMenu = document.getElementById('mobile-menu');
 
 if (mobileMenuBtn && mobileMenu) {
   mobileMenuBtn.addEventListener('click', () => {
-    // Toggle the hidden class to show/hide menu
     mobileMenu.classList.toggle('hidden');
-    
-    // Update aria-expanded attribute
     const isExpanded = mobileMenuBtn.getAttribute('aria-expanded') === 'true';
     mobileMenuBtn.setAttribute('aria-expanded', !isExpanded);
   });
@@ -18,11 +15,7 @@ const themeToggleButton = document.getElementById('theme-toggle');
 const sunIcon = document.getElementById('sun-icon');
 const moonIcon = document.getElementById('moon-icon');
 
-// This script runs after the DOM is loaded.
-// The initial theme is already set by the script in the <head> to prevent FOUC.
-
 if (themeToggleButton) {
-  // Set the initial state of the icon based on the current theme.
   if (
     localStorage.getItem('theme') === 'dark' ||
     (!('theme' in localStorage) &&
@@ -36,11 +29,9 @@ if (themeToggleButton) {
   }
 
   themeToggleButton.addEventListener('click', () => {
-    // Toggle icons
     sunIcon.classList.toggle('hidden');
     moonIcon.classList.toggle('hidden');
 
-    // Toggle theme and update localStorage
     if (document.documentElement.classList.contains('dark')) {
       document.documentElement.classList.remove('dark');
       localStorage.setItem('theme', 'light');
@@ -51,10 +42,7 @@ if (themeToggleButton) {
   });
 }
 
-// =========================================
 // Avatar Multi-language Greeting
-// =========================================
-
 const greetings = [
   'Hello!',
   'नमस्ते',
@@ -86,8 +74,6 @@ function updateGreeting() {
 
 function startGreetingCycle() {
   if (!avatarFrame) return;
-  
-  // Start cycling every 1.5 seconds
   greetingInterval = setInterval(updateGreeting, 1500);
 }
 
@@ -96,19 +82,16 @@ function stopGreetingCycle() {
     clearInterval(greetingInterval);
     greetingInterval = null;
   }
-  // Reset to first greeting
   currentGreetingIndex = 0;
   if (greetingText) {
     greetingText.textContent = greetings[0];
   }
 }
 
-// Add event listeners
 if (avatarFrame) {
   avatarFrame.addEventListener('mouseenter', startGreetingCycle);
   avatarFrame.addEventListener('mouseleave', stopGreetingCycle);
   
-  // Touch support for mobile
   avatarFrame.addEventListener('touchstart', function() {
     if (!greetingInterval) {
       startGreetingCycle();

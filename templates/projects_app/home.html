@@ -9,27 +9,25 @@
     
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center">
-            <!-- Profile Picture with Avatar Spin & Wave Animation -->
+            <!-- Profile Picture with Avatar Animation -->
             <div class="mb-6 flex justify-center">
                 <div class="avatar-frame">
-                    <!-- Greeting Bubble (appears above on hover) -->
+                    <!-- Greeting Bubble -->
                     <span class="avatar-greeting-bubble" id="avatar-greeting">Hello!</span>
                     
-                    <!-- Inner Container with spin effect -->
+                    <!-- Inner Container -->
                     <div class="avatar-inner">
-                        <!-- Profile Image -->
                         {% if home_content.profile_picture %}
                         <img src="{{ home_content.profile_picture.url }}" alt="Profile Picture" class="avatar-image">
                         {% elif home_content.profile_picture_url %}
                         <img src="{{ home_content.profile_picture_url }}" alt="Profile Picture" class="avatar-image">
                         {% else %}
-                        <!-- Default avatar placeholder -->
                         <div class="w-full h-full bg-[#0d1117] flex items-center justify-center">
                             <span class="text-4xl text-[#00a8e8]">◈</span>
                         </div>
                         {% endif %}
                         
-                        <!-- Waving Avatar (shows on hover) -->
+                        <!-- Waving Avatar -->
                         <div class="avatar-waving">
                             <span class="avatar-waving-emoji">👋</span>
                         </div>
