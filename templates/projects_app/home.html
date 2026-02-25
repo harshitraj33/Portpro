@@ -9,33 +9,17 @@
     
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center">
-            <!-- Profile Picture with Avatar Animation -->
-            {% if home_content.profile_picture or home_content.profile_picture_url %}
+            <!-- Profile Picture -->
+            {% if home_content.profile_picture %}
             <div class="mb-6 flex justify-center">
-                <div class="avatar-container">
-                    <!-- Speech Bubble -->
-                    <div class="speech-bubble">
-                        <span class="greeting-text" id="greeting-text">Hello!</span>
-                        <div class="language-dots">
-                            <span class="active"></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div>
-                    </div>
-                    
-                    <!-- Avatar Image -->
-                    <div class="avatar-wrapper">
-                        {% if home_content.profile_picture %}
-                        <img src="{{ home_content.profile_picture.url }}" alt="Profile Picture">
-                        {% elif home_content.profile_picture_url %}
-                        <img src="{{ home_content.profile_picture_url }}" alt="Profile Picture">
-                        {% endif %}
-                    </div>
+                <div class="w-40 h-40 md:w-48 md:h-48 rounded-full overflow-hidden border-4 border-[#00a8e8] shadow-lg shadow-[#00a8e8]/30">
+                    <img src="{{ home_content.profile_picture.url }}" alt="Profile Picture" class="w-full h-full object-cover">
+                </div>
+            </div>
+            {% elif home_content.profile_picture_url %}
+            <div class="mb-6 flex justify-center">
+                <div class="w-40 h-40 md:w-48 md:h-48 rounded-full overflow-hidden border-4 border-[#00a8e8] shadow-lg shadow-[#00a8e8]/30">
+                    <img src="{{ home_content.profile_picture_url }}" alt="Profile Picture" class="w-full h-full object-cover">
                 </div>
             </div>
             {% endif %}
