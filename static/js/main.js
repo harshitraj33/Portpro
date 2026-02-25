@@ -50,3 +50,68 @@ if (themeToggleButton) {
     }
   });
 }
+
+// =========================================
+// Avatar Multi-language Greeting
+// =========================================
+
+const greetings = [
+  'Hello!',
+  'नमस्ते',
+  'Hola!',
+  'Bonjour!',
+  'Hallo!',
+  'こんにちは',
+  '你好',
+  '안녕하세요'
+];
+
+let currentGreetingIndex = 0;
+let greetingInterval = null;
+
+const avatarFrame = document.querySelector('.avatar-frame');
+const greetingText = document.getElementById('avatar-greeting');
+
+function updateGreeting() {
+  if (!greetingText) return;
+  
+  greetingText.style.opacity = '0';
+  
+  setTimeout(() => {
+    greetingText.textContent = greetings[currentGreetingIndex];
+    greetingText.style.opacity = '1';
+    currentGreetingIndex = (currentGreetingIndex + 1) % greetings.length;
+  }, 150);
+}
+
+function startGreetingCycle() {
+  if (!avatarFrame) return;
+  
+  // Start cycling every 1.5 seconds
+  greetingInterval = setInterval(updateGreeting, 1500);
+}
+
+function stopGreetingCycle() {
+  if (greetingInterval) {
+    clearInterval(greetingInterval);
+    greetingInterval = null;
+  }
+  // Reset to first greeting
+  currentGreetingIndex = 0;
+  if (greetingText) {
+    greetingText.textContent = greetings[0];
+  }
+}
+
+// Add event listeners
+if (avatarFrame) {
+  avatarFrame.addEventListener('mouseenter', startGreetingCycle);
+  avatarFrame.addEventListener('mouseleave', stopGreetingCycle);
+  
+  // Touch support for mobile
+  avatarFrame.addEventListener('touchstart', function() {
+    if (!greetingInterval) {
+      startGreetingCycle();
+    }
+  });
+}
