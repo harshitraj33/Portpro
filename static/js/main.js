@@ -57,7 +57,7 @@ const greetings = [
 let currentGreetingIndex = 0;
 let greetingInterval = null;
 
-const avatarFrame = document.querySelector('.avatar-frame');
+const avatarContainer = document.querySelector('.avatar-container');
 const greetingText = document.getElementById('avatar-greeting');
 
 function updateGreeting() {
@@ -73,7 +73,7 @@ function updateGreeting() {
 }
 
 function startGreetingCycle() {
-  if (!avatarFrame) return;
+  if (!avatarContainer) return;
   greetingInterval = setInterval(updateGreeting, 1500);
 }
 
@@ -88,11 +88,11 @@ function stopGreetingCycle() {
   }
 }
 
-if (avatarFrame) {
-  avatarFrame.addEventListener('mouseenter', startGreetingCycle);
-  avatarFrame.addEventListener('mouseleave', stopGreetingCycle);
+if (avatarContainer) {
+  avatarContainer.addEventListener('mouseenter', startGreetingCycle);
+  avatarContainer.addEventListener('mouseleave', stopGreetingCycle);
   
-  avatarFrame.addEventListener('touchstart', function() {
+  avatarContainer.addEventListener('touchstart', function() {
     if (!greetingInterval) {
       startGreetingCycle();
     }

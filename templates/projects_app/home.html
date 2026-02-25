@@ -9,31 +9,21 @@
     
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center">
-            <!-- Profile Picture with Avatar Animation -->
+            <!-- Profile Picture with Greeting on Hover -->
+            {% if home_content.profile_picture or home_content.profile_picture_url %}
             <div class="mb-6 flex justify-center">
-                <div class="avatar-frame">
-                    <!-- Greeting Bubble -->
-                    <span class="avatar-greeting-bubble" id="avatar-greeting">Hello!</span>
-                    
-                    <!-- Inner Container -->
-                    <div class="avatar-inner">
+                <div class="avatar-container">
+                    <span class="greeting-bubble" id="avatar-greeting">Hello!</span>
+                    <div class="w-40 h-40 md:w-48 md:h-48 rounded-full overflow-hidden border-4 border-[#00a8e8] shadow-lg shadow-[#00a8e8]/30">
                         {% if home_content.profile_picture %}
-                        <img src="{{ home_content.profile_picture.url }}" alt="Profile Picture" class="avatar-image">
+                        <img src="{{ home_content.profile_picture.url }}" alt="Profile Picture" class="w-full h-full object-cover">
                         {% elif home_content.profile_picture_url %}
-                        <img src="{{ home_content.profile_picture_url }}" alt="Profile Picture" class="avatar-image">
-                        {% else %}
-                        <div class="w-full h-full bg-[#0d1117] flex items-center justify-center">
-                            <span class="text-4xl text-[#00a8e8]">◈</span>
-                        </div>
+                        <img src="{{ home_content.profile_picture_url }}" alt="Profile Picture" class="w-full h-full object-cover">
                         {% endif %}
-                        
-                        <!-- Waving Avatar -->
-                        <div class="avatar-waving">
-                            <span class="avatar-waving-emoji">👋</span>
-                        </div>
                     </div>
                 </div>
             </div>
+            {% endif %}
             
             <div class="mb-4 text-[#00a8e8] text-sm">
                 <span class="prompt"></span>INITIALIZING USER DATA...
