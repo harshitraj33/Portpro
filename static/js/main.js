@@ -50,3 +50,84 @@ if (themeToggleButton) {
     }
   });
 }
+
+// =========================================
+// Avatar Multi-language Greeting
+// =========================================
+
+const greetings = [
+  { text: 'Hello!', lang: 'English' },
+  { text: 'नमस्ते', lang: 'Hindi' },
+  { text: 'Hola!', lang: 'Spanish' },
+  { text: 'Bonjour!', lang: 'French' },
+  { text: 'Hallo!', lang: 'German' },
+  { text: 'こんにちは', lang: 'Japanese' },
+  { text: '你好', lang: 'Chinese' },
+  { text: '안녕하세요', lang: 'Korean' }
+];
+
+let currentGreetingIndex = 0;
+let greetingInterval = null;
+let isHovering = false;
+
+const avatarContainer = document.querySelector('.avatar-container');
+const greetingText = document.getElementById('greeting-text');
+const languageDots = document.querySelectorAll('.language-dots span');
+
+function updateGreeting() {
+  if (!greetingText) return;
+  
+  // Update greeting text with fade animation
+  greetingText.style.opacity = '0';
+  
+  setTimeout(() => {
+    greetingText.textContent = greetings[currentGreetingIndex].text;
+    greetingText.style.opacity = '1';
+    
+    // Update language dots
+    languageDots.forEach((dot, index) => {
+      dot.classList.toggle('active', index === currentGreetingIndex);
+    });
+    
+    // Move to next greeting
+    currentGreetingIndex = (currentGreetingIndex + 1) % greetings.length;
+  }, 200);
+}
+
+function startGreetingCycle() {
+  if (!avatarContainer) return;
+  
+  isHovering = true;
+  // Start cycling every 2 seconds
+  greetingInterval = setInterval(updateGreeting, 2000);
+}
+
+function stopGreetingCycle() {
+  isHovering = false;
+  if (greetingInterval) {
+    clearInterval(greetingInterval);
+    greetingInterval = null;
+  }
+  // Reset to first greeting
+  currentGreetingIndex = 0;
+  if (greetingText) {
+    greetingText.textContent = greetings[0].text;
+  }
+  // Reset dots
+  languageDots.forEach((dot, index) => {
+    dot.classList.toggle('active', index === 0);
+  });
+}
+
+// Add event listeners
+if (avatarContainer) {
+  avatarContainer.addEventListener('mouseenter', startGreetingCycle);
+  avatarContainer.addEventListener('mouseleave', stopGreetingCycle);
+  
+  // Also handle touch events for mobile
+  avatarContainer.addEventListener('touchstart', () => {
+    if (!isHovering) {
+      startGreetingCycle();
+    }
+  });
+}
