@@ -42,7 +42,7 @@ if (themeToggleButton) {
   });
 }
 
-// Avatar Multi-language Greeting
+// Greeting Functions
 const greetings = [
   'Hello!',
   'नमस्ते',
@@ -54,47 +54,37 @@ const greetings = [
   '안녕하세요'
 ];
 
-let currentGreetingIndex = 0;
+let greetingIndex = 0;
 let greetingInterval = null;
 
-const avatarContainer = document.querySelector('.avatar-container');
-const greetingText = document.getElementById('avatar-greeting');
-
-function updateGreeting() {
-  if (!greetingText) return;
+function startGreeting() {
+  const bubble = document.getElementById('greeting-bubble');
+  const text = document.getElementById('greeting-text');
   
-  greetingText.style.opacity = '0';
-  
-  setTimeout(() => {
-    greetingText.textContent = greetings[currentGreetingIndex];
-    greetingText.style.opacity = '1';
-    currentGreetingIndex = (currentGreetingIndex + 1) % greetings.length;
-  }, 150);
+  if (bubble && text) {
+    bubble.style.opacity = '1';
+    greetingInterval = setInterval(function() {
+      text.textContent = greetings[greetingIndex];
+      greetingIndex = (greetingIndex + 1) % greetings.length;
+    }, 2000);
+  }
 }
 
-function startGreetingCycle() {
-  if (!avatarContainer) return;
-  greetingInterval = setInterval(updateGreeting, 2000);
-}
-
-function stopGreetingCycle() {
+function stopGreeting() {
+  const bubble = document.getElementById('greeting-bubble');
+  const text = document.getElementById('greeting-text');
+  
   if (greetingInterval) {
     clearInterval(greetingInterval);
     greetingInterval = null;
   }
-  currentGreetingIndex = 0;
-  if (greetingText) {
-    greetingText.textContent = greetings[0];
-  }
-}
-
-if (avatarContainer) {
-  avatarContainer.addEventListener('mouseenter', startGreetingCycle);
-  avatarContainer.addEventListener('mouseleave', stopGreetingCycle);
   
-  avatarContainer.addEventListener('touchstart', function() {
-    if (!greetingInterval) {
-      startGreetingCycle();
-    }
-  });
+  if (bubble) {
+    bubble.style.opacity = '0';
+  }
+  
+  greetingIndex = 0;
+  if (text) {
+    text.textContent = 'Hello!';
+  }
 }
