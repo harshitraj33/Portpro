@@ -1,11 +1,22 @@
 {
-    "builds":   [{
-        "src":  "Portpro/wsgi.py",
-        "use":  "@vercel/python"    }],
-    "routes": [
-        {
-            "src": "/(.*)",
-            "dest": "/Portpro/wsgi.py"
-        }
-    ]
+  "builds": [
+    {
+      "src": "Portpro/wsgi.py",
+      "use": "@vercel/python"
+    }
+  ],
+
+  "routes": [
+
+    {
+      "src": "/static/(.*)",
+      "dest": "/staticfiles/$1"
+    },
+
+    {
+      "src": "/(.*)",
+      "dest": "Portpro/wsgi.py"
+    }
+
+  ]
 }
