@@ -74,7 +74,7 @@ function updateGreeting() {
 
 function startGreetingCycle() {
   if (!avatarContainer) return;
-  greetingInterval = setInterval(updateGreeting, 1500);
+  greetingInterval = setInterval(updateGreeting, 2000);
 }
 
 function stopGreetingCycle() {
