@@ -44,7 +44,6 @@ if (themeToggleButton) {
 
 // Greeting Functions
 const greetings = [
-  'Hello!',
   'नमस्ते',
   'Hola!',
   'Bonjour!',
