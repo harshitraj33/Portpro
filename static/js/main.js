@@ -88,3 +88,6 @@ function stopGreeting() {
     text.textContent = 'Hello!';
   }
 }
+
+window.startGreeting = startGreeting;
+window.stopGreeting = stopGreeting;
