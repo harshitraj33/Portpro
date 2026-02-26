@@ -114,6 +114,61 @@
     </div>
 </section>
 
+{% if skills or work_experiences %}
+<section class="py-16 bg-[#0d1117] border-y border-[#333]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {% if skills %}
+        <div class="mb-16">
+            <div class="flex items-center justify-center mb-8">
+                <span class="text-[#00a8e8] mr-2">>></span>
+                <h2 class="text-2xl font-bold text-white poi-glow-white">SKILLS</h2>
+                <span class="text-[#00a8e8] ml-2">_</span>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {% for skill in skills %}
+                <div class="bg-[#0a0a0a] border border-[#333] rounded-lg p-4 text-center hover:border-[#00a8e8] transition-all duration-300">
+                    <span class="text-white font-medium">{{ skill.name }}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        
+        {% if work_experiences %}
+        <div>
+            <div class="flex items-center justify-center mb-8">
+                <span class="text-[#00a8e8] mr-2">>></span>
+                <h2 class="text-2xl font-bold text-white poi-glow-white">EXPERIENCE</h2>
+                <span class="text-[#00a8e8] ml-2">_</span>
+            </div>
+            <div class="space-y-6">
+                {% for experience in work_experiences %}
+                <div class="bg-[#0a0a0a] border border-[#333] rounded-lg p-6 hover:border-[#00a8e8] transition-all duration-300">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-2">
+                        <div>
+                            <h3 class="text-xl font-semibold text-white">{{ experience.position }}</h3>
+                            <p class="text-[#00a8e8]">{{ experience.company }}</p>
+                        </div>
+                        <div class="text-sm text-gray-500 mt-2 md:mt-0">
+                            {% if experience.is_current %}
+                            <span class="text-green-500">Present</span>
+                            {% else %}
+                            {{ experience.start_date|date:"M Y" }} - {{ experience.end_date|date:"M Y" }}
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% if experience.description %}
+                    <p class="text-gray-400 text-sm mt-3">{{ experience.description }}</p>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endif %}
+
 <section class="py-16 bg-[#0a0a0a]">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-center mb-12">

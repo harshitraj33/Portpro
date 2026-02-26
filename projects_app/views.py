@@ -5,7 +5,7 @@ from django.views import View
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
-from .models import Project, Profile, HomeContent, AboutContent
+from .models import Project, Profile, HomeContent, AboutContent, Skill, WorkExperience
 
 
 class HomeView(TemplateView):
@@ -22,6 +22,18 @@ class HomeView(TemplateView):
             context['home_content'] = home_content
         except Exception as e:
             print(f"Error loading home content: {e}")
+        
+        # Get visible skills grouped by category
+        try:
+            context['skills'] = Skill.objects.filter(is_visible=True).order_by('category', 'order', 'name')
+        except Exception as e:
+            print(f"Error loading skills: {e}")
+        
+        # Get visible work experiences
+        try:
+            context['work_experiences'] = WorkExperience.objects.filter(is_visible=True).order_by('-is_current', '-start_date', 'order')
+        except Exception as e:
+            print(f"Error loading work experience: {e}")
         
         return context
 
