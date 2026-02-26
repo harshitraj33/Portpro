@@ -123,6 +123,9 @@
                 <a href="{% url 'accounts:admin_home_content_edit' %}" class="sidebar-link {% if 'home-content' in request.resolver_match.view_name %}active{% endif %}">
                     <i class="fas fa-user-circle w-5"></i>[HOME_CONTENT]
                 </a>
+                <a href="{% url 'accounts:admin_about_content_edit' %}" class="sidebar-link {% if 'about-content' in request.resolver_match.view_name %}active{% endif %}">
+                    <i class="fas fa-user w-5"></i>[ABOUT_CONTENT]
+                </a>
                 <a href="{% url 'accounts:admin_projects' %}" class="sidebar-link {% if 'projects' in request.resolver_match.view_name %}active{% endif %}">
                     <i class="fas fa-folder w-5"></i>[PROJECTS]
                 </a>

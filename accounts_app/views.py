@@ -11,7 +11,7 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django import forms
 from django.views.decorators.http import require_POST
 from django.utils.decorators import method_decorator
-from projects_app.models import Project, WorkExperience, Skill, HomeContent
+from projects_app.models import Project, WorkExperience, Skill, HomeContent, AboutContent
 from contact_app.models import ContactMessage
 
 
@@ -295,7 +295,6 @@ class HomeContentEditView(AdminRequiredMixin, UpdateView):
     template_name = 'admin/homecontent_form.html'
     
     def get_object(self, queryset=None):
-        # Get the active home content or create a new one if none exists
         home_content = HomeContent.objects.filter(is_active=True).first()
         if not home_content:
             home_content = HomeContent.objects.create(
@@ -314,10 +313,98 @@ class HomeContentEditView(AdminRequiredMixin, UpdateView):
         return super().form_valid(form)
 
 
+class AboutContentForm(forms.ModelForm):
+    class Meta:
+        model = AboutContent
+        fields = [
+            'bio', 
+            'skills_languages', 'skills_frameworks', 'skills_tools', 'skills_soft',
+            'internship_1_company', 'internship_1_position', 'internship_1_date', 'internship_1_description', 'internship_1_tech',
+            'internship_2_company', 'internship_2_position', 'internship_2_date', 'internship_2_description', 'internship_2_tech',
+            'certificates',
+            'education_1_institution', 'education_1_degree', 'education_1_date', 'education_1_cgpa', 'education_1_location',
+            'education_2_institution', 'education_2_degree', 'education_2_date', 'education_2_cgpa', 'education_2_location',
+            'is_active'
+        ]
+        widgets = {
+            'bio': forms.Textarea(attrs={'rows': 4, 'placeholder': 'Your bio/introduction text'}),
+            'skills_languages': forms.TextInput(attrs={'placeholder': 'Python, Java, C++'}),
+            'skills_frameworks': forms.TextInput(attrs={'placeholder': 'React, Django'}),
+            'skills_tools': forms.TextInput(attrs={'placeholder': 'MySQL, Git, AWS, Kali Linux'}),
+            'skills_soft': forms.TextInput(attrs={'placeholder': 'Creative, Problem Solver, Adaptability'}),
+            'internship_1_company': forms.TextInput(attrs={'placeholder': 'Company Name'}),
+            'internship_1_position': forms.TextInput(attrs={'placeholder': 'Position/Role'}),
+            'internship_1_date': forms.TextInput(attrs={'placeholder': 'June-July 2023'}),
+            'internship_1_description': forms.Textarea(attrs={'rows': 4, 'placeholder': 'Description (one point per line)'}),
+            'internship_1_tech': forms.TextInput(attrs={'placeholder': 'Technologies used'}),
+            'internship_2_company': forms.TextInput(attrs={'placeholder': 'Company Name'}),
+            'internship_2_position': forms.TextInput(attrs={'placeholder': 'Position/Role'}),
+            'internship_2_date': forms.TextInput(attrs={'placeholder': 'January-March 2023'}),
+            'internship_2_description': forms.Textarea(attrs={'rows': 4, 'placeholder': 'Description (one point per line)'}),
+            'internship_2_tech': forms.TextInput(attrs={'placeholder': 'Technologies used'}),
+            'certificates': forms.Textarea(attrs={'rows': 6, 'placeholder': 'Certificate Name (Date)\nOne per line'}),
+            'education_1_institution': forms.TextInput(attrs={'placeholder': 'University/College Name'}),
+            'education_1_degree': forms.TextInput(attrs={'placeholder': 'Degree Name'}),
+            'education_1_date': forms.TextInput(attrs={'placeholder': 'Since August 2024'}),
+            'education_1_cgpa': forms.TextInput(attrs={'placeholder': 'CGPA: 6.65'}),
+            'education_1_location': forms.TextInput(attrs={'placeholder': 'City, State'}),
+            'education_2_institution': forms.TextInput(attrs={'placeholder': 'University/College Name'}),
+            'education_2_degree': forms.TextInput(attrs={'placeholder': 'Degree Name'}),
+            'education_2_date': forms.TextInput(attrs={'placeholder': 'August 2021 - June 2024'}),
+            'education_2_cgpa': forms.TextInput(attrs={'placeholder': 'CGPA: 7.3'}),
+            'education_2_location': forms.TextInput(attrs={'placeholder': 'City, State'}),
+        }
+
+
+class AboutContentEditView(AdminRequiredMixin, UpdateView):
+    model = AboutContent
+    form_class = AboutContentForm
+    template_name = 'admin/aboutcontent_form.html'
+    
+    def get_object(self, queryset=None):
+        about_content = AboutContent.objects.filter(is_active=True).first()
+        if not about_content:
+            about_content = AboutContent.objects.create(
+                is_active=True,
+                bio="I am a passionate Full Stack Developer and Cybersecurity Enthusiast currently pursuing my B.Tech in Computer Science and Engineering at Lovely Professional University.",
+                skills_languages="Python, Java, C++",
+                skills_frameworks="React, Django",
+                skills_tools="MySQL, Git, AWS, Kali Linux",
+                skills_soft="Creative, Problem Solver, Active Listener, Adaptability",
+                internship_1_company="Conquest Tech Solutions",
+                internship_1_position="Intern Computer Analyst",
+                internship_1_date="June-July 2023",
+                internship_1_description="Conducted software test evaluations\nCreated documentation\nInteracted with team",
+                internship_1_tech="Git/Github, MS Office",
+                internship_2_company="Coincent.ai",
+                internship_2_position="Cyber Security Training",
+                internship_2_date="January-March 2023",
+                internship_2_description="Network security training\nPenetration testing",
+                internship_2_tech="Kali Linux, Nmap",
+                certificates="Master Generative AI (Aug 2025)\nAWS Certified (Apr 2024)",
+                education_1_institution="Lovely Professional University",
+                education_1_degree="B.Tech - Computer Science and Engineering",
+                education_1_date="Since August 2024",
+                education_1_cgpa="CGPA: 6.65",
+                education_1_location="Phagwara, Punjab",
+                education_2_institution="Lovely Professional University",
+                education_2_degree="Diploma Computer Science",
+                education_2_date="August 2021 - June 2024",
+                education_2_cgpa="CGPA: 7.3",
+                education_2_location="Phagwara, Punjab"
+            )
+        return about_content
+
+    def get_success_url(self):
+        return reverse('accounts:admin_dashboard')
+
+    def form_valid(self, form):
+        messages.success(self.request, 'About content updated successfully!')
+        return super().form_valid(form)
+
+
 @method_decorator(require_POST, name='dispatch')
 class MarkMessageAsReadView(AdminRequiredMixin, View):
-    """View to mark a message as read."""
-    
     def post(self, request, pk):
         message = get_object_or_404(ContactMessage, pk=pk)
         message.is_read = True
@@ -328,8 +415,6 @@ class MarkMessageAsReadView(AdminRequiredMixin, View):
 
 @method_decorator(require_POST, name='dispatch')
 class MarkMessageAsUnreadView(AdminRequiredMixin, View):
-    """View to mark a message as unread."""
-    
     def post(self, request, pk):
         message = get_object_or_404(ContactMessage, pk=pk)
         message.is_read = False
