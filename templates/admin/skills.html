@@ -6,7 +6,7 @@
 {% block admin_content %}
 <div class="flex items-center justify-between mb-6">
     <p class="text-gray-600">Manage your technical and soft skills</p>
-    <a href="{% url 'accounts:admin_skill_add' %}" 
+    <a href="/admin-panel/skills/add/" 
        class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors flex items-center gap-2">
         <i class="fas fa-plus"></i>Add Skill
     </a>
@@ -47,12 +47,12 @@
                 </div>
                 <div class="flex items-center gap-2">
                     <span class="text-xs text-gray-500">{{ skill.proficiency_level }}%</span>
-                    <a href="{% url 'accounts:admin_skill_edit' skill.pk %}" 
+                    <a href="/admin-panel/skills/{{ skill.pk }}/edit/" 
                        class="p-2 text-blue-600 hover:bg-blue-50 rounded transition-colors" 
                        title="Edit">
                         <i class="fas fa-edit"></i>
                     </a>
-                    <a href="{% url 'accounts:admin_skill_delete' skill.pk %}" 
+                    <a href="/admin-panel/skills/{{ skill.pk }}/delete/" 
                        class="p-2 text-red-600 hover:bg-red-50 rounded transition-colors" 
                        title="Delete">
                         <i class="fas fa-trash"></i>
@@ -69,7 +69,7 @@
     </div>
     <h3 class="text-lg font-medium text-gray-900 mb-2">No skills yet</h3>
     <p class="text-gray-500 mb-4">Add your first skill to showcase your expertise.</p>
-    <a href="{% url 'accounts:admin_skill_add' %}" 
+    <a href="/admin-panel/skills/add/" 
        class="inline-flex items-center gap-2 bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700">
         <i class="fas fa-plus"></i>Add Skill
     </a>
@@ -118,12 +118,12 @@
                         <td class="py-3 px-4 text-center text-gray-600">{{ skill.order }}</td>
                         <td class="py-3 px-4 text-center">
                             <div class="flex items-center justify-center gap-2">
-                                <a href="{% url 'accounts:admin_skill_edit' skill.pk %}" 
+                                <a href="/admin-panel/skills/{{ skill.pk }}/edit/" 
                                    class="p-2 text-blue-600 hover:bg-blue-50 rounded transition-colors" 
                                    title="Edit">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <a href="{% url 'accounts:admin_skill_delete' skill.pk %}" 
+                                <a href="/admin-panel/skills/{{ skill.pk }}/delete/" 
                                    class="p-2 text-red-600 hover:bg-red-50 rounded transition-colors" 
                                    title="Delete">
                                     <i class="fas fa-trash"></i>

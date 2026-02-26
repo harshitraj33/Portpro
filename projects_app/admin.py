@@ -82,6 +82,18 @@ class SkillAdmin(admin.ModelAdmin):
     list_editable = ('is_visible', 'order', 'proficiency_level')
     ordering = ('category', 'order', 'name')
     list_per_page = 25
+    
+    fieldsets = (
+        ('Basic Info', {
+            'fields': ('name', 'category')
+        }),
+        ('Proficiency', {
+            'fields': ('proficiency_level', 'icon')
+        }),
+        ('Display', {
+            'fields': ('is_visible', 'order')
+        }),
+    )
 
 
 @admin.register(HomeContent)
