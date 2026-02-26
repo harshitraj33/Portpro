@@ -1,4 +1,4 @@
-# PortPro - Portfolio Website
+## Personal Portfolio Website
 
 A modern portfolio website built with Django, Django REST Framework, PostgreSQL, and Tailwind CSS. This is a personal portfolio project showcasing projects, skills, and professional experience.
 
