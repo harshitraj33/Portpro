@@ -6,8 +6,6 @@ A modern portfolio website built with Django, Django REST Framework, PostgreSQL,
 
 - **Name**: HARSHIT RAJ
 - **Role**: Full Stack Developer & Cybersecurity Enthusiast
-- **Education**: B.Tech in Computer Science and Engineering at Lovely Professional University
-- **Location**: Phagwara, Punjab, India
 
 ## Features
 
@@ -28,47 +26,6 @@ A modern portfolio website built with Django, Django REST Framework, PostgreSQL,
 - **Frontend**: HTML, Tailwind CSS, JavaScript
 - **Deployment**: Docker, Gunicorn, Whitenoise
 
-## Skills
-
-### Languages
-- Python
-- Java
-- C++
-
-### Frameworks
-- Django
-- React
-
-### Tools & Platforms
-- MySQL
-- Git
-- AWS
-- Kali Linux
-
-### Soft Skills
-- Creative
-- Problem Solver
-- Active Listener
-- Adaptability
-
-## Internships
-
-- **Conquest Tech Solutions** - Intern Computer Analyst (June-July 2023)
-- **Coincent.ai** - Cyber Security & Ethical Hacking Training (January-March 2023)
-
-## Projects
-
-- **ArtiQuery (HBS Chats)** - AI Chatbot that works online/offline, handles voice I/O and image generation
-- **Cyber Security Labs** - Practical exercises on penetration testing and threat analysis
-
-## Certificates
-
-- Master Generative AI & Generative AI tools by Infosys Springboard (Aug 2025)
-- Privacy and Security in Online Social Media by NPTEL (April 2025)
-- Amazon Web Service (AWS) Certified by Infosys Springboard (April 2024)
-- Fundamentals of Network Communication by University of Colorado, Coursera (Sept 2024)
-- GCP Cloud Digital Leader Certification by KodeKloud (April 2023)
-- Cyber Security and Ethical Hacking by Coincent.ai (March 2023)
 
 ## Getting Started
 
