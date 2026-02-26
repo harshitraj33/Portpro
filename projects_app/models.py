@@ -52,6 +52,7 @@ class Project(models.Model):
     category = models.CharField(max_length=100, blank=True, null=True)
     featured = models.BooleanField(default=False, help_text="Show in featured projects")
     order = models.IntegerField(default=0, help_text="Display order")
+    created = models.DateField(blank=True, null=True, help_text="Project creation date (day, month, year)")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

@@ -19,7 +19,7 @@ class ProjectAdmin(admin.ModelAdmin):
     """
     Admin configuration for Project model with slug auto-generation and search/filtering.
     """
-    list_display = ('title', 'category', 'featured', 'order', 'created_at', 'updated_at')
+    list_display = ('title', 'category', 'featured', 'order', 'created', 'created_at', 'updated_at')
     list_filter = ('featured', 'category', 'created_at')
     search_fields = ('title', 'description', 'technologies')
     prepopulated_fields = {'slug': ('title',)}
@@ -39,6 +39,10 @@ class ProjectAdmin(admin.ModelAdmin):
         }),
         ('Display', {
             'fields': ('featured', 'order')
+        }),
+        ('Date', {
+            'fields': ('created',),
+            'description': 'Set the project creation date (day, month, year)'
         }),
     )
 
