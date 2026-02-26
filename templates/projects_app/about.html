@@ -14,10 +14,7 @@
         <div class="mb-12 bg-[#0d1117] border border-[#333] p-6 rounded-lg">
             <div class="text-xs text-[#00a8e8] mb-4"><span class="prompt"></span>USER_BIO v1.0</div>
             <p class="text-gray-300 text-center max-w-3xl mx-auto leading-relaxed">
-                <span class="text-[#00a8e8]">>></span> I am a passionate <span class="text-white">Full Stack Developer</span> and <span class="text-white">Cybersecurity Enthusiast</span> currently pursuing my B.Tech in Computer Science and Engineering at Lovely Professional University. 
-                <br><br>
-                With hands-on experience in <span class="text-[#00a8e8]">Python</span>, <span class="text-[#00a8e8]">Django</span>, <span class="text-[#00a8e8]">React</span>, and various cybersecurity tools, I am eager to contribute to innovative projects and continue learning new technologies.
-                <span class="cursor-blink text-[#ff0000]">_</span>
+                <span class="text-[#00a8e8]">>></span> {{ about_content.bio|default:"I am a passionate Full Stack Developer and Cybersecurity Enthusiast currently pursuing my B.Tech in Computer Science and Engineering at Lovely Professional University. With hands-on experience in Python, Django, React, and various cybersecurity tools, I am eager to contribute to innovative projects and continue learning new technologies."|linebreaks }} <span class="cursor-blink text-[#ff0000]">_</span>
             </p>
         </div>
 
@@ -32,34 +29,50 @@
                 <div class="bg-[#0d1117] border border-[#333] p-6 rounded-lg hover:border-[#00a8e8] transition-all">
                     <h3 class="text-xl font-semibold mb-4 text-[#00a8e8]"><span class="text-white">> </span>LANGUAGES</h3>
                     <ul class="space-y-2 text-gray-300">
+                        {% for skill in about_content.get_skills_languages_list %}
+                        <li><span class="text-[#00a8e8]">▸</span> {{ skill }}</li>
+                        {% empty %}
                         <li><span class="text-[#00a8e8]">▸</span> Python</li>
                         <li><span class="text-[#00a8e8]">▸</span> Java</li>
                         <li><span class="text-[#00a8e8]">▸</span> C++</li>
+                        {% endfor %}
                     </ul>
                 </div>
                 <div class="bg-[#0d1117] border border-[#333] p-6 rounded-lg hover:border-[#00a8e8] transition-all"> 
                     <h3 class="text-xl font-semibold mb-4 text-[#00a8e8]"><span class="text-white">> </span>FRAMEWORKS</h3>
                     <ul class="space-y-2 text-gray-300">
+                        {% for skill in about_content.get_skills_frameworks_list %}
+                        <li><span class="text-[#00a8e8]">▸</span> {{ skill }}</li>
+                        {% empty %}
                         <li><span class="text-[#00a8e8]">▸</span> React</li>
                         <li><span class="text-[#00a8e8]">▸</span> Django</li>
+                        {% endfor %}
                     </ul>
                 </div>
                 <div class="bg-[#0d1117] border border-[#333] p-6 rounded-lg hover:border-[#00a8e8] transition-all">
                     <h3 class="text-xl font-semibold mb-4 text-[#00a8e8]"><span class="text-white">> </span>TOOLS & PLATFORMS</h3>
                     <ul class="space-y-2 text-gray-300">
+                        {% for skill in about_content.get_skills_tools_list %}
+                        <li><span class="text-[#00a8e8]">▸</span> {{ skill }}</li>
+                        {% empty %}
                         <li><span class="text-[#00a8e8]">▸</span> MySQL</li>
                         <li><span class="text-[#00a8e8]">▸</span> Git</li>
                         <li><span class="text-[#00a8e8]">▸</span> AWS</li>
                         <li><span class="text-[#00a8e8]">▸</span> Kali Linux</li>
+                        {% endfor %}
                     </ul>
                 </div>
                 <div class="bg-[#0d1117] border border-[#333] p-6 rounded-lg hover:border-[#00a8e8] transition-all">
                     <h3 class="text-xl font-semibold mb-4 text-[#00a8e8]"><span class="text-white">> </span>SOFT_SKILLS</h3>
                     <ul class="space-y-2 text-gray-300">
+                        {% for skill in about_content.get_skills_soft_list %}
+                        <li><span class="text-[#00a8e8]">▸</span> {{ skill }}</li>
+                        {% empty %}
                         <li><span class="text-[#00a8e8]">▸</span> Creative</li>
                         <li><span class="text-[#00a8e8]">▸</span> Problem Solver</li>
                         <li><span class="text-[#00a8e8]">▸</span> Active Listener</li>
                         <li><span class="text-[#00a8e8]">▸</span> Adaptability</li>
+                        {% endfor %}
                     </ul>
                 </div>
             </div>
@@ -75,24 +88,32 @@
             <div class="space-y-6">
                 <div class="bg-[#0d1117] border-l-2 border-[#00a8e8] p-6 rounded-r-lg">
                     <div class="text-xs text-[#00a8e8] mb-2"><span class="prompt"></span>ENTRY_ID: 001</div>
-                    <h3 class="text-xl font-bold mb-1 text-white">Conquest Tech Solutions</h3>
-                    <p class="text-sm text-gray-500 mb-4">| INTERNSHIP | COMPUTER ANALYST | JUN-JUL 2023 |</p>
+                    <h3 class="text-xl font-bold mb-1 text-white">{{ about_content.internship_1_company|default:"Conquest Tech Solutions" }}</h3>
+                    <p class="text-sm text-gray-500 mb-4">| INTERNSHIP | {{ about_content.internship_1_position|default:"Intern Computer Analyst" }} | {{ about_content.internship_1_date|default:"Jun-Jul 2023" }} |</p>
                     <ul class="list-disc list-inside space-y-2 text-gray-300 mb-4">
+                        {% for desc in about_content.get_internship_1_description_list %}
+                        <li>{{ desc }}</li>
+                        {% empty %}
                         <li>Conducted software test evaluations, identified issues, and reviewed system functionalities</li>
                         <li>Created and maintained structured documentation, reports, and workflow summaries</li>
                         <li>Interacted with team members to understand requirements</li>
+                        {% endfor %}
                     </ul>
-                    <p class="text-sm text-gray-500"><span class="text-[#00a8e8]">TECH_STACK:</span> Git/Github, MS Office, Bug Tracking Systems</p>
+                    <p class="text-sm text-gray-500"><span class="text-[#00a8e8]">TECH_STACK:</span> {{ about_content.internship_1_tech|default:"Git/Github, MS Office, Bug Tracking Systems" }}</p>
                 </div>
                 <div class="bg-[#0d1117] border-l-2 border-[#00a8e8] p-6 rounded-r-lg">
                     <div class="text-xs text-[#00a8e8] mb-2"><span class="prompt"></span>ENTRY_ID: 002</div>
-                    <h3 class="text-xl font-bold mb-1 text-white">Coincent.ai</h3>
-                    <p class="text-sm text-gray-500 mb-4">| TRAINING | CYBER SECURITY & ETHICAL HACKING | JAN-MAR 2023 |</p>
+                    <h3 class="text-xl font-bold mb-1 text-white">{{ about_content.internship_2_company|default:"Coincent.ai" }}</h3>
+                    <p class="text-sm text-gray-500 mb-4">| TRAINING | {{ about_content.internship_2_position|default:"Cyber Security & Ethical Hacking Training" }} | {{ about_content.internship_2_date|default:"Jan-Mar 2023" }} |</p>
                     <ul class="list-disc list-inside space-y-2 text-gray-300 mb-4">
+                        {% for desc in about_content.get_internship_2_description_list %}
+                        <li>{{ desc }}</li>
+                        {% empty %}
                         <li>Gained Hands-on experience in network security, penetration testing, and threat analysis</li>
                         <li>Worked with tools to identify vulnerabilities and understand secure solutions</li>
+                        {% endfor %}
                     </ul>
-                    <p class="text-sm text-gray-500"><span class="text-[#00a8e8]">TECH_STACK:</span> Kali Linux Tools, Nmap, Burp Suite, Wireshark</p>
+                    <p class="text-sm text-gray-500"><span class="text-[#00a8e8]">TECH_STACK:</span> {{ about_content.internship_2_tech|default:"Kali Linux Tools, Nmap, Burp Suite, Wireshark" }}</p>
                 </div>
             </div>
         </div>
@@ -138,10 +159,14 @@
             
             <div class="bg-[#0d1117] border border-[#333] rounded-lg p-6">
                 <ul class="space-y-4 text-gray-300">
+                    {% for cert in about_content.get_certificates_list %}
+                    <li><span class="text-[#00a8e8]">▸</span> {{ cert }}</li>
+                    {% empty %}
                     <li><span class="text-[#00a8e8]">▸</span> Master Generative AI by Infosys Springboard <span class="text-white">(AUG 2025)</span></li>
                     <li><span class="text-[#00a8e8]">▸</span> Privacy and Security in Online Social Media by NPTEL <span class="text-white">(APR 2025)</span></li>
                     <li><span class="text-[#00a8e8]">▸</span> AWS Certified by Infosys Springboard <span class="text-white">(APR 2024)</span></li>
                     <li><span class="text-[#00a8e8]">▸</span> GCP Cloud Digital Leader by KodeKloud <span class="text-white">(APR 2023)</span></li>
+                    {% endfor %}
                 </ul>
             </div>
         </div>
@@ -155,15 +180,15 @@
             
             <div class="bg-[#0d1117] border border-[#333] p-6 rounded-lg mb-4 hover:border-[#00a8e8] transition-all">
                 <div class="text-xs text-[#00a8e8] mb-2"><span class="prompt"></span>ACADEMY_ID: 002</div>
-                <h3 class="text-xl font-bold mb-1 text-white">Lovely Professional University</h3>
-                <p class="text-sm text-gray-500 mb-2">| LOCATION: PHAGWARA, PUNJAB | STATUS: CURRENT |</p>
-                <p class="text-gray-300">B.Tech - Computer Science and Engineering | CGPA: 6.65</p>
+                <h3 class="text-xl font-bold mb-1 text-white">{{ about_content.education_1_institution|default:"Lovely Professional University" }}</h3>
+                <p class="text-sm text-gray-500 mb-2">| LOCATION: {{ about_content.education_1_location|default:"PHAGWARA, PUNJAB" }} | STATUS: {{ about_content.education_1_date|default:"CURRENT" }} |</p>
+                <p class="text-gray-300">{{ about_content.education_1_degree|default:"B.Tech - Computer Science and Engineering" }} | {{ about_content.education_1_cgpa|default:"CGPA: 6.65" }}</p>
             </div>
             <div class="bg-[#0d1117] border border-[#333] p-6 rounded-lg hover:border-[#00a8e8] transition-all">
                 <div class="text-xs text-[#00a8e8] mb-2"><span class="prompt"></span>ACADEMY_ID: 001</div>
-                <h3 class="text-xl font-bold mb-1 text-white">Lovely Professional University</h3>
-                <p class="text-sm text-gray-500 mb-2">| PERIOD: AUG 2021 - JUN 2024 |</p>
-                <p class="text-gray-300">Diploma Computer Science and Engineering | CGPA: 7.3</p>
+                <h3 class="text-xl font-bold mb-1 text-white">{{ about_content.education_2_institution|default:"Lovely Professional University" }}</h3>
+                <p class="text-sm text-gray-500 mb-2">| PERIOD: {{ about_content.education_2_date|default:"AUG 2021 - JUN 2024" }} |</p>
+                <p class="text-gray-300">{{ about_content.education_2_degree|default:"Diploma Computer Science and Engineering" }} | {{ about_content.education_2_cgpa|default:"CGPA: 7.3" }}</p>
             </div>
         </div>
     </div>

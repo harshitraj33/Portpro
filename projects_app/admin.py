@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Profile, Project, WorkExperience, Skill, HomeContent
+from .models import Profile, Project, WorkExperience, Skill, HomeContent, AboutContent
 
 
 @admin.register(Profile)
@@ -113,5 +113,68 @@ class HomeContentAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
         # Only allow one instance
         if HomeContent.objects.exists():
+            return False
+        return super().has_add_permission(request)
+
+
+@admin.register(AboutContent)
+class AboutContentAdmin(admin.ModelAdmin):
+    """
+    Admin configuration for AboutContent model.
+    """
+    list_display = ('__str__', 'is_active', 'created_at', 'updated_at')
+    list_filter = ('is_active',)
+    list_editable = ('is_active',)
+    list_per_page = 25
+    
+    fieldsets = (
+        ('Bio / Introduction', {
+            'fields': ('bio',),
+            'description': 'Main introduction text for the about page'
+        }),
+        ('Skills - Programming Languages', {
+            'fields': ('skills_languages',),
+            'description': 'Comma-separated list of programming languages (e.g., Python, Java, C++)'
+        }),
+        ('Skills - Frameworks', {
+            'fields': ('skills_frameworks',),
+            'description': 'Comma-separated list of frameworks (e.g., React, Django)'
+        }),
+        ('Skills - Tools & Platforms', {
+            'fields': ('skills_tools',),
+            'description': 'Comma-separated list of tools and platforms (e.g., MySQL, Git, AWS)'
+        }),
+        ('Skills - Soft Skills', {
+            'fields': ('skills_soft',),
+            'description': 'Comma-separated list of soft skills (e.g., Creative, Problem Solver)'
+        }),
+        ('Internship 1', {
+            'fields': ('internship_1_company', 'internship_1_position', 'internship_1_date', 'internship_1_description', 'internship_1_tech'),
+            'description': 'First internship entry'
+        }),
+        ('Internship 2', {
+            'fields': ('internship_2_company', 'internship_2_position', 'internship_2_date', 'internship_2_description', 'internship_2_tech'),
+            'description': 'Second internship entry'
+        }),
+        ('Certificates', {
+            'fields': ('certificates',),
+            'description': 'One certificate per line'
+        }),
+        ('Education 1 (Latest)', {
+            'fields': ('education_1_institution', 'education_1_degree', 'education_1_date', 'education_1_cgpa', 'education_1_location'),
+            'description': 'First education entry (usually latest/bachelor)'
+        }),
+        ('Education 2 (Previous)', {
+            'fields': ('education_2_institution', 'education_2_degree', 'education_2_date', 'education_2_cgpa', 'education_2_location'),
+            'description': 'Second education entry (usually diploma/school)'
+        }),
+        ('Status', {
+            'fields': ('is_active',)
+        }),
+    )
+    
+    def has_add_permission(self, request):
+        # Only allow one instance
+        if AboutContent.objects.exists():
             return False
         return super().has_add_permission(request)

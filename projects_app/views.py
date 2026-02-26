@@ -5,7 +5,7 @@ from django.views import View
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
-from .models import Project, Profile, HomeContent
+from .models import Project, Profile, HomeContent, AboutContent
 
 
 class HomeView(TemplateView):
@@ -33,6 +33,14 @@ class AboutView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['profile'] = Profile.objects.first()
         context['projects'] = Project.objects.all().order_by('-created_at')
+        
+        # Get active about content or create default one if none exists
+        try:
+            about_content = AboutContent.get_active_content()
+            context['about_content'] = about_content
+        except Exception as e:
+            print(f"Error loading about content: {e}")
+        
         return context
 
 
