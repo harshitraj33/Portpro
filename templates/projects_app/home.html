@@ -9,7 +9,6 @@
     
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center">
-            <!-- Profile Picture -->
             {% if home_content.profile_picture %}
             <div class="mb-6 flex justify-center relative">
                 <div class="greeting-bubble" id="greeting-bubble" style="position: absolute; top: -45px; background: #1a1a2e; border: 2px solid #00a8e8; border-radius: 8px; padding: 8px 16px; opacity: 0; transition: opacity 0.3s; z-index: 10;">
@@ -72,18 +71,6 @@
             <div class="flex items-center gap-2">
                 <span class="text-[#00a8e8]">✉</span>
                 <span class="text-white">harshitpriv.3@gmail.com</span>
-            </div>
-            {% endif %}
-            
-            {% if home_content.phone %}
-            <div class="flex items-center gap-2">
-                <span class="text-[#00a8e8]">☎</span>
-                <span class="text-white">{{ home_content.phone }}</span>
-            </div>
-            {% else %}
-            <div class="flex items-center gap-2">
-                <span class="text-[#00a8e8]">☎</span>
-                <span class="text-white">+91 7654958933</span>
             </div>
             {% endif %}
             
