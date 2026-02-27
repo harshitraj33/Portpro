@@ -1,5 +1,19 @@
 from django.contrib import admin
+from django import forms
 from .models import Profile, Project, WorkExperience, Skill, HomeContent, AboutContent
+
+
+class ProjectForm(forms.ModelForm):
+    """
+    Custom form for Project model with enhanced date input widget.
+    """
+    class Meta:
+        model = Project
+        fields = '__all__'
+        widgets = {
+            'created': forms.DateInput(attrs={'type': 'date', 'class': 'vDateField'}, format='%Y-%m-%d'),
+        }
+
 
 
 @admin.register(Profile)
@@ -19,7 +33,9 @@ class ProjectAdmin(admin.ModelAdmin):
     """
     Admin configuration for Project model with slug auto-generation and search/filtering.
     """
+    form = ProjectForm
     list_display = ('title', 'category', 'featured', 'order', 'created', 'created_at', 'updated_at')
+
     list_filter = ('featured', 'category', 'created_at')
     search_fields = ('title', 'description', 'technologies')
     prepopulated_fields = {'slug': ('title',)}

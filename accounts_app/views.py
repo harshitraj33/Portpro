@@ -93,12 +93,14 @@ class ProjectForm(forms.ModelForm):
         model = Project
         fields = ['title', 'slug', 'description', 'detailed_description', 'image', 
                   'github_link', 'live_link', 'technologies', 'category', 
-                  'featured', 'order']
+                  'featured', 'order', 'created']
         widgets = {
             'description': forms.Textarea(attrs={'rows': 3}),
             'detailed_description': forms.Textarea(attrs={'rows': 5}),
             'technologies': forms.TextInput(attrs={'placeholder': 'Python, Django, React'}),
+            'created': forms.DateInput(attrs={'type': 'date'}),
         }
+
 
     def clean_slug(self):
         slug = self.cleaned_data.get('slug')
