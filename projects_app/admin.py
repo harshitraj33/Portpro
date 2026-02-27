@@ -29,7 +29,7 @@ class ProjectAdmin(admin.ModelAdmin):
     
     fieldsets = (
         ('Basic Info', {
-            'fields': ('title', 'slug', 'description')
+            'fields': ('title', 'slug', 'description', 'created')
         }),
         ('Details', {
             'fields': ('detailed_description', 'image', 'technologies', 'category')
@@ -40,11 +40,8 @@ class ProjectAdmin(admin.ModelAdmin):
         ('Display', {
             'fields': ('featured', 'order')
         }),
-        ('Date', {
-            'fields': ('created',),
-            'description': 'Set the project creation date (day, month, year)'
-        }),
     )
+
 
 
 @admin.register(WorkExperience)
