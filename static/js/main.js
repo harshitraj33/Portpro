@@ -62,6 +62,9 @@ function startGreeting() {
   
   if (bubble && text) {
     bubble.style.opacity = '1';
+    // Show first greeting immediately instead of waiting for interval
+    text.textContent = greetings[greetingIndex];
+    greetingIndex = 1;
     greetingInterval = setInterval(function() {
       text.textContent = greetings[greetingIndex];
       greetingIndex = (greetingIndex + 1) % greetings.length;
