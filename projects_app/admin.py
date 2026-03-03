@@ -12,6 +12,8 @@ class ProjectForm(forms.ModelForm):
         fields = '__all__'
         widgets = {
             'created': forms.DateInput(attrs={'type': 'date', 'class': 'vDateField'}, format='%Y-%m-%d'),
+            'start_date': forms.DateInput(attrs={'type': 'date', 'class': 'vDateField'}, format='%Y-%m-%d'),
+            'end_date': forms.DateInput(attrs={'type': 'date', 'class': 'vDateField'}, format='%Y-%m-%d'),
         }
 
 
@@ -46,6 +48,9 @@ class ProjectAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Basic Info', {
             'fields': ('title', 'slug', 'description', 'created')
+        }),
+        ('Project Duration', {
+            'fields': ('start_date', 'end_date')
         }),
         ('Details', {
             'fields': ('detailed_description', 'image', 'technologies', 'category')
