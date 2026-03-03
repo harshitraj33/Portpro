@@ -53,85 +53,84 @@ const greetings = [
   '안녕하세요'
 ];
 
-let greetingIndex = 0;
-let greetingInterval = null;
-let isGreetingActive = false;
+let greetingIntervals = {}; // Store intervals per profile wrapper
+let activeGreeting = null; // Track currently active greeting wrapper
 
-function startGreeting() {
-  const bubble = document.getElementById('greeting-bubble');
-  const text = document.getElementById('greeting-text');
+function startGreeting(event) {
+  // Find the profile wrapper (parent of the hovered element)
+  const target = event.target.closest('.profile-wrapper');
+  if (!target) return;
   
-  if (bubble && text && !isGreetingActive) {
-    isGreetingActive = true;
-    // Clear any existing interval to prevent multiple intervals
-    if (greetingInterval) {
-      clearInterval(greetingInterval);
-    }
-    // Show bubble first
+  const wrapperId = target.dataset.wrapperId || 'default';
+  
+  // If this wrapper already has an active greeting, don't restart
+  if (activeGreeting === wrapperId) return;
+  
+  // Stop any existing greeting first
+  stopGreeting(event);
+  
+  const bubble = target.querySelector('.greeting-bubble');
+  const text = target.querySelector('.greeting-text');
+  
+  if (bubble && text) {
+    activeGreeting = wrapperId;
+    
+    // Show bubble
     bubble.style.opacity = '1';
     bubble.style.visibility = 'visible';
-    // Immediately show first greeting and start cycling
-    greetingIndex = 0;
-    text.textContent = greetings[greetingIndex];
-    greetingIndex = 1;
-    greetingInterval = setInterval(function() {
-      text.textContent = greetings[greetingIndex];
-      greetingIndex = (greetingIndex + 1) % greetings.length;
+    
+    // Start cycling greetings
+    let index = 0;
+    text.textContent = greetings[index];
+    index = 1;
+    
+    greetingIntervals[wrapperId] = setInterval(function() {
+      text.textContent = greetings[index];
+      index = (index + 1) % greetings.length;
     }, 2000);
   }
 }
 
-function stopGreeting() {
-  const bubble = document.getElementById('greeting-bubble');
-  const text = document.getElementById('greeting-text');
+function stopGreeting(event) {
+  if (!activeGreeting) return;
   
-  isGreetingActive = false;
-  
-  if (greetingInterval) {
-    clearInterval(greetingInterval);
-    greetingInterval = null;
+  // Find the profile wrapper if event provided
+  let target = null;
+  if (event) {
+    target = event.target.closest('.profile-wrapper');
   }
   
-  if (bubble) {
-    bubble.style.opacity = '0';
-    bubble.style.visibility = 'hidden';
+  // If no target from event, find the active one
+  if (!target) {
+    target = document.querySelector(`.profile-wrapper[data-wrapper-id="${activeGreeting}"]`);
   }
   
-  greetingIndex = 0;
-  if (text) {
-    text.textContent = '';
+  if (target) {
+    const wrapperId = target.dataset.wrapperId || 'default';
+    const bubble = target.querySelector('.greeting-bubble');
+    const text = target.querySelector('.greeting-text');
+    
+    // Clear interval
+    if (greetingIntervals[wrapperId]) {
+      clearInterval(greetingIntervals[wrapperId]);
+      delete greetingIntervals[wrapperId];
+    }
+    
+    // Hide bubble
+    if (bubble) {
+      bubble.style.opacity = '0';
+      bubble.style.visibility = 'hidden';
+    }
+    
+    // Reset text
+    if (text) {
+      text.textContent = '';
+    }
   }
+  
+  activeGreeting = null;
 }
 
-// Add event listeners for both hover and click (for better laptop support)
-document.addEventListener('DOMContentLoaded', function() {
-  const profileContainer = document.querySelector('.rounded-full.overflow-hidden');
-  
-  if (profileContainer) {
-    // Mouse events for desktop
-    profileContainer.addEventListener('mouseenter', startGreeting);
-    profileContainer.addEventListener('mouseleave', stopGreeting);
-    
-    // Touch events for mobile
-    profileContainer.addEventListener('touchstart', function(e) {
-      e.preventDefault();
-      if (isGreetingActive) {
-        stopGreeting();
-      } else {
-        startGreeting();
-      }
-    });
-    
-    // Click fallback for laptops that might have issues with hover
-    profileContainer.addEventListener('click', function() {
-      if (isGreetingActive) {
-        stopGreeting();
-      } else {
-        startGreeting();
-      }
-    });
-  }
-});
-
+// Expose functions globally for inline event handlers
 window.startGreeting = startGreeting;
 window.stopGreeting = stopGreeting;
