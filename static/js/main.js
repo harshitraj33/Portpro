@@ -43,6 +43,7 @@ if (themeToggleButton) {
 }
 
 // Greeting Functions
+// Greeting Functions
 const greetings = [
   'नमस्ते',
   'Hola!',
@@ -53,84 +54,43 @@ const greetings = [
   '안녕하세요'
 ];
 
-let greetingIntervals = {}; // Store intervals per profile wrapper
-let activeGreeting = null; // Track currently active greeting wrapper
+let greetingInterval = null;
 
 function startGreeting(event) {
-  // Find the profile wrapper (parent of the hovered element)
-  const target = event.target.closest('.profile-wrapper');
-  if (!target) return;
-  
-  const wrapperId = target.dataset.wrapperId || 'default';
-  
-  // If this wrapper already has an active greeting, don't restart
-  if (activeGreeting === wrapperId) return;
-  
-  // Stop any existing greeting first
-  stopGreeting(event);
-  
-  const bubble = target.querySelector('.greeting-bubble');
-  const text = target.querySelector('.greeting-text');
-  
-  if (bubble && text) {
-    activeGreeting = wrapperId;
-    
-    // Show bubble
-    bubble.style.opacity = '1';
-    bubble.style.visibility = 'visible';
-    
-    // Start cycling greetings
-    let index = 0;
+  const wrapper = event.target.closest('.profile-wrapper');
+  if (!wrapper) return;
+
+  const bubble = wrapper.querySelector('.greeting-bubble');
+  const text = wrapper.querySelector('.greeting-text');
+
+  if (greetingInterval) return;
+
+  bubble.style.opacity = '1';
+  bubble.style.visibility = 'visible';
+
+  let index = 0;
+  text.textContent = greetings[index];
+
+  greetingInterval = setInterval(() => {
+    index = (index + 1) % greetings.length;
     text.textContent = greetings[index];
-    index = 1;
-    
-    greetingIntervals[wrapperId] = setInterval(function() {
-      text.textContent = greetings[index];
-      index = (index + 1) % greetings.length;
-    }, 2000);
-  }
+  }, 2000);
 }
 
 function stopGreeting(event) {
-  if (!activeGreeting) return;
-  
-  // Find the profile wrapper if event provided
-  let target = null;
-  if (event) {
-    target = event.target.closest('.profile-wrapper');
-  }
-  
-  // If no target from event, find the active one
-  if (!target) {
-    target = document.querySelector(`.profile-wrapper[data-wrapper-id="${activeGreeting}"]`);
-  }
-  
-  if (target) {
-    const wrapperId = target.dataset.wrapperId || 'default';
-    const bubble = target.querySelector('.greeting-bubble');
-    const text = target.querySelector('.greeting-text');
-    
-    // Clear interval
-    if (greetingIntervals[wrapperId]) {
-      clearInterval(greetingIntervals[wrapperId]);
-      delete greetingIntervals[wrapperId];
-    }
-    
-    // Hide bubble
-    if (bubble) {
-      bubble.style.opacity = '0';
-      bubble.style.visibility = 'hidden';
-    }
-    
-    // Reset text
-    if (text) {
-      text.textContent = '';
-    }
-  }
-  
-  activeGreeting = null;
+  const wrapper = event.target.closest('.profile-wrapper');
+  if (!wrapper) return;
+
+  const bubble = wrapper.querySelector('.greeting-bubble');
+  const text = wrapper.querySelector('.greeting-text');
+
+  clearInterval(greetingInterval);
+  greetingInterval = null;
+
+  bubble.style.opacity = '0';
+  bubble.style.visibility = 'hidden';
+  text.textContent = '';
 }
 
-// Expose functions globally for inline event handlers
 window.startGreeting = startGreeting;
 window.stopGreeting = stopGreeting;
