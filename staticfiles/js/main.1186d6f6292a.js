@@ -44,6 +44,7 @@ if (themeToggleButton) {
 
 // Greeting Functions
 const greetings = [
+  'Hello!',
   'नमस्ते',
   'Hola!',
   'Bonjour!',
@@ -61,16 +62,7 @@ function startGreeting() {
   const text = document.getElementById('greeting-text');
   
   if (bubble && text) {
-    // Clear any existing interval to prevent multiple intervals
-    if (greetingInterval) {
-      clearInterval(greetingInterval);
-    }
-    // Show bubble first
     bubble.style.opacity = '1';
-    // Immediately show first greeting and start cycling
-    greetingIndex = 0;
-    text.textContent = greetings[greetingIndex];
-    greetingIndex = 1;
     greetingInterval = setInterval(function() {
       text.textContent = greetings[greetingIndex];
       greetingIndex = (greetingIndex + 1) % greetings.length;
@@ -93,7 +85,7 @@ function stopGreeting() {
   
   greetingIndex = 0;
   if (text) {
-    text.textContent = 'Hello!Hello!';
+    text.textContent = 'Hello!';
   }
 }
 

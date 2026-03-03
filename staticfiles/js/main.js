@@ -93,7 +93,7 @@ function stopGreeting() {
   
   greetingIndex = 0;
   if (text) {
-    text.textContent = 'Hello!Hello!';
+    text.textContent = 'Hello!';
   }
 }
 
