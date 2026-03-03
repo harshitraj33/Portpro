@@ -61,8 +61,14 @@ function startGreeting() {
   const text = document.getElementById('greeting-text');
   
   if (bubble && text) {
+    // Clear any existing interval to prevent multiple intervals
+    if (greetingInterval) {
+      clearInterval(greetingInterval);
+    }
+    // Show bubble first
     bubble.style.opacity = '1';
-    // Show first greeting immediately instead of waiting for interval
+    // Immediately show first greeting and start cycling
+    greetingIndex = 0;
     text.textContent = greetings[greetingIndex];
     greetingIndex = 1;
     greetingInterval = setInterval(function() {
