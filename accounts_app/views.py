@@ -91,14 +91,18 @@ class AdminLogoutView(AdminRequiredMixin, View):
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
+        # include date fields so admin can set duration like experience form does
         fields = ['title', 'slug', 'description', 'detailed_description', 'image', 
                   'github_link', 'live_link', 'technologies', 'category', 
+                  'start_date', 'end_date',
                   'featured', 'order', 'created']
         widgets = {
             'description': forms.Textarea(attrs={'rows': 3}),
             'detailed_description': forms.Textarea(attrs={'rows': 5}),
             'technologies': forms.TextInput(attrs={'placeholder': 'Python, Django, React'}),
             'created': forms.DateInput(attrs={'type': 'date'}),
+            'start_date': forms.DateInput(attrs={'type': 'date'}),
+            'end_date': forms.DateInput(attrs={'type': 'date'}),
         }
 
 
