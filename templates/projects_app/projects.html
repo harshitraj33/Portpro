@@ -47,6 +47,11 @@
                     {% endif %}
                     
                     <h3 class="text-xl font-semibold mt-3 mb-2 text-white">{{ project.title }}</h3>
+                    {% if project.start_date %}
+                    <p class="text-gray-400 mb-1 text-xs">
+                        {{ project.start_date|date:"M Y" }} - {% if project.end_date %}{{ project.end_date|date:"M Y" }}{% else %}Ongoing{% endif %}
+                    </p>
+                    {% endif %}
                     <p class="text-gray-400 mb-4 text-sm">{{ project.description|truncatechars:100 }}</p>
                     
                     <div class="flex flex-wrap gap-2 mb-4">

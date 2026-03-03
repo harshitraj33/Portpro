@@ -66,6 +66,9 @@
                     <ul class="space-y-2 text-sm">
                         <li class="text-gray-400"><span class="text-[#00a8e8]">CREATED:</span> <span class="text-gray-300">{% if project.created %}{{ project.created|date:"M d, Y" }}{% else %}{{ project.created_at|date:"M d, Y" }}{% endif %}</span></li>
                         {% if project.category %}<li class="text-gray-400"><span class="text-[#00a8e8]">CATEGORY:</span> <span class="text-gray-300">{{ project.category }}</span></li>{% endif %}
+                        {% if project.start_date %}
+                        <li class="text-gray-400"><span class="text-[#00a8e8]">DURATION:</span> <span class="text-gray-300">{{ project.start_date|date:"M Y" }} - {% if project.end_date %}{{ project.end_date|date:"M Y" }}{% else %}Ongoing{% endif %}</span></li>
+                        {% endif %}
                         {% if project.featured %}<li class="text-gray-400"><span class="text-[#00a8e8]">FEATURED:</span> <span class="text-[#00a8e8]">YES</span></li>{% endif %}
                     </ul>
                 </div>
