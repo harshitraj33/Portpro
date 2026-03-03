@@ -90,11 +90,6 @@ function stopGreeting() {
   if (bubble) {
     bubble.style.opacity = '0';
   }
-  
-  greetingIndex = 0;
-  if (text) {
-    text.textContent = 'Hello!';
-  }
 }
 
 window.startGreeting = startGreeting;
