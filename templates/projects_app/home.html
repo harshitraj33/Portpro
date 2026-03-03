@@ -11,22 +11,20 @@
         <div class="text-center">
             {% if home_content.profile_picture %}
             <div class="mb-6 flex justify-center relative">
-                <div class="greeting-bubble" id="greeting-bubble" style="position: absolute; top: -45px; background: #1a1a2e; border: 2px solid #00a8e8; border-radius: 8px; padding: 8px 16px; opacity: 0; transition: opacity 0.3s; z-index: 10;">
+                <div class="greeting-bubble" id="greeting-bubble" style="position: absolute; top: -45px; background: #1a1a2e; border: 2px solid #00a8e8; border-radius: 8px; padding: 8px 16px; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; z-index: 10;">
                     <span id="greeting-text" style="color: #00a8e8; font-family: monospace; font-weight: bold;"></span>
                 </div>
                 <div class="w-40 h-40 md:w-48 md:h-48 rounded-full overflow-hidden border-4 border-[#00a8e8] shadow-lg shadow-[#00a8e8]/30" onmouseenter="startGreeting()" onmouseleave="stopGreeting()">
                     <img src="{{ home_content.profile_picture.url }}" alt="Profile Picture" class="w-full h-full object-cover">
                 </div>
-            </div>
             {% elif home_content.profile_picture_url %}
             <div class="mb-6 flex justify-center relative">
-                <div class="greeting-bubble" id="greeting-bubble" style="position: absolute; top: -45px; background: #1a1a2e; border: 2px solid #00a8e8; border-radius: 8px; padding: 8px 16px; opacity: 0; transition: opacity 0.3s; z-index: 10;">
+                <div class="greeting-bubble" id="greeting-bubble" style="position: absolute; top: -45px; background: #1a1a2e; border: 2px solid #00a8e8; border-radius: 8px; padding: 8px 16px; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; z-index: 10;">
                     <span id="greeting-text" style="color: #00a8e8; font-family: monospace; font-weight: bold;"></span>
                 </div>
                 <div class="w-40 h-40 md:w-48 md:h-48 rounded-full overflow-hidden border-4 border-[#00a8e8] shadow-lg shadow-[#00a8e8]/30" onmouseenter="startGreeting()" onmouseleave="stopGreeting()">
                     <img src="{{ home_content.profile_picture_url }}" alt="Profile Picture" class="w-full h-full object-cover">
                 </div>
-            </div>
             {% endif %}
             
             <div class="mb-4 text-[#00a8e8] text-sm">
@@ -49,7 +47,6 @@
                 > ABOUT
             </a>
         </div>
-    </div>
     
     <div class="absolute top-4 left-4 text-[#00a8e8] text-xs opacity-50">
         +----------------------------------------+
@@ -98,7 +95,6 @@
             </div>
             {% endif %}
         </div>
-    </div>
 </section>
 
 {% if skills or work_experiences %}
@@ -118,7 +114,6 @@
                 </div>
                 {% endfor %}
             </div>
-        </div>
         {% endif %}
         
         {% if work_experiences %}
@@ -143,14 +138,12 @@
                             {{ experience.start_date|date:"M Y" }} - {{ experience.end_date|date:"M Y" }}
                             {% endif %}
                         </div>
-                    </div>
                     {% if experience.description %}
                     <p class="text-gray-400 text-sm mt-3">{{ experience.description }}</p>
                     {% endif %}
                 </div>
                 {% endfor %}
             </div>
-        </div>
         {% endif %}
     </div>
 </section>
@@ -171,7 +164,6 @@
                         <div class="relative">
                             <img src="{{ project.image_url }}" alt="{{ project.title }}" class="w-full h-48 object-cover grayscale hover:grayscale-0 transition-all duration-300">
                             <div class="absolute inset-0 bg-[#0a0a0a]/50"></div>
-                        </div>
                     {% else %}
                         <div class="w-full h-48 bg-[#0d1117] flex items-center justify-center border-b border-[#333]">
                             <span class="text-gray-600">[NO_IMAGE]</span>
@@ -186,7 +178,6 @@
                             > VIEW_DETAILS <span class="cursor-blink text-[#ff0000]">_</span>
                         </a>
                     </div>
-                </div>
             {% endfor %}
             
             {% if not featured_projects %}
@@ -195,7 +186,6 @@
                 </div>
             {% endif %}
         </div>
-    </div>
 </section>
 
 <section class="bg-[#0d1117] py-16 border-t border-[#333]">
@@ -210,7 +200,6 @@
                 > INITIATE_CONTACT
             </a>
         </div>
-    </div>
 </section>
 
 <section class="py-4 bg-[#0a0a0a] border-t border-[#333]">

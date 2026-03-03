@@ -55,18 +55,21 @@ const greetings = [
 
 let greetingIndex = 0;
 let greetingInterval = null;
+let isGreetingActive = false;
 
 function startGreeting() {
   const bubble = document.getElementById('greeting-bubble');
   const text = document.getElementById('greeting-text');
   
-  if (bubble && text) {
+  if (bubble && text && !isGreetingActive) {
+    isGreetingActive = true;
     // Clear any existing interval to prevent multiple intervals
     if (greetingInterval) {
       clearInterval(greetingInterval);
     }
     // Show bubble first
     bubble.style.opacity = '1';
+    bubble.style.visibility = 'visible';
     // Immediately show first greeting and start cycling
     greetingIndex = 0;
     text.textContent = greetings[greetingIndex];
@@ -82,6 +85,8 @@ function stopGreeting() {
   const bubble = document.getElementById('greeting-bubble');
   const text = document.getElementById('greeting-text');
   
+  isGreetingActive = false;
+  
   if (greetingInterval) {
     clearInterval(greetingInterval);
     greetingInterval = null;
@@ -89,8 +94,44 @@ function stopGreeting() {
   
   if (bubble) {
     bubble.style.opacity = '0';
+    bubble.style.visibility = 'hidden';
+  }
+  
+  greetingIndex = 0;
+  if (text) {
+    text.textContent = '';
   }
 }
+
+// Add event listeners for both hover and click (for better laptop support)
+document.addEventListener('DOMContentLoaded', function() {
+  const profileContainer = document.querySelector('.rounded-full.overflow-hidden');
+  
+  if (profileContainer) {
+    // Mouse events for desktop
+    profileContainer.addEventListener('mouseenter', startGreeting);
+    profileContainer.addEventListener('mouseleave', stopGreeting);
+    
+    // Touch events for mobile
+    profileContainer.addEventListener('touchstart', function(e) {
+      e.preventDefault();
+      if (isGreetingActive) {
+        stopGreeting();
+      } else {
+        startGreeting();
+      }
+    });
+    
+    // Click fallback for laptops that might have issues with hover
+    profileContainer.addEventListener('click', function() {
+      if (isGreetingActive) {
+        stopGreeting();
+      } else {
+        startGreeting();
+      }
+    });
+  }
+});
 
 window.startGreeting = startGreeting;
 window.stopGreeting = stopGreeting;
