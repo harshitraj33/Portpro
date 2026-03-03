@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django import forms
-from .models import Profile, Project, WorkExperience, Skill, HomeContent, AboutContent
+from .models import Profile, Project, WorkExperience, Skill, HomeContent, AboutContent, VisitCount
 
 
 class ProjectForm(forms.ModelForm):
@@ -207,3 +207,22 @@ class AboutContentAdmin(admin.ModelAdmin):
         if AboutContent.objects.exists():
             return False
         return super().has_add_permission(request)
+
+
+@admin.register(VisitCount)
+class VisitCountAdmin(admin.ModelAdmin):
+    """
+    Admin configuration for VisitCount model.
+    """
+    list_display = ('count', 'last_updated')
+    readonly_fields = ('last_updated',)
+    
+    def has_add_permission(self, request):
+        # Only allow one instance
+        if VisitCount.objects.exists():
+            return False
+        return super().has_add_permission(request)
+    
+    def has_delete_permission(self, request, obj=None):
+        # Prevent deletion of the visit count
+        return False

@@ -215,7 +215,7 @@
 
 <section class="py-4 bg-[#0a0a0a] border-t border-[#333]">
     <div class="max-w-7xl mx-auto px-4 text-center text-xs text-gray-500">
-        <span class="text-[#00a8e8]">>></span> END_OF_STREAM <span class="text-white">|</span> <span class="text-white">VISITOR_COUNT:</span> 0001 <span class="cursor-blink text-[#ff0000]">_</span>
+        <span class="text-[#00a8e8]">>></span> END_OF_STREAM <span class="text-white">|</span> <span class="text-white">VISITOR_COUNT:</span> {{ visit_count|stringformat:"04d" }} <span class="cursor-blink text-[#ff0000]">_</span>
     </div>
 </section>
 {% endblock %}

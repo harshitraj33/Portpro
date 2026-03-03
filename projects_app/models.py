@@ -252,6 +252,36 @@ class HomeContent(models.Model):
         return content
 
 
+class VisitCount(models.Model):
+    """
+    Visit counter model to track website visits.
+    Only one instance should exist.
+    """
+    count = models.IntegerField(default=0)
+    last_updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'Visit Count'
+        verbose_name_plural = 'Visit Counts'
+
+    def __str__(self):
+        return f"Visit Count: {self.count}"
+
+    @classmethod
+    def get_visit_count(cls):
+        """Get or create the visit count instance"""
+        visit_count, created = cls.objects.get_or_create(pk=1)
+        return visit_count
+
+    @classmethod
+    def increment_visit(cls):
+        """Increment the visit count and return the new count"""
+        visit_count = cls.get_visit_count()
+        visit_count.count += 1
+        visit_count.save()
+        return visit_count.count
+
+
 class AboutContent(models.Model):
     """
     About page content model for storing about section content.

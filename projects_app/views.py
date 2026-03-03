@@ -5,7 +5,7 @@ from django.views import View
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
-from .models import Project, Profile, HomeContent, AboutContent, Skill, WorkExperience
+from .models import Project, Profile, HomeContent, AboutContent, Skill, WorkExperience, VisitCount
 
 
 class HomeView(TemplateView):
@@ -34,6 +34,14 @@ class HomeView(TemplateView):
             context['work_experiences'] = WorkExperience.objects.filter(is_visible=True).order_by('-is_current', '-start_date', 'order')
         except Exception as e:
             print(f"Error loading work experience: {e}")
+        
+        # Increment and get visit count
+        try:
+            visit_count = VisitCount.increment_visit()
+            context['visit_count'] = visit_count
+        except Exception as e:
+            print(f"Error loading visit count: {e}")
+            context['visit_count'] = 0
         
         return context
 
