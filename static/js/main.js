@@ -43,7 +43,6 @@ if (themeToggleButton) {
 }
 
 // Greeting Functions
-// Greeting Functions
 const greetings = [
   'नमस्ते',
   'Hola!',
@@ -54,43 +53,82 @@ const greetings = [
   '안녕하세요'
 ];
 
-let greetingInterval = null;
-
-function startGreeting(event) {
-  const wrapper = event.target.closest('.profile-wrapper');
-  if (!wrapper) return;
-
+// We'll track the interval per wrapper so multiple components won't interfere.
+function createGreetingController(wrapper) {
   const bubble = wrapper.querySelector('.greeting-bubble');
   const text = wrapper.querySelector('.greeting-text');
+  let idx = 0;
+  let interval = null;
 
-  if (greetingInterval) return;
+  function start() {
+    if (interval) return;
+    bubble.style.opacity = '1';
+    bubble.style.visibility = 'visible';
+    idx = 0;
+    text.textContent = greetings[idx];
+    interval = setInterval(() => {
+      idx = (idx + 1) % greetings.length;
+      text.textContent = greetings[idx];
+    }, 2000);
+  }
 
-  bubble.style.opacity = '1';
-  bubble.style.visibility = 'visible';
+  function stop() {
+    if (interval) {
+      clearInterval(interval);
+      interval = null;
+    }
+    bubble.style.opacity = '0';
+    bubble.style.visibility = 'hidden';
+    text.textContent = '';
+  }
 
-  let index = 0;
-  text.textContent = greetings[index];
-
-  greetingInterval = setInterval(() => {
-    index = (index + 1) % greetings.length;
-    text.textContent = greetings[index];
-  }, 2000);
+  return { start, stop };
 }
 
-function stopGreeting(event) {
+// attach listeners on DOM ready so we don't rely on inline attributes
+window.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.profile-wrapper').forEach(wrapper => {
+    const controller = createGreetingController(wrapper);
+
+    function enterHandler() {
+      controller.start();
+    }
+    function leaveHandler() {
+      controller.stop();
+    }
+
+    wrapper.addEventListener('mouseenter', enterHandler);
+    wrapper.addEventListener('mouseleave', leaveHandler);
+
+    // touch/click alternator for mobile/laptop
+    wrapper.addEventListener('touchstart', e => {
+      e.preventDefault();
+      if (controller.interval) {
+        controller.stop();
+      } else {
+        controller.start();
+      }
+    });
+    wrapper.addEventListener('click', () => {
+      if (controller.interval) {
+        controller.stop();
+      } else {
+        controller.start();
+      }
+    });
+  });
+});
+
+// keep globals for backwards compatibility (inline handlers still work)
+window.startGreeting = function(event) {
   const wrapper = event.target.closest('.profile-wrapper');
   if (!wrapper) return;
-
-  const bubble = wrapper.querySelector('.greeting-bubble');
-  const text = wrapper.querySelector('.greeting-text');
-
-  clearInterval(greetingInterval);
-  greetingInterval = null;
-
-  bubble.style.opacity = '0';
-  bubble.style.visibility = 'hidden';
-  text.textContent = '';
-}
-
-window.startGreeting = startGreeting;
-window.stopGreeting = stopGreeting;
+  const { start } = createGreetingController(wrapper);
+  start();
+};
+window.stopGreeting = function(event) {
+  const wrapper = event.target.closest('.profile-wrapper');
+  if (!wrapper) return;
+  const { stop } = createGreetingController(wrapper);
+  stop();
+};

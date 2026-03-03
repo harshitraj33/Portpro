@@ -15,7 +15,7 @@
                     <span class="greeting-text" style="color: #00a8e8; font-family: monospace; font-weight: bold;"></span>
                 </div>
                 <div class="w-40 h-40 md:w-48 md:h-48 rounded-full overflow-hidden border-4 border-[#00a8e8] shadow-lg shadow-[#00a8e8]/30">
-                    <img src="{{ home_content.profile_picture.url }}" alt="Profile Picture" class="w-full h-full object-cover" onmouseenter="startGreeting(event)" onmouseleave="stopGreeting(event)">
+                    <img src="{{ home_content.profile_picture.url }}" alt="Profile Picture" class="w-full h-full object-cover">
                 </div>
             </div>
             {% elif home_content.profile_picture_url %}
@@ -24,7 +24,7 @@
                     <span class="greeting-text" style="color: #00a8e8; font-family: monospace; font-weight: bold;"></span>
                 </div>
                 <div class="w-40 h-40 md:w-48 md:h-48 rounded-full overflow-hidden border-4 border-[#00a8e8] shadow-lg shadow-[#00a8e8]/30">
-                    <img src="{{ home_content.profile_picture_url }}" alt="Profile Picture" class="w-full h-full object-cover" onmouseenter="startGreeting(event)" onmouseleave="stopGreeting(event)">
+                    <img src="{{ home_content.profile_picture_url }}" alt="Profile Picture" class="w-full h-full object-cover">
                 </div>
             </div>
             {% endif %}

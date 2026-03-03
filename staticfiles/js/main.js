@@ -53,85 +53,63 @@ const greetings = [
   '안녕하세요'
 ];
 
-let greetingIndex = 0;
-let greetingInterval = null;
-let isGreetingActive = false;
+function createGreetingController(wrapper) {
+  const bubble = wrapper.querySelector('.greeting-bubble');
+  const text = wrapper.querySelector('.greeting-text');
+  let idx = 0;
+  let interval = null;
 
-function startGreeting() {
-  const bubble = document.getElementById('greeting-bubble');
-  const text = document.getElementById('greeting-text');
-  
-  if (bubble && text && !isGreetingActive) {
-    isGreetingActive = true;
-    // Clear any existing interval to prevent multiple intervals
-    if (greetingInterval) {
-      clearInterval(greetingInterval);
-    }
-    // Show bubble first
+  function start() {
+    if (interval) return;
     bubble.style.opacity = '1';
     bubble.style.visibility = 'visible';
-    // Immediately show first greeting and start cycling
-    greetingIndex = 0;
-    text.textContent = greetings[greetingIndex];
-    greetingIndex = 1;
-    greetingInterval = setInterval(function() {
-      text.textContent = greetings[greetingIndex];
-      greetingIndex = (greetingIndex + 1) % greetings.length;
+    idx = 0;
+    text.textContent = greetings[idx];
+    interval = setInterval(() => {
+      idx = (idx + 1) % greetings.length;
+      text.textContent = greetings[idx];
     }, 2000);
   }
-}
 
-function stopGreeting() {
-  const bubble = document.getElementById('greeting-bubble');
-  const text = document.getElementById('greeting-text');
-  
-  isGreetingActive = false;
-  
-  if (greetingInterval) {
-    clearInterval(greetingInterval);
-    greetingInterval = null;
-  }
-  
-  if (bubble) {
+  function stop() {
+    if (interval) {
+      clearInterval(interval);
+      interval = null;
+    }
     bubble.style.opacity = '0';
     bubble.style.visibility = 'hidden';
-  }
-  
-  greetingIndex = 0;
-  if (text) {
     text.textContent = '';
   }
+
+  return { start, stop, get interval() { return interval; } };
 }
 
-// Add event listeners for both hover and click (for better laptop support)
 document.addEventListener('DOMContentLoaded', function() {
-  const profileContainer = document.querySelector('.rounded-full.overflow-hidden');
-  
-  if (profileContainer) {
-    // Mouse events for desktop
-    profileContainer.addEventListener('mouseenter', startGreeting);
-    profileContainer.addEventListener('mouseleave', stopGreeting);
-    
-    // Touch events for mobile
-    profileContainer.addEventListener('touchstart', function(e) {
+  document.querySelectorAll('.profile-wrapper').forEach(wrapper => {
+    const controller = createGreetingController(wrapper);
+
+    wrapper.addEventListener('mouseenter', controller.start);
+    wrapper.addEventListener('mouseleave', controller.stop);
+
+    wrapper.addEventListener('touchstart', e => {
       e.preventDefault();
-      if (isGreetingActive) {
-        stopGreeting();
-      } else {
-        startGreeting();
-      }
+      controller.interval ? controller.stop() : controller.start();
     });
-    
-    // Click fallback for laptops that might have issues with hover
-    profileContainer.addEventListener('click', function() {
-      if (isGreetingActive) {
-        stopGreeting();
-      } else {
-        startGreeting();
-      }
+
+    wrapper.addEventListener('click', () => {
+      controller.interval ? controller.stop() : controller.start();
     });
-  }
+  });
 });
 
-window.startGreeting = startGreeting;
-window.stopGreeting = stopGreeting;
+// keep globals for inline attributes
+window.startGreeting = function(e) {
+  const wrapper = e.target.closest('.profile-wrapper');
+  if (!wrapper) return;
+  createGreetingController(wrapper).start();
+};
+window.stopGreeting = function(e) {
+  const wrapper = e.target.closest('.profile-wrapper');
+  if (!wrapper) return;
+  createGreetingController(wrapper).stop();
+};
