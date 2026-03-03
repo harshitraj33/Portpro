@@ -126,7 +126,7 @@
                                 </td>
                                 <td class="py-3 px-4 text-center">
                                     <div class="flex items-center justify-center gap-2">
-                                        <button onclick="editProject({{ project.pk }}, '{{ project.title|escapejs }}', '{{ project.slug|escapejs }}', '{{ project.description|escapejs|truncatechars:100 }}', '{{ project.category|escapejs }}', '{{ project.technologies|escapejs }}', {{ project.featured|yesno:"true,false" }}, {{ project.order }}, '{{ project.created|date:"Y-m-d" }}')" 
+                                        <button onclick="editProject({{ project.pk }}, '{{ project.title|escapejs }}', '{{ project.slug|escapejs }}', '{{ project.description|escapejs|truncatechars:100 }}', '{{ project.category|escapejs }}', '{{ project.technologies|escapejs }}', {{ project.featured|yesno:"true,false" }}, {{ project.order }}, '{{ project.created|date:"Y-m-d" }}', '{{ project.start_date|date:"Y-m-d" }}', '{{ project.end_date|date:"Y-m-d" }}')" 
                                                 class="p-2 text-blue-600 hover:bg-blue-50 rounded transition-colors" title="Edit">
 
                                             <i class="fas fa-edit"></i>
@@ -433,6 +433,15 @@
                     <input type="date" id="project-created" name="created" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
                 </div>
                 <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
+                    <input type="date" id="project-start_date" name="start_date" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">End Date</label>
+                    <input type="date" id="project-end_date" name="end_date" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <p class="mt-1 text-xs text-gray-500">Leave empty if project is ongoing</p>
+                </div>
+                <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">GitHub Link</label>
 
                     <input type="url" id="project-github_link" name="github_link" placeholder="https://github.com/..." class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
@@ -619,7 +628,7 @@
         }
     }
 
-    function editProject(pk, title, slug, description, category, technologies, featured, order, created) {
+    function editProject(pk, title, slug, description, category, technologies, featured, order, created, start_date, end_date) {
         document.getElementById('project-id').value = pk;
         document.getElementById('project-title').value = title;
         document.getElementById('project-slug').value = slug;
@@ -629,6 +638,8 @@
         document.getElementById('project-order').value = order || 0;
         document.getElementById('project-featured').checked = featured;
         document.getElementById('project-created').value = created || '';
+        document.getElementById('project-start_date').value = start_date || '';
+        document.getElementById('project-end_date').value = end_date || '';
         
         document.getElementById('project-modal-title').textContent = 'Edit Project';
         document.getElementById('project-form').action = '/admin-panel/projects/' + pk + '/edit/';
