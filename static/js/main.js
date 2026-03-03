@@ -62,10 +62,11 @@ function createGreetingController(wrapper) {
 
   function start() {
     if (interval) return;
-    bubble.style.opacity = '1';
-    bubble.style.visibility = 'visible';
+    // set first greeting before revealing bubble to avoid empty flash
     idx = 0;
     text.textContent = greetings[idx];
+    bubble.style.opacity = '1';
+    bubble.style.visibility = 'visible';
     interval = setInterval(() => {
       idx = (idx + 1) % greetings.length;
       text.textContent = greetings[idx];
@@ -82,7 +83,11 @@ function createGreetingController(wrapper) {
     text.textContent = '';
   }
 
-  return { start, stop };
+  return {
+    start,
+    stop,
+    isActive() { return interval !== null; }
+  };
 }
 
 // attach listeners on DOM ready so we don't rely on inline attributes
@@ -90,27 +95,21 @@ window.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.profile-wrapper').forEach(wrapper => {
     const controller = createGreetingController(wrapper);
 
-    function enterHandler() {
-      controller.start();
-    }
-    function leaveHandler() {
-      controller.stop();
-    }
+    wrapper.addEventListener('mouseenter', controller.start);
+    wrapper.addEventListener('mouseleave', controller.stop);
 
-    wrapper.addEventListener('mouseenter', enterHandler);
-    wrapper.addEventListener('mouseleave', leaveHandler);
-
-    // touch/click alternator for mobile/laptop
+    // touch/click alternator for mobile/laptop;
+    // use controller.isActive() to check running state
     wrapper.addEventListener('touchstart', e => {
       e.preventDefault();
-      if (controller.interval) {
+      if (controller.isActive()) {
         controller.stop();
       } else {
         controller.start();
       }
     });
     wrapper.addEventListener('click', () => {
-      if (controller.interval) {
+      if (controller.isActive()) {
         controller.stop();
       } else {
         controller.start();
