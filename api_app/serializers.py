@@ -29,7 +29,8 @@ class ProjectSerializer(serializers.ModelSerializer):
         model = Project
         fields = ['id', 'title', 'slug', 'description', 'detailed_description', 'image',
                   'github_link', 'live_link', 'technologies', 'technologies_list', 
-                  'category', 'featured', 'order', 'created', 'created_at', 'updated_at']
+                  'category', 'featured', 'order', 'start_date', 'end_date', 'created',
+                  'created_at', 'updated_at']
         read_only_fields = ['id', 'created_at', 'updated_at']
     
     def get_technologies_list(self, obj):

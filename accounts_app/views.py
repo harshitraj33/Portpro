@@ -93,11 +93,13 @@ class ProjectForm(forms.ModelForm):
         model = Project
         fields = ['title', 'slug', 'description', 'detailed_description', 'image', 
                   'github_link', 'live_link', 'technologies', 'category', 
-                  'featured', 'order', 'created']
+                  'featured', 'order', 'start_date', 'end_date', 'created']
         widgets = {
             'description': forms.Textarea(attrs={'rows': 3}),
             'detailed_description': forms.Textarea(attrs={'rows': 5}),
             'technologies': forms.TextInput(attrs={'placeholder': 'Python, Django, React'}),
+            'start_date': forms.DateInput(attrs={'type': 'date'}),
+            'end_date': forms.DateInput(attrs={'type': 'date'}),
             'created': forms.DateInput(attrs={'type': 'date'}),
         }
 

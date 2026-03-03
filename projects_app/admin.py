@@ -5,12 +5,14 @@ from .models import Profile, Project, WorkExperience, Skill, HomeContent, AboutC
 
 class ProjectForm(forms.ModelForm):
     """
-    Custom form for Project model with enhanced date input widget.
+    Custom form for Project model with enhanced date input widgets.
     """
     class Meta:
         model = Project
         fields = '__all__'
         widgets = {
+            'start_date': forms.DateInput(attrs={'type': 'date', 'class': 'vDateField'}, format='%Y-%m-%d'),
+            'end_date': forms.DateInput(attrs={'type': 'date', 'class': 'vDateField'}, format='%Y-%m-%d'),
             'created': forms.DateInput(attrs={'type': 'date', 'class': 'vDateField'}, format='%Y-%m-%d'),
         }
 

@@ -52,7 +52,11 @@ class Project(models.Model):
     category = models.CharField(max_length=100, blank=True, null=True)
     featured = models.BooleanField(default=False, help_text="Show in featured projects")
     order = models.IntegerField(default=0, help_text="Display order")
-    created = models.DateField(blank=True, null=True, help_text="Project creation date (day, month, year)")
+    # store the period of the project rather than a single date
+    start_date = models.DateField(blank=True, null=True, help_text="Project start date (day, month, year)")
+    end_date = models.DateField(blank=True, null=True, help_text="Project end date (day, month, year)")
+    # legacy field retained for existing data; can be removed once old rows are migrated
+    created = models.DateField(blank=True, null=True, help_text="Legacy project date; prefer using start/end dates")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
