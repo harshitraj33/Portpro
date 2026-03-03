@@ -20,7 +20,7 @@
                     <tr>
                         <th class="text-left py-3 px-4 font-medium text-gray-500">Title</th>
                         <th class="text-left py-3 px-4 font-medium text-gray-500">Category</th>
-                        <th class="text-left py-3 px-4 font-medium text-gray-500">Technologies</th>
+                        <th class="text-left py-3 px-4 font-medium text-gray-500">Duration</th>
                         <th class="text-center py-3 px-4 font-medium text-gray-500">Featured</th>
                         <th class="text-center py-3 px-4 font-medium text-gray-500">Order</th>
                         <th class="text-center py-3 px-4 font-medium text-gray-500">Actions</th>
@@ -47,7 +47,11 @@
                                 </span>
                             </td>
                             <td class="py-3 px-4 text-sm text-gray-600">
-                                {{ project.technologies|truncatechars:40 }}
+                                {% if project.start_date %}
+                                    {{ project.start_date|date:"M Y" }} - {% if project.end_date %}{{ project.end_date|date:"M Y" }}{% else %}Ongoing{% endif %}
+                                {% else %}
+                                    -
+                                {% endif %}
                             </td>
                             <td class="py-3 px-4 text-center">
                                 {% if project.featured %}
