@@ -60,6 +60,7 @@ class AdminRequiredMixin(LoginRequiredMixin):
 
 class AdminUnifiedDashboardView(AdminRequiredMixin, TemplateView):
     template_name = 'admin/admin_unified_dashboard.html'
+    MAX_MESSAGES = 20
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -70,6 +71,13 @@ class AdminUnifiedDashboardView(AdminRequiredMixin, TemplateView):
         context['visible_experiences'] = WorkExperience.objects.filter(is_visible=True).count()
         context['total_skills'] = Skill.objects.count()
         context['visible_skills'] = Skill.objects.filter(is_visible=True).count()
+        
+        # Auto-delete old messages beyond max limit (keep only latest 20)
+        total_messages = ContactMessage.objects.count()
+        if total_messages > self.MAX_MESSAGES:
+            keep_ids = list(ContactMessage.objects.order_by('-created_at').values_list('id', flat=True)[:self.MAX_MESSAGES])
+            ContactMessage.objects.exclude(id__in=keep_ids).delete()
+        
         context['total_messages'] = ContactMessage.objects.count()
         context['unread_messages'] = ContactMessage.objects.filter(is_read=False).count()
         
