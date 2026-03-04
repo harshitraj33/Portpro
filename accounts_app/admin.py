@@ -3,8 +3,9 @@ from django.contrib.admin import AdminSite
 from django.utils.html import format_html
 
 
-class PortfolioAdminSite(AdminSite):
-    """Custom Admin Site with theme styling"""
+# Extend Django's default admin site to add custom CSS
+class MyAdminSite(AdminSite):
+    """Custom Admin Site with theme styling added to default admin"""
     
     def each_context(self, request):
         context = super().each_context(request)
@@ -314,22 +315,5 @@ class PortfolioAdminSite(AdminSite):
         return context
 
 
-# Create custom admin site instance
-portfolio_admin_site = PortfolioAdminSite(name='portfolio_admin')
-
-# Import models to register
-from projects_app.models import Profile, Project, WorkExperience, Skill, HomeContent, AboutContent, VisitCount
-from contact_app.models import ContactMessage
-
-# Register models with the custom admin site
-from django.contrib import admin as django_admin
-
-# Register with custom admin site
-portfolio_admin_site.register(Profile)
-portfolio_admin_site.register(Project)
-portfolio_admin_site.register(WorkExperience)
-portfolio_admin_site.register(Skill)
-portfolio_admin_site.register(HomeContent)
-portfolio_admin_site.register(AboutContent)
-portfolio_admin_site.register(VisitCount)
-portfolio_admin_site.register(ContactMessage)
+# Replace Django's default admin site with our custom one
+admin.site = MyAdminSite(name='admin')
