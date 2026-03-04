@@ -1,0 +1,297 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+
+{% block extrahead %}
+{{ block.super }}
+<style>
+    .change-form-container {
+        padding: 1.5rem;
+    }
+    
+    #content-main {
+        display: flex;
+        gap: 1.5rem;
+    }
+    
+    .form-container {
+        flex: 1;
+    }
+    
+    #changelist-filter {
+        width: 250px;
+        flex-shrink: 0;
+    }
+    
+    .form-container form {
+        background: #0d1117;
+        border: 1px solid #333;
+        border-radius: 8px;
+    }
+    
+    .form-container .module {
+        background: transparent;
+        border: none;
+        box-shadow: none;
+    }
+    
+    .form-container .module h2 {
+        background: #0d1117;
+        color: #00a8e8;
+        padding: 1rem;
+        border-bottom: 1px solid #333;
+    }
+    
+    .form-container .module fieldset {
+        padding: 1rem;
+    }
+    
+    .form-container fieldset.module {
+        background: #0d1117;
+    }
+    
+    .form-row {
+        padding: 1rem;
+        border-bottom: 1px solid #333;
+    }
+    
+    .form-row:last-child {
+        border-bottom: none;
+    }
+    
+    .form-container label {
+        display: block;
+        color: #00a8e8;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 0.5rem;
+        font-weight: 700;
+    }
+    
+    .form-container input[type="text"],
+    .form-container input[type="password"],
+    .form-container input[type="email"],
+    .form-container input[type="url"],
+    .form-container input[type="number"],
+    .form-container input[type="date"],
+    .form-container textarea,
+    .form-container select {
+        background: #0a0a0a;
+        border: 1px solid #333;
+        color: #00a8e8;
+        padding: 0.5rem 0.75rem;
+        border-radius: 4px;
+        font-size: 0.875rem;
+        width: 100%;
+        max-width: 500px;
+    }
+    
+    .form-container input:focus,
+    .form-container textarea:focus,
+    .form-container select:focus {
+        outline: none;
+        border-color: #00a8e8;
+        box-shadow: 0 0 10px rgba(0, 168, 232, 0.3);
+    }
+    
+    .form-container textarea {
+        min-height: 100px;
+    }
+    
+    .form-container .vTextField {
+        max-width: 200px;
+    }
+    
+    .form-container .vLargeTextField {
+        max-width: 500px;
+    }
+    
+    .help {
+        color: #9ca3af;
+        font-size: 0.75rem;
+        margin-top: 0.25rem;
+    }
+    
+    .submit-row {
+        background: #0d1117;
+        border-top: 1px solid #333;
+        padding: 1rem;
+        display: flex;
+        gap: 0.5rem;
+        justify-content: flex-start;
+    }
+    
+    .submit-row input,
+    .submit-row a {
+        background: transparent;
+        border: 1px solid #00a8e8;
+        color: #00a8e8;
+        padding: 0.625rem 1.25rem;
+        border-radius: 4px;
+        text-decoration: none;
+        cursor: pointer;
+        font-size: 0.875rem;
+        transition: all 0.3s ease;
+    }
+    
+    .submit-row input:hover,
+    .submit-row a:hover {
+        background: #00a8e8;
+        color: #0a0a0a;
+        box-shadow: 0 0 15px rgba(0, 168, 232, 0.5);
+    }
+    
+    .submit-row .default {
+        background: #00a8e8;
+        color: #0a0a0a;
+    }
+    
+    .submit-row .default:hover {
+        background: #00c8ff;
+    }
+    
+    .deletelink-box {
+        margin-right: auto;
+    }
+    
+    .deletelink-box a {
+        border-color: #ef4444 !important;
+        color: #ef4444 !important;
+    }
+    
+    .deletelink-box a:hover {
+        background: #ef4444 !important;
+        color: #0a0a0a !important;
+    }
+    
+    .errornote {
+        background: rgba(239, 68, 68, 0.1);
+        border: 1px solid #ef4444;
+        color: #ef4444;
+        padding: 1rem;
+        border-radius: 4px;
+        margin: 1rem;
+    }
+    
+    .errorlist {
+        color: #ef4444;
+        list-style: none;
+        padding: 0;
+        margin: 0.5rem 0;
+    }
+    
+    /* Checkbox styling */
+    .form-container input[type="checkbox"] {
+        width: auto;
+        margin-right: 0.5rem;
+    }
+    
+    /* File input */
+    .form-container input[type="file"] {
+        background: #0a0a0a;
+        border: 1px dashed #333;
+        padding: 0.5rem;
+    }
+    
+    /* Date/time input */
+    .form-container .datetime-input {
+        display: flex;
+        gap: 0.5rem;
+    }
+    
+    /* Inline forms */
+    .inline-group {
+        background: #0d1117;
+        border: 1px solid #333;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+    }
+    
+    .inline-group h3 {
+        background: #0d1117;
+        color: #00a8e8;
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid #333;
+        font-size: 0.875rem;
+    }
+    
+    .inline-group .form-row {
+        padding: 0.75rem 1rem;
+    }
+    
+    .inline-group .delete {
+        background: transparent;
+        border: none;
+        color: #ef4444;
+        cursor: pointer;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="change-form-container">
+    {% block content %}
+        <form method="post"{% if enctype %} enctype="{{ enctype }}"{% endif %}>{% csrf_token %}
+        {% block form_top %}{% endblock %}
+        {% if is_popup %}<input type="hidden" name="_popup" value="1">{% endif %}
+        
+        {% if form.errors %}
+            <div class="errornote">
+                {% blocktrans count errors|length as counter %}Please correct the error below.{% plural %}Please correct the errors below.{% endblocktrans %}
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+        
+        {% block field_sets %}
+            {% for fieldset in adminform %}
+                <fieldset class="module aligned">
+                    <h2>{{ fieldset.name }}</h2>
+                    {% for line in fieldset %}
+                        <div class="form-row{% if line.fields|length == 1 %} single{% endif %}{% if line.errors %} errors{% endif %}">
+                            {% if line.fields|length == 1 %}{{ line.errors }}{% endif %}
+                            {% for field in line %}
+                                <div{% if not line.fields|length == 1 %} class="field-box"{% endif %}>
+                                    {% if field.is_checkbox %}
+                                        {{ field.field }}{{ field.label_tag }}
+                                    {% else %}
+                                        {{ field.label_tag }}
+                                        {% if field.field.help_text %}
+                                            <p class="help">{{ field.field.help_text|safe }}</p>
+                                        {% endif %}
+                                        {{ field.field }}
+                                    {% endif %}
+                                    {% if line.fields|length > 1 %}{{ line.errors }}{% endif %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                </fieldset>
+            {% endfor %}
+        {% endblock %}
+        
+        {% block after_field_sets %}{% endblock %}
+        
+        {% block inline_formsets %}
+            {% for inline_admin_formset in inline_admin_formsets %}
+                {{ inline_admin_formset }}
+            {% endfor %}
+        {% endblock %}
+        
+        {% block after_formsets %}{% endblock %}
+        
+        <div class="submit-row">
+            {% block submit_row %}
+                {% if show_delete_link %}
+                    <div class="deletelink-box">
+                        <a href="delete/" class="deletelink">{% trans "Delete" %}</a>
+                    </div>
+                {% endif %}
+                {% if show_save %}<input type="submit" value="{% trans 'Save' %}" class="default" name="_save">{% endif %}
+                {% if show_save_and_add_another %}<input type="submit" value="{% trans 'Save and add another' %}" name="_addanother">{% endif %}
+                {% if show_save_and_continue %}<input type="submit" value="{% trans 'Save and continue editing' %}" name="_continue">{% endif %}
+            {% endblock %}
+        </div>
+        </form>
+    {% endblock %}
+</div>
+{% endblock %}

@@ -1,0 +1,111 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+
+{% block extrahead %}
+{{ block.super }}
+<style>
+    .delete-confirmation-container {
+        padding: 1.5rem;
+        max-width: 600px;
+    }
+    
+    .delete-confirmation {
+        background: #0d1117;
+        border: 1px solid #333;
+        border-radius: 8px;
+    }
+    
+    .delete-confirmation h2 {
+        background: #0d1117;
+        color: #ef4444;
+        padding: 1rem;
+        border-bottom: 1px solid #333;
+        font-size: 1rem;
+        margin: 0;
+    }
+    
+    .delete-confirmation p {
+        padding: 1rem;
+        color: #e5e7eb;
+    }
+    
+    .delete-confirmation ul {
+        padding: 0 1rem 1rem 2rem;
+        color: #9ca3af;
+    }
+    
+    .delete-confirmation .form-row {
+        background: #0d1117;
+        border-top: 1px solid #333;
+        padding: 1rem;
+        display: flex;
+        gap: 0.5rem;
+    }
+    
+    .delete-confirmation input[type="submit"],
+    .delete-confirmation a {
+        background: transparent;
+        border: 1px solid #00a8e8;
+        color: #00a8e8;
+        padding: 0.625rem 1.25rem;
+        border-radius: 4px;
+        text-decoration: none;
+        cursor: pointer;
+        font-size: 0.875rem;
+        transition: all 0.3s ease;
+    }
+    
+    .delete-confirmation input[type="submit"]:hover,
+    .delete-confirmation a:hover {
+        background: #00a8e8;
+        color: #0a0a0a;
+        box-shadow: 0 0 15px rgba(0, 168, 232, 0.5);
+    }
+    
+    .delete-confirmation input[type="submit"].default {
+        background: #ef4444;
+        border-color: #ef4444;
+        color: white;
+    }
+    
+    .delete-confirmation input[type="submit"].default:hover {
+        background: #dc2626;
+        box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="delete-confirmation-container">
+    <form method="post">{% csrf_token %}
+        <div class="delete-confirmation">
+            <h2>{% trans "Confirm delete" %}</h2>
+            
+            {% blocktrans with object=object %}Are you sure? You are about to delete {{ object }}.{% endblocktrans %}
+            
+            {% if perms_lacking %}
+                <p>{% blocktrans with object=object %}Deleting the {{ object_name }} '{{ object }}' would result in deleting the following related objects:{% endblocktrans %}</p>
+                <ul>
+                {% for obj in perms_lacking %}
+                    <li>{{ obj }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+            
+            {% if protected %}
+                <p>{% blocktrans with object=object %}The {{ object_name }} '{{ object }}' is protected by other objects:{% endblocktrans %}</p>
+                <ul>
+                {% for obj in protected %}
+                    <li>{{ obj }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+            
+            <div class="form-row">
+                <input type="submit" value="{% trans 'Yes, I’m sure' %}" class="default">
+                <a href="{{ admin_url_template }}">{% trans "No, take me back" %}</a>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

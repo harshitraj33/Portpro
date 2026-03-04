@@ -1,0 +1,121 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+
+{% block extrahead %}
+{{ block.super }}
+<style>
+    .app-index-container {
+        padding: 1.5rem;
+    }
+    
+    .app-index-header {
+        margin-bottom: 2rem;
+    }
+    
+    .app-index-header h1 {
+        color: #00a8e8;
+        font-size: 1.5rem;
+        margin: 0;
+    }
+    
+    .model-table {
+        width: 100%;
+        background: #0d1117;
+        border: 1px solid #333;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    
+    .model-table th {
+        background: #0d1117;
+        color: #00a8e8;
+        padding: 1rem;
+        text-align: left;
+        border-bottom: 1px solid #333;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+    }
+    
+    .model-table td {
+        padding: 1rem;
+        border-bottom: 1px solid #333;
+    }
+    
+    .model-table tr:last-child td {
+        border-bottom: none;
+    }
+    
+    .model-table tr:hover {
+        background: rgba(0, 168, 232, 0.05);
+    }
+    
+    .model-table a {
+        color: #9ca3af;
+        text-decoration: none;
+    }
+    
+    .model-table a:hover {
+        color: #00a8e8;
+    }
+    
+    .add-link {
+        color: #22c55e !important;
+    }
+    
+    .view-link {
+        color: #00a8e8 !important;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="app-index-container">
+    <div class="app-index-header">
+        <h1>{{ app_list.0.name }} {% trans 'administration' %}</h1>
+    </div>
+    
+    <table class="model-table">
+        <thead>
+            <tr>
+                <th>{% trans 'Model' %}</th>
+                <th style="text-align: center;">{% trans 'Add' %}</th>
+                <th style="text-align: center;">{% trans 'Change' %}</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for app in app_list %}
+            {% for model in app.models %}
+            <tr>
+                <td>
+                    {% if model.admin_url %}
+                        <a href="{{ model.admin_url }}">{{ model.name }}</a>
+                    {% else %}
+                        {{ model.name }}
+                    {% endif %}
+                </td>
+                <td style="text-align: center;">
+                    {% if model.add_url %}
+                        <a href="{{ model.add_url }}" class="add-link">
+                            <i class="fas fa-plus"></i>
+                        </a>
+                    {% else %}
+                        <span style="color: #4b5563;">-</span>
+                    {% endif %}
+                </td>
+                <td style="text-align: center;">
+                    {% if model.admin_url %}
+                        <a href="{{ model.admin_url }}" class="view-link">
+                            <i class="fas fa-list"></i>
+                        </a>
+                    {% else %}
+                        <span style="color: #4b5563;">-</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

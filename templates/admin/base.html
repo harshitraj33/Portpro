@@ -1,0 +1,621 @@
+{% load i18n static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %} | HR | Admin Panel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+        
+        :root {
+            --poi-black: #0a0a0a;
+            --poi-dark: #0d1117;
+            --poi-blue: #00a8e8;
+            --poi-white: #ffffff;
+            --poi-gray: #1a1a1a;
+            --poi-border: #333;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: var(--poi-black);
+            color: #e5e7eb;
+            font-family: 'Orbitron', 'Courier New', monospace;
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* Header */
+        #header {
+            background: var(--poi-dark);
+            border-bottom: 1px solid var(--poi-border);
+            padding: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+        
+        #header .branding {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+        }
+        
+        #header .brand {
+            color: var(--poi-blue);
+            font-size: 1.25rem;
+            font-weight: 700;
+            text-decoration: none;
+            text-shadow: 0 0 5px var(--poi-blue);
+        }
+        
+        /* User tools */
+        #user-tools {
+            padding: 0.75rem 1rem;
+            text-align: right;
+            color: #9ca3af;
+            font-size: 0.75rem;
+        }
+        
+        #user-tools a {
+            color: var(--poi-blue);
+            text-decoration: none;
+            margin-left: 0.5rem;
+        }
+        
+        #user-tools a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Breadcrumbs */
+        .breadcrumbs {
+            padding: 0.5rem 1rem;
+            background: var(--poi-gray);
+            font-size: 0.75rem;
+            color: #9ca3af;
+        }
+        
+        .breadcrumbs a {
+            color: var(--poi-blue);
+            text-decoration: none;
+        }
+        
+        .breadcrumbs a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Main container */
+        #container {
+            display: flex;
+            min-height: 100vh;
+            padding-top: 56px;
+        }
+        
+        /* Sidebar */
+        #nav-sidebar {
+            background: var(--poi-dark);
+            border-right: 1px solid var(--poi-border);
+            width: 250px;
+            position: fixed;
+            top: 56px;
+            bottom: 0;
+            left: 0;
+            overflow-y: auto;
+            padding: 1rem 0;
+        }
+        
+        #nav-sidebar .section {
+            padding: 0.5rem 1rem;
+            color: var(--poi-blue);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 700;
+        }
+        
+        #nav-sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        #nav-sidebar li {
+            margin: 0;
+        }
+        
+        #nav-sidebar a {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.625rem 1rem;
+            color: #9ca3af;
+            font-size: 0.875rem;
+            text-decoration: none;
+            border-left: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        
+        #nav-sidebar a:hover {
+            background-color: #1a1a1a;
+            color: var(--poi-blue);
+        }
+        
+        #nav-sidebar a.selected {
+            background-color: rgba(0, 168, 232, 0.1);
+            color: var(--poi-blue);
+            border-left-color: var(--poi-blue);
+        }
+        
+        #nav-sidebar i {
+            width: 1.25rem;
+            text-align: center;
+        }
+        
+        /* Content */
+        #content {
+            flex: 1;
+            margin-left: 250px;
+            padding: 1.5rem;
+            background: var(--poi-black);
+        }
+        
+        /* Module */
+        .module {
+            background: var(--poi-dark);
+            border: 1px solid var(--poi-border);
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 0 5px rgba(0, 168, 232, 0.1);
+        }
+        
+        .module h2, .module h3 {
+            background: var(--poi-gray);
+            color: var(--poi-blue);
+            padding: 0.75rem 1rem;
+            margin: 0;
+            font-size: 0.875rem;
+            font-weight: 700;
+            border-bottom: 1px solid var(--poi-border);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .module table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .module th, .module td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--poi-border);
+        }
+        
+        .module th {
+            background: var(--poi-gray);
+            color: #9ca3af;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .module tr:hover {
+            background: rgba(0, 168, 232, 0.05);
+        }
+        
+        /* Forms */
+        .form-row {
+            padding: 1rem;
+            border-bottom: 1px solid var(--poi-border);
+        }
+        
+        .form-row:last-child {
+            border-bottom: none;
+        }
+        
+        label {
+            display: block;
+            color: var(--poi-blue);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.25rem;
+            font-weight: 700;
+        }
+        
+        input[type="text"],
+        input[type="password"],
+        input[type="email"],
+        input[type="url"],
+        input[type="number"],
+        input[type="date"],
+        textarea,
+        select {
+            background: var(--poi-black);
+            border: 1px solid var(--poi-border);
+            color: var(--poi-blue);
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            font-family: inherit;
+            font-size: 0.875rem;
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--poi-blue);
+            box-shadow: 0 0 5px var(--poi-blue);
+        }
+        
+        /* Buttons */
+        .button, input[type="submit"], .submit-row input {
+            background: transparent;
+            border: 1px solid var(--poi-blue);
+            color: var(--poi-blue);
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.875rem;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        
+        .button:hover, input[type="submit"]:hover, .submit-row input:hover {
+            background: var(--poi-blue);
+            color: var(--poi-black);
+            box-shadow: 0 0 15px var(--poi-blue);
+        }
+        
+        .button.default, input[type="submit"].default {
+            background: var(--poi-blue);
+            color: var(--poi-black);
+        }
+        
+        .button.default:hover {
+            background: #00c8ff;
+        }
+        
+        /* Submit row */
+        .submit-row {
+            padding: 1rem;
+            background: var(--poi-gray);
+            border-top: 1px solid var(--poi-border);
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        /* Errors */
+        .errornote {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid #ef4444;
+            color: #ef4444;
+            padding: 1rem;
+            border-radius: 0.25rem;
+            margin-bottom: 1rem;
+        }
+        
+        .errorlist {
+            color: #ef4444;
+            list-style: none;
+            padding: 0;
+            margin: 0.25rem 0;
+        }
+        
+        /* Messages */
+        .messages {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 1rem 0;
+        }
+        
+        .messages li {
+            padding: 0.75rem 1rem;
+            border-radius: 0.25rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .messages .success {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid #22c55e;
+            color: #22c55e;
+        }
+        
+        .messages .error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid #ef4444;
+            color: #ef4444;
+        }
+        
+        .messages .warning {
+            background: rgba(234, 179, 8, 0.1);
+            border: 1px solid #eab308;
+            color: #eab308;
+        }
+        
+        .messages .info {
+            background: rgba(0, 168, 232, 0.1);
+            border: 1px solid var(--poi-blue);
+            color: var(--poi-blue);
+        }
+        
+        /* Pagination */
+        .paginator {
+            padding: 1rem;
+            background: var(--poi-gray);
+            border-top: 1px solid var(--poi-border);
+        }
+        
+        .paginator a, .paginator span {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            margin: 0 0.125rem;
+            border: 1px solid var(--poi-border);
+            border-radius: 0.25rem;
+            color: #9ca3af;
+            text-decoration: none;
+            font-size: 0.875rem;
+        }
+        
+        .paginator a:hover {
+            border-color: var(--poi-blue);
+            color: var(--poi-blue);
+        }
+        
+        .paginator .this-page {
+            border-color: var(--poi-blue);
+            color: var(--poi-blue);
+        }
+        
+        .paginator .end {
+            border: none;
+        }
+        
+        /* Change list */
+        #changelist {
+            background: var(--poi-dark);
+            border: 1px solid var(--poi-border);
+            border-radius: 0.5rem;
+        }
+        
+        #changelist-filter {
+            background: var(--poi-gray);
+            border-left: 1px solid var(--poi-border);
+        }
+        
+        #changelist-filter h3 {
+            color: var(--poi-blue);
+        }
+        
+        #changelist-filter li a {
+            color: #9ca3af;
+        }
+        
+        #changelist-filter li.selected a {
+            color: var(--poi-blue);
+        }
+        
+        /* Toolbar */
+        #toolbar {
+            background: var(--poi-gray);
+            border-bottom: 1px solid var(--poi-border);
+            padding: 0.5rem;
+        }
+        
+        #toolbar form #searchbar {
+            background: var(--poi-black);
+            border: 1px solid var(--poi-border);
+            color: var(--poi-blue);
+            padding: 0.25rem 0.5rem;
+        }
+        
+        /* Actions */
+        .actions {
+            background: var(--poi-gray);
+            border-bottom: 1px solid var(--poi-border);
+            padding: 0.5rem;
+            color: #9ca3af;
+        }
+        
+        .actions select {
+            background: var(--poi-black);
+            border: 1px solid var(--poi-border);
+            color: var(--poi-blue);
+            padding: 0.25rem;
+        }
+        
+        /* Login page */
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--poi-black);
+        }
+        
+        .login-box {
+            background: var(--poi-dark);
+            border: 1px solid var(--poi-blue);
+            border-radius: 0.5rem;
+            padding: 2rem;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 0 20px rgba(0, 168, 232, 0.2);
+        }
+        
+        .login-box h1 {
+            color: var(--poi-blue);
+            text-align: center;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 10px var(--poi-blue);
+        }
+        
+        .login-box .form-row {
+            border: none;
+            padding: 0.5rem 0;
+        }
+        
+        .login-box label {
+            margin-bottom: 0.5rem;
+        }
+        
+        .login-box input[type="text"],
+        .login-box input[type="password"] {
+            margin-bottom: 1rem;
+        }
+        
+        .login-box .submit-row {
+            background: none;
+            border: none;
+            padding: 1rem 0 0 0;
+            justify-content: center;
+        }
+        
+        /* Date hierarchy */
+        .date-hierarchy {
+            background: var(--poi-gray);
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* Inline */
+        .inline-group {
+            background: var(--poi-dark);
+            border: 1px solid var(--poi-border);
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .inline-group h3 {
+            background: var(--poi-gray);
+            color: var(--poi-blue);
+            padding: 0.5rem 1rem;
+            margin: 0;
+            font-size: 0.875rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            #nav-sidebar {
+                display: none;
+            }
+            
+            #content {
+                margin-left: 0;
+            }
+            
+            .login-box {
+                margin: 1rem;
+            }
+        }
+        
+        /* POI Glow */
+        .poi-glow {
+            text-shadow: 0 0 5px var(--poi-blue), 0 0 10px var(--poi-blue);
+        }
+        
+        /* Cursor blink animation */
+        .cursor-blink {
+            animation: blink 1s step-end infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+    </style>
+    {% block extrahead %}{% endblock %}
+    {% block extrastyle %}{% endblock %}
+</head>
+<body>
+    {% if not is_popup %}
+    <header id="header">
+        <div class="branding">
+            <a href="{% url 'admin:index' %}" class="brand">HR <span class="cursor-blink">_</span> ADMIN</a>
+        </div>
+        <div id="user-tools">
+            {% block userlinks %}
+                {% if user.has_usable_password %}
+                    <a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a> /
+                {% endif %}
+                <a href="{% url 'admin:logout' %}">{% trans 'Log out' %}</a>
+            {% endblock %}
+        </div>
+    </header>
+    {% endif %}
+
+    <div id="container">
+        {% if not is_popup %}
+            {% block nav-sidebar %}
+                {% if has_admin_permission %}
+                    <nav id="nav-sidebar">
+                        {% block nav-sidebar-columns %}
+                        <div class="section">{% trans 'App' %}</div>
+                        {% get_app_list as app_list %}
+                        {% if app_list %}
+                            {% for app in app_list %}
+                                <div class="section">{{ app.name }}</div>
+                                <ul>
+                                {% for model in app.models %}
+                                    <li>
+                                        {% if model.admin_url %}
+                                            <a href="{{ model.admin_url }}"{% if model.admin_url in request.path %} class="selected"{% endif %}>
+                                                <i class="fas fa-{% if model.icon %}{{ model.icon }}{% else %}circle{% endif %}"></i>
+                                                {{ model.name }}
+                                            </a>
+                                        {% else %}
+                                            <a>{{ model.name }}</a>
+                                        {% endif %}
+                                    </li>
+                                {% endfor %}
+                                </ul>
+                            {% endfor %}
+                        {% endif %}
+                        {% endblock %}
+                    </nav>
+                {% endif %}
+            {% endblock %}
+        {% endif %}
+
+        <div id="content">
+            {% block messages %}
+                {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                                {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}Success: {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Error: {% elif message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}Warning: {% elif message.level == DEFAULT_MESSAGE_LEVELS.INFO %}Info: {% endif %}
+                                {{ message|capfirst }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endblock messages %}
+
+            {% block pretitle %}{% endblock %}
+
+            {% block content_title %}
+                {% if title %}
+                    <h1 class="text-2xl font-bold text-[#00a8e8] mb-6 poi-glow">{{ title }}</h1>
+                {% endif %}
+            {% endblock %}
+
+            {% block content %}
+                {% block object-tools %}{% endblock %}
+                {{ content }}
+            {% endblock %}
+        </div>
+    </div>
+
+    {% block bodyend %}{% endblock %}
+</body>
+</html>
