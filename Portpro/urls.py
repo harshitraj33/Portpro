@@ -2,9 +2,10 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from accounts_app.admin import portfolio_admin_site
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', portfolio_admin_site.urls),
     path('admin-panel/', include('accounts_app.urls', namespace='accounts')),
     path('', include('projects_app.urls', namespace='projects_app')),
     path('contact/', include('contact_app.urls', namespace='contact')),
