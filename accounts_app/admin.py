@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.admin import AdminSite
-from django.utils.html import format_html
+from django.utils.safestring import mark_safe
 
 
 # Extend Django's default admin site to add custom CSS
@@ -10,7 +10,7 @@ class MyAdminSite(AdminSite):
     def each_context(self, request):
         context = super().each_context(request)
         # Add custom CSS to every admin page
-        context['extra_css'] = format_html('''
+        css = '''
             <style>
                 /* Import Orbitron Font */
                 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
@@ -311,7 +311,8 @@ class MyAdminSite(AdminSite):
                     background: var(--poi-blue) !important;
                 }
             </style>
-        ''')
+        '''
+        context['extra_css'] = mark_safe(css)
         return context
 
 
