@@ -58,7 +58,7 @@
 </div>
 
 <!-- Messages Section -->
-<div id="content-messages" class="tab-content">
+<div id="content-messages">
     <div class="flex items-center justify-between mb-6">
         <h2 class="text-xl font-semibold text-white">Messages</h2>
         <a href="/admin/contact_app/contactmessage/" class="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition-colors flex items-center gap-2">
@@ -79,9 +79,9 @@
                             <th class="text-left py-3 px-4 font-medium text-gray-500">Date</th>
                             <th class="text-center py-3 px-4 font-medium text-gray-500">Status</th>
                             <th class="text-center py-3 px-4 font-medium text-gray-500">Actions</th>
+                        </tr>
                     </thead>
-                    <tr>
-                    </tbody>
+                    <tbody>
                         {% for message in messages %}
                             <tr class="border-b hover:bg-gray-50">
                                 <td class="py-3 px-4 font-medium">{{ message.name }}</td>
