@@ -74,12 +74,17 @@ class ProjectListView(ListView):
         queryset = Project.objects.all()
         category = self.request.GET.get('category')
         if category:
-            queryset = queryset.filter(category=category)
+            # Case-insensitive category filter
+            queryset = queryset.filter(category__iexact=category)
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['categories'] = Project.objects.values_list('category', flat=True).distinct()
+        # Get distinct categories, excluding empty/null values and handling case properly
+        categories = Project.objects.exclude(category__isnull=True).exclude(category='').values_list('category', flat=True).distinct()
+        # Normalize categories to title case and get unique values
+        normalized_categories = sorted(set(c.title() for c in categories))
+        context['categories'] = normalized_categories
         return context
 
 

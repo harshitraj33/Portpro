@@ -97,6 +97,16 @@ class AdminLogoutView(AdminRequiredMixin, View):
 
 
 class ProjectForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Get existing categories and create choices
+        existing_categories = Project.objects.exclude(category__isnull=True).exclude(category='').values_list('category', flat=True).distinct()
+        category_choices = [('', 'Select or type new category')] + [(c, c) for c in sorted(existing_categories)]
+        self.fields['category'].widget.attrs.update({
+            'list': 'category-list',
+            'autocomplete': 'off'
+        })
+    
     class Meta:
         model = Project
         # include date fields so admin can set duration like experience form does
@@ -111,7 +121,15 @@ class ProjectForm(forms.ModelForm):
             'created': forms.DateInput(attrs={'type': 'date'}),
             'start_date': forms.DateInput(attrs={'type': 'date'}),
             'end_date': forms.DateInput(attrs={'type': 'date'}),
+            'category': forms.TextInput(attrs={'placeholder': 'Select or type new category'}),
         }
+
+    def clean_category(self):
+        category = self.cleaned_data.get('category')
+        if category:
+            # Normalize category to title case for consistency
+            category = category.strip().title()
+        return category
 
 
     def clean_slug(self):
@@ -143,6 +161,13 @@ class ProjectCreateView(AdminRequiredMixin, CreateView):
     template_name = 'admin/project_form.html'
     success_url = reverse_lazy('accounts:admin_projects')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Get existing categories for the datalist
+        existing_categories = Project.objects.exclude(category__isnull=True).exclude(category='').values_list('category', flat=True).distinct()
+        context['existing_categories'] = sorted(set(c.title() for c in existing_categories))
+        return context
+
     def form_valid(self, form):
         messages.success(self.request, 'Project created successfully!')
         return super().form_valid(form)
@@ -155,6 +180,13 @@ class ProjectUpdateView(AdminRequiredMixin, UpdateView):
 
     def get_success_url(self):
         return reverse('accounts:admin_projects')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Get existing categories for the datalist
+        existing_categories = Project.objects.exclude(category__isnull=True).exclude(category='').values_list('category', flat=True).distinct()
+        context['existing_categories'] = sorted(set(c.title() for c in existing_categories))
+        return context
 
     def form_valid(self, form):
         messages.success(self.request, 'Project updated successfully!')

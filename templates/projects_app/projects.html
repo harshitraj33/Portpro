@@ -18,8 +18,8 @@
             </a>
             {% for category in categories %}
                 {% if category %}
-                <a href="?category={{ category }}" class="px-4 py-2 border {% if request.GET.category == category %}border-[#00a8e8] text-[#00a8e8]{% else %}border-[#333] text-gray-500 hover:border-[#00a8e8] hover:text-[#00a8e8]{% endif %} text-sm transition-all duration-200">
-                    {% if request.GET.category == category %}> {% endif %}{{ category|upper }}
+                <a href="?category={{ category|urlencode }}" class="px-4 py-2 border {% if request.GET.category|lower == category|lower %}border-[#00a8e8] text-[#00a8e8]{% else %}border-[#333] text-gray-500 hover:border-[#00a8e8] hover:text-[#00a8e8]{% endif %} text-sm transition-all duration-200">
+                    {% if request.GET.category|lower == category|lower %}> {% endif %}{{ category|upper }}
                 </a>
                 {% endif %}
             {% endfor %}
