@@ -163,9 +163,10 @@
             <span class="text-[#00a8e8] ml-2">_</span>
         </div>
         
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Horizontal scrollable featured projects -->
+        <div class="flex overflow-x-auto gap-6 pb-4 scrollbar-hide">
             {% for project in featured_projects %}
-                <div class="poi-card rounded-lg overflow-hidden hover:border-[#00a8e8] transition-all duration-300">
+                <div class="flex-shrink-0 w-80 poi-card rounded-lg overflow-hidden hover:border-[#00a8e8] transition-all duration-300">
                     {% if project.image %}
                         <div class="relative">
                             <img src="{{ project.image_url }}" alt="{{ project.title }}" class="w-full h-48 object-cover grayscale hover:grayscale-0 transition-all duration-300">
@@ -189,11 +190,19 @@
             {% endfor %}
             
             {% if not featured_projects %}
-                <div class="col-span-3 text-center text-gray-500">
+                <div class="text-center text-gray-500 w-full">
                     <span class="text-[#ff0000]">ERROR:</span> No featured projects found<span class="cursor-blink">_</span>
                 </div>
             {% endif %}
         </div>
+        
+        {% if featured_projects %}
+        <!-- Scroll indicator -->
+        <div class="flex justify-center mt-4">
+            <span class="text-gray-500 text-xs"><span class="text-[#00a8e8]"><</span> SCROLL TO VIEW MORE <span class="text-[#00a8e8]">></span></span>
+        </div>
+        {% endif %}
+    </div>
 </section>
 
 <section class="bg-[#0d1117] py-16 border-t border-[#333]">
