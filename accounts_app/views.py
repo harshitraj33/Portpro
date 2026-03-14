@@ -71,19 +71,19 @@ class AdminUnifiedDashboardView(AdminRequiredMixin, TemplateView):
             total=Count('*'),
             featured=Count('id', filter=Q(featured=True))
         )
-        context.update(projects_stats)
+        context['total_projects'] = projects_stats['total']
         
         experiences_stats = WorkExperience.objects.aggregate(
             total=Count('*'),
             visible=Count('id', filter=Q(is_visible=True))
         )
-        context.update(experiences_stats)
+        context['total_experiences'] = experiences_stats['total']
         
         skills_stats = Skill.objects.aggregate(
             total=Count('*'),
             visible=Count('id', filter=Q(is_visible=True))
         )
-        context.update(skills_stats)
+        context['total_skills'] = skills_stats['total']
         
         # Auto-delete old messages beyond max limit (keep only latest 20)
         total_messages = ContactMessage.objects.count()
