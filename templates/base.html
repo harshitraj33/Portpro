@@ -132,7 +132,22 @@
         }
         
         .prompt::before { content: "> "; color: var(--poi-blue); }
+
+        /* Bright gradient text glow for mobile */
+        .hr-gradient-glow {
+            filter: contrast(1.2) saturate(1.3) brightness(1.1);
+            text-shadow: 0 0 8px rgba(190, 139, 0, 0.6), 0 0 16px rgba(251, 102, 76, 0.4);
+            -webkit-text-stroke: 0.5px rgba(255,255,255,0.1);
+        }
+
+        @media (max-width: 768px) {
+            .hr-gradient-glow {
+                filter: contrast(1.4) saturate(1.4) brightness(1.2);
+                text-shadow: 0 0 12px rgba(190, 139, 0, 0.8), 0 0 20px rgba(251, 102, 76, 0.6);
+            }
+        }
     </style>
+
     {% block extra_css %}{% endblock %}
 </head>
 <body class="bg-[#0a0a0a] font-mono text-gray-300 scanlines">
@@ -143,7 +158,8 @@
                 <div class="flex items-center">
                     <div class="shrink-0 flex items-center mr-6">
                         <span class="flex items-center">
-                            <a href="https://www.behance.net/harshitraj12" target="_blank" rel="noopener noreferrer" class="text-3xl font-bold relative" style="background: linear-gradient(to right, #be8b00, #fb664c, #00506f); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" >HR</a>/<a href="{% url 'projects_app:home' %}" class="text-[#00a8e8] text-3xl font-bold relative">HR</a>
+                            <a href="https://www.behance.net/harshitraj12" target="_blank" rel="noopener noreferrer" class="text-3xl font-bold relative hr-gradient-glow" style="background: linear-gradient(to right, #be8b00, #fb664c, #00506f); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" >HR</a>/<a href="{% url 'projects_app:home' %}" class="text-[#00a8e8] text-3xl font-bold relative hr-gradient-glow">HR</a>
+
                         </span>
 
                     </div>
