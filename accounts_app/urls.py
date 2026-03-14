@@ -24,4 +24,5 @@ urlpatterns = [
     path('about-content/edit/', views.AboutContentEditView.as_view(), name='admin_about_content_edit'),
     path('messages/<int:pk>/mark-read/', views.MarkMessageAsReadView.as_view(), name='admin_message_mark_read'),
     path('messages/<int:pk>/mark-unread/', views.MarkMessageAsUnreadView.as_view(), name='admin_message_mark_unread'),
+    path('messages/<int:pk>/delete/', views.MessageDeleteView.as_view(), name='admin_message_delete'),
 ]

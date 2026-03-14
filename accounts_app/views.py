@@ -467,3 +467,13 @@ class MarkMessageAsUnreadView(AdminRequiredMixin, View):
         message.save()
         messages.success(request, f'Message from {message.name} marked as unread.')
         return redirect('accounts:admin_dashboard')
+
+
+@method_decorator(require_POST, name='dispatch')
+class MessageDeleteView(AdminRequiredMixin, View):
+    def post(self, request, pk):
+        message = get_object_or_404(ContactMessage, pk=pk)
+        message_name = message.name
+        message.delete()
+        messages.success(request, f'Message from {message_name} deleted successfully.')
+        return redirect('accounts:admin_dashboard')
