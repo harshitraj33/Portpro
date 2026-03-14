@@ -54,6 +54,7 @@ const greetings = [
   '안녕하세요'
 ];
 
+// We'll track the interval per wrapper so multiple components won't interfere.
 function createGreetingController(wrapper) {
   const bubble = wrapper.querySelector('.greeting-bubble');
   const text = wrapper.querySelector('.greeting-text');
@@ -62,10 +63,11 @@ function createGreetingController(wrapper) {
 
   function start() {
     if (interval) return;
-    bubble.style.opacity = '1';
-    bubble.style.visibility = 'visible';
+    // set first greeting before revealing bubble to avoid empty flash
     idx = 0;
     text.textContent = greetings[idx];
+    bubble.style.opacity = '1';
+    bubble.style.visibility = 'visible';
     interval = setInterval(() => {
       idx = (idx + 1) % greetings.length;
       text.textContent = greetings[idx];
@@ -82,35 +84,51 @@ function createGreetingController(wrapper) {
     text.textContent = '';
   }
 
-  return { start, stop, get interval() { return interval; } };
+  return {
+    start,
+    stop,
+    isActive() { return interval !== null; }
+  };
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+// attach listeners on DOM ready so we don't rely on inline attributes
+window.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.profile-wrapper').forEach(wrapper => {
     const controller = createGreetingController(wrapper);
 
     wrapper.addEventListener('mouseenter', controller.start);
     wrapper.addEventListener('mouseleave', controller.stop);
 
+    // touch/click alternator for mobile/laptop;
+    // use controller.isActive() to check running state
     wrapper.addEventListener('touchstart', e => {
       e.preventDefault();
-      controller.interval ? controller.stop() : controller.start();
+      if (controller.isActive()) {
+        controller.stop();
+      } else {
+        controller.start();
+      }
     });
-
     wrapper.addEventListener('click', () => {
-      controller.interval ? controller.stop() : controller.start();
+      if (controller.isActive()) {
+        controller.stop();
+      } else {
+        controller.start();
+      }
     });
   });
 });
 
-// keep globals for inline attributes
-window.startGreeting = function(e) {
-  const wrapper = e.target.closest('.profile-wrapper');
+// keep globals for backwards compatibility (inline handlers still work)
+window.startGreeting = function(event) {
+  const wrapper = event.target.closest('.profile-wrapper');
   if (!wrapper) return;
-  createGreetingController(wrapper).start();
+  const { start } = createGreetingController(wrapper);
+  start();
 };
-window.stopGreeting = function(e) {
-  const wrapper = e.target.closest('.profile-wrapper');
+window.stopGreeting = function(event) {
+  const wrapper = event.target.closest('.profile-wrapper');
   if (!wrapper) return;
-  createGreetingController(wrapper).stop();
+  const { stop } = createGreetingController(wrapper);
+  stop();
 };
