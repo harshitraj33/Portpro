@@ -6,13 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}HR | Portfolio{% endblock %}</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp" defer></script>
     <script>
         document.documentElement.classList.add('dark');
     </script>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap"></noscript>
         
         :root {
             --poi-black: #0a0a0a;
@@ -262,7 +263,7 @@
         </div>
     </footer>
 
-    <script src="{% static 'js/main.js' %}?v=3"></script>
+    <script src="{% static 'js/main.js' %}?v=3" defer></script>
     {% block extra_js %}{% endblock %}
     
     <!-- Vercel Speed Insights -->
