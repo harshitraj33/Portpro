@@ -45,6 +45,9 @@ class ProjectAdmin(admin.ModelAdmin):
     ordering = ('order', '-created_at')
     list_per_page = 25
     
+    def get_queryset(self, request):
+        return super().get_queryset(request)[:100]
+    
     fieldsets = (
         ('Basic Info', {
             'fields': ('title', 'slug', 'description', 'created')
@@ -77,6 +80,9 @@ class WorkExperienceAdmin(admin.ModelAdmin):
     ordering = ('-is_current', '-start_date', 'order')
     list_per_page = 25
     
+    def get_queryset(self, request):
+        return super().get_queryset(request)[:50]
+    
     fieldsets = (
         ('Company Info', {
             'fields': ('company', 'position', 'location', 'company_logo')
@@ -104,6 +110,9 @@ class SkillAdmin(admin.ModelAdmin):
     list_editable = ('is_visible', 'order', 'proficiency_level')
     ordering = ('category', 'order', 'name')
     list_per_page = 25
+    
+    def get_queryset(self, request):
+        return super().get_queryset(request)[:200]
     
     fieldsets = (
         ('Basic Info', {

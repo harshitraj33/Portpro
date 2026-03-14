@@ -11,6 +11,7 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django import forms
 from django.views.decorators.http import require_POST
 from django.utils.decorators import method_decorator
+from django.db.models import Count, Q
 from projects_app.models import Project, WorkExperience, Skill, HomeContent, AboutContent
 from contact_app.models import ContactMessage
 
@@ -65,12 +66,24 @@ class AdminUnifiedDashboardView(AdminRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
-        context['total_projects'] = Project.objects.count()
-        context['featured_projects'] = Project.objects.filter(featured=True).count()
-        context['total_experiences'] = WorkExperience.objects.count()
-        context['visible_experiences'] = WorkExperience.objects.filter(is_visible=True).count()
-        context['total_skills'] = Skill.objects.count()
-        context['visible_skills'] = Skill.objects.filter(is_visible=True).count()
+        # Optimized counts using aggregate
+        projects_stats = Project.objects.aggregate(
+            total=Count('*'),
+            featured=Count('id', filter=Q(featured=True))
+        )
+        context.update(projects_stats)
+        
+        experiences_stats = WorkExperience.objects.aggregate(
+            total=Count('*'),
+            visible=Count('id', filter=Q(is_visible=True))
+        )
+        context.update(experiences_stats)
+        
+        skills_stats = Skill.objects.aggregate(
+            total=Count('*'),
+            visible=Count('id', filter=Q(is_visible=True))
+        )
+        context.update(skills_stats)
         
         # Auto-delete old messages beyond max limit (keep only latest 20)
         total_messages = ContactMessage.objects.count()
@@ -81,9 +94,10 @@ class AdminUnifiedDashboardView(AdminRequiredMixin, TemplateView):
         context['total_messages'] = ContactMessage.objects.count()
         context['unread_messages'] = ContactMessage.objects.filter(is_read=False).count()
         
-        context['projects'] = Project.objects.all().order_by('order', '-created_at')
-        context['experiences'] = WorkExperience.objects.all().order_by('-is_current', '-start_date', 'order')
-        context['skills'] = Skill.objects.all().order_by('category', 'order', 'name')
+        # Limited querysets for display
+        context['projects'] = Project.objects.all().order_by('order', '-created_at')[:50]
+        context['experiences'] = WorkExperience.objects.all().order_by('-is_current', '-start_date', 'order')[:20]
+        context['skills'] = Skill.objects.all().order_by('category', 'order', 'name')[:100]
         context['messages'] = ContactMessage.objects.all()[:20]
         
         return context
