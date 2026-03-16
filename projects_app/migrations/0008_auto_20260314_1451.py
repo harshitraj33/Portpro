@@ -4,6 +4,7 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
+    atomic = False
 
     dependencies = [
         ('projects_app', '0007_project_start_end_date'),
@@ -11,21 +12,27 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RunSQL(
-            """
-            CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_projects_featured ON projects_app_project (featured);
-            CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_projects_category_lower ON projects_app_project (lower(category));
-            CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_projects_order ON projects_app_project ("order");
-            CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_projects_created_at ON projects_app_project (created_at);
-            CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_skills_visible_category_order ON projects_app_skill (is_visible, category, "order");
-            CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_workexperience_visible ON projects_app_workexperience (is_visible, is_current, start_date, "order");
-            """,
-            reverse_sql="""
-            DROP INDEX IF EXISTS idx_projects_featured;
-            DROP INDEX IF EXISTS idx_projects_category_lower;
-            DROP INDEX IF EXISTS idx_projects_order;
-            DROP INDEX IF EXISTS idx_projects_created_at;
-            DROP INDEX IF EXISTS idx_skills_visible_category_order;
-            DROP INDEX IF EXISTS idx_workexperience_visible;
-            """
+            sql='CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_projects_featured ON projects_app_project (featured);',
+            reverse_sql='DROP INDEX IF EXISTS idx_projects_featured;',
+        ),
+        migrations.RunSQL(
+            sql='CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_projects_category_lower ON projects_app_project (lower(category));',
+            reverse_sql='DROP INDEX IF EXISTS idx_projects_category_lower;',
+        ),
+        migrations.RunSQL(
+            sql='CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_projects_order ON projects_app_project ("order");',
+            reverse_sql='DROP INDEX IF EXISTS idx_projects_order;',
+        ),
+        migrations.RunSQL(
+            sql='CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_projects_created_at ON projects_app_project (created_at);',
+            reverse_sql='DROP INDEX IF EXISTS idx_projects_created_at;',
+        ),
+        migrations.RunSQL(
+            sql='CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_skills_visible_category_order ON projects_app_skill (is_visible, category, "order");',
+            reverse_sql='DROP INDEX IF EXISTS idx_skills_visible_category_order;',
+        ),
+        migrations.RunSQL(
+            sql='CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_workexperience_visible ON projects_app_workexperience (is_visible, is_current, start_date, "order");',
+            reverse_sql='DROP INDEX IF EXISTS idx_workexperience_visible;',
         ),
     ]
