@@ -381,7 +381,7 @@ class AboutContentForm(forms.ModelForm):
             'skills_languages', 'skills_frameworks', 'skills_tools', 'skills_soft',
             'internship_1_company', 'internship_1_position', 'internship_1_date', 'internship_1_description', 'internship_1_tech',
             'internship_2_company', 'internship_2_position', 'internship_2_date', 'internship_2_description', 'internship_2_tech',
-            'certificates',
+            'certificates', 'certificate_link',
             'education_1_institution', 'education_1_degree', 'education_1_date', 'education_1_cgpa', 'education_1_location',
             'education_2_institution', 'education_2_degree', 'education_2_date', 'education_2_cgpa', 'education_2_location',
             'is_active'
@@ -403,6 +403,7 @@ class AboutContentForm(forms.ModelForm):
             'internship_2_description': forms.Textarea(attrs={'rows': 4, 'placeholder': 'Description (one point per line)'}),
             'internship_2_tech': forms.TextInput(attrs={'placeholder': 'Technologies used'}),
             'certificates': forms.Textarea(attrs={'rows': 6, 'placeholder': 'Certificate Name (Date)\nOne per line'}),
+            'certificate_link': forms.URLInput(attrs={'placeholder': 'https://example.com/your-certificate-link'}),
             'education_1_institution': forms.TextInput(attrs={'placeholder': 'University/College Name'}),
             'education_1_degree': forms.TextInput(attrs={'placeholder': 'Degree Name'}),
             'education_1_date': forms.TextInput(attrs={'placeholder': 'Since August 2024'}),

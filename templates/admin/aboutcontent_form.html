@@ -117,6 +117,12 @@
             <h3 class="text-lg font-semibold mb-4 text-gray-800">Certificates</h3>
             <textarea name="certificates" rows="6" class="poi-input w-full px-4 py-2 rounded-lg" placeholder="Certificate Name (Date)&#10;One per line">{{ form.certificates.value|default:'' }}</textarea>
             <p class="text-xs text-gray-500 mt-1">Enter each certificate on a new line</p>
+
+            <div class="mt-4">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Certificate Redirect Link</label>
+                <input type="url" name="certificate_link" value="{{ form.certificate_link.value|default:'' }}" placeholder="https://example.com/your-certificate-link" class="poi-input w-full px-4 py-2 rounded-lg">
+                <p class="text-xs text-gray-500 mt-1">This link will be used for the certificate button on the About page</p>
+            </div>
         </div>
 
         <!-- Education 1 Section -->

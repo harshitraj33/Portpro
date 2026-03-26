@@ -137,6 +137,14 @@
                     <li><span class="text-[#00a8e8]">▸</span> GCP Cloud Digital Leader by KodeKloud <span class="text-white">(APR 2023)</span></li>
                     {% endfor %}
                 </ul>
+
+                {% if about_content.certificate_link %}
+                <div class="mt-6 text-center">
+                    <a href="{{ about_content.certificate_link }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-5 py-2 rounded-lg bg-[#00a8e8] text-[#0a0a0a] font-semibold hover:bg-[#33bbee] transition-colors">
+                        View Certificate
+                    </a>
+                </div>
+                {% endif %}
             </div>
         </div>
 

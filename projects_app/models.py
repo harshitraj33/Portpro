@@ -385,6 +385,11 @@ class AboutContent(models.Model):
         null=True,
         help_text="Certificates (one per line in format: Certificate Name | Issuing Organization | Date)"
     )
+    certificate_link = models.URLField(
+        blank=True,
+        null=True,
+        help_text="Optional URL for certificate details/verification page"
+    )
     
     # Education
     education_1_institution = models.CharField(
