@@ -6,6 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HR | Admin Login</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        (function () {
+            const savedTheme = localStorage.getItem('theme');
+            const theme = savedTheme === 'light' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', theme);
+            document.documentElement.classList.toggle('dark', theme === 'dark');
+        })();
+    </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
@@ -75,6 +83,46 @@
             background: repeating-linear-gradient(0deg, rgba(0,0,0,0.15), rgba(0,0,0,0.15) 1px, transparent 1px, transparent 2px);
             pointer-events: none;
             z-index: 10;
+        }
+
+        :root[data-theme='light'] {
+            color-scheme: light;
+        }
+
+        :root[data-theme='light'] body,
+        :root[data-theme='light'] [class*='bg-[#0a0a0a]'],
+        :root[data-theme='light'] [class*='bg-[#0d1117]'] {
+            background: #ffffff !important;
+            background-color: #ffffff !important;
+        }
+
+        :root[data-theme='light'] [class*='border-[#333]'] {
+            border-color: #000000 !important;
+        }
+
+        :root[data-theme='light'] [class*='text-white'],
+        :root[data-theme='light'] [class*='text-gray-300'],
+        :root[data-theme='light'] [class*='text-gray-500'],
+        :root[data-theme='light'] [class*='text-gray-600'],
+        :root[data-theme='light'] p,
+        :root[data-theme='light'] h1,
+        :root[data-theme='light'] h2,
+        :root[data-theme='light'] h3,
+        :root[data-theme='light'] span,
+        :root[data-theme='light'] label,
+        :root[data-theme='light'] a {
+            color: #000000 !important;
+            text-shadow: none !important;
+        }
+
+        :root[data-theme='light'] .poi-input {
+            background: #ffffff !important;
+            border-color: #000000 !important;
+            color: #000000 !important;
+        }
+
+        :root[data-theme='light'] .scanlines::before {
+            display: none;
         }
     </style>
 </head>

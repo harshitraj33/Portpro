@@ -6,6 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}HR | Admin Panel{% endblock %}</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        (function () {
+            const savedTheme = localStorage.getItem('theme');
+            const theme = savedTheme === 'light' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', theme);
+            document.documentElement.classList.toggle('dark', theme === 'dark');
+        })();
+    </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
@@ -86,6 +94,91 @@
             box-shadow: 0 0 5px var(--poi-blue);
             outline: none;
         }
+
+        .theme-toggle-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.45rem 0.75rem;
+            border: 1px solid #00a8e8;
+            color: #00a8e8;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            transition: all 0.2s ease;
+        }
+
+        .theme-toggle-btn:hover {
+            background: #00a8e8;
+            color: #0a0a0a;
+        }
+
+        :root[data-theme='light'] {
+            color-scheme: light;
+        }
+
+        :root[data-theme='light'] body,
+        :root[data-theme='light'] #sidebar,
+        :root[data-theme='light'] main,
+        :root[data-theme='light'] header,
+        :root[data-theme='light'] .poi-input,
+        :root[data-theme='light'] [class*='bg-[#0a0a0a]'],
+        :root[data-theme='light'] [class*='bg-[#0d1117]'] {
+            background: #ffffff !important;
+            background-color: #ffffff !important;
+        }
+
+        :root[data-theme='light'] #sidebar,
+        :root[data-theme='light'] header,
+        :root[data-theme='light'] [class*='border-[#333]'] {
+            border-color: #000000 !important;
+        }
+
+        :root[data-theme='light'] [class*='text-white'],
+        :root[data-theme='light'] [class*='text-gray-300'],
+        :root[data-theme='light'] [class*='text-gray-400'],
+        :root[data-theme='light'] [class*='text-gray-500'],
+        :root[data-theme='light'] [class*='text-gray-600'],
+        :root[data-theme='light'] [class*='text-gray-700'],
+        :root[data-theme='light'] [class*='text-gray-800'],
+        :root[data-theme='light'] [class*='text-gray-900'],
+        :root[data-theme='light'] p,
+        :root[data-theme='light'] span,
+        :root[data-theme='light'] h1,
+        :root[data-theme='light'] h2,
+        :root[data-theme='light'] h3,
+        :root[data-theme='light'] h4,
+        :root[data-theme='light'] label,
+        :root[data-theme='light'] th,
+        :root[data-theme='light'] td,
+        :root[data-theme='light'] a {
+            color: #000000 !important;
+            text-shadow: none !important;
+        }
+
+        :root[data-theme='light'] .sidebar-link {
+            color: #111827 !important;
+        }
+
+        :root[data-theme='light'] .sidebar-link:hover,
+        :root[data-theme='light'] .sidebar-link.active {
+            color: #0369a1 !important;
+            background-color: #f3f4f6 !important;
+            border-left-color: #0369a1 !important;
+        }
+
+        :root[data-theme='light'] .theme-toggle-btn:hover,
+        :root[data-theme='light'] .poi-btn:hover {
+            color: #ffffff !important;
+        }
+
+        :root[data-theme='light'] [class*='border-gray-'],
+        :root[data-theme='light'] .poi-card,
+        :root[data-theme='light'] .container-box,
+        :root[data-theme='light'] .content-box {
+            border-color: #000000 !important;
+        }
     </style>
 </head>
 <body class="bg-[#0a0a0a]">
@@ -97,9 +190,15 @@
         <a href="{% url 'accounts:admin_dashboard' %}" class="text-xl font-bold text-[#00a8e8] poi-glow">
             <span class="text-white">◈</span> ADMIN<span class="cursor-blink text-[#ff0000]">_</span>
         </a>
-        <a href="{% url 'projects_app:home' %}" class="p-2 text-[#00a8e8] hover:text-white transition-colors">
-            <i class="fas fa-external-link-alt"></i>
-        </a>
+        <div class="flex items-center gap-2">
+            <button type="button" data-theme-toggle class="theme-toggle-btn" aria-label="Toggle color theme">
+                <i class="fas fa-moon" data-theme-icon-moon></i>
+                <i class="fas fa-sun hidden" data-theme-icon-sun></i>
+            </button>
+            <a href="{% url 'projects_app:home' %}" class="p-2 text-[#00a8e8] hover:text-white transition-colors">
+                <i class="fas fa-external-link-alt"></i>
+            </a>
+        </div>
     </header>
 
     <!-- Mobile Overlay Backdrop -->
@@ -168,6 +267,10 @@
                             <span class="w-2 h-2 bg-[#00a8e8] rounded-full animate-pulse"></span>
                             SYSTEM ONLINE
                         </div>
+                        <button type="button" data-theme-toggle class="theme-toggle-btn" aria-label="Toggle color theme">
+                            <i class="fas fa-moon" data-theme-icon-moon></i>
+                            <i class="fas fa-sun hidden" data-theme-icon-sun></i>
+                        </button>
                         <a href="{% url 'projects_app:home' %}" class="text-[#00a8e8] hover:text-white transition-colors">
                             <i class="fas fa-external-link-alt mr-1"></i>VIEW_SITE
                         </a>
@@ -201,6 +304,40 @@
                 if (window.innerWidth < 768) {
                     toggleSidebar();
                 }
+            });
+        });
+
+        function setAdminTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            document.documentElement.classList.toggle('dark', theme === 'dark');
+            localStorage.setItem('theme', theme);
+            syncAdminThemeButtons(theme);
+        }
+
+        function syncAdminThemeButtons(theme) {
+            document.querySelectorAll('[data-theme-toggle]').forEach(button => {
+                const sunIcon = button.querySelector('[data-theme-icon-sun]');
+                const moonIcon = button.querySelector('[data-theme-icon-moon]');
+                const label = button.querySelector('[data-theme-label]');
+
+                if (sunIcon) {
+                    sunIcon.classList.toggle('hidden', theme !== 'light');
+                }
+                if (moonIcon) {
+                    moonIcon.classList.toggle('hidden', theme === 'light');
+                }
+                if (label) {
+                    label.textContent = theme === 'dark' ? 'LIGHT' : 'DARK';
+                }
+            });
+        }
+
+        const adminTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+        syncAdminThemeButtons(adminTheme);
+        document.querySelectorAll('[data-theme-toggle]').forEach(button => {
+            button.addEventListener('click', function() {
+                const activeTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+                setAdminTheme(activeTheme === 'dark' ? 'light' : 'dark');
             });
         });
     </script>

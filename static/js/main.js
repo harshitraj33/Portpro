@@ -11,34 +11,42 @@ if (mobileMenuBtn && mobileMenu) {
 }
 
 // Theme Toggle Functionality
-const themeToggleButton = document.getElementById('theme-toggle');
-const sunIcon = document.getElementById('sun-icon');
-const moonIcon = document.getElementById('moon-icon');
+const themeToggleButtons = document.querySelectorAll('[data-theme-toggle]');
 
-if (themeToggleButton) {
-  if (
-    localStorage.getItem('theme') === 'dark' ||
-    (!('theme' in localStorage) &&
-      window.matchMedia('(prefers-color-scheme: dark)').matches)
-  ) {
-    sunIcon.classList.remove('hidden');
-    moonIcon.classList.add('hidden');
-  } else {
-    sunIcon.classList.add('hidden');
-    moonIcon.classList.remove('hidden');
-  }
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  document.documentElement.classList.toggle('dark', theme === 'dark');
+  localStorage.setItem('theme', theme);
+  syncThemeToggleUI(theme);
+}
 
-  themeToggleButton.addEventListener('click', () => {
-    sunIcon.classList.toggle('hidden');
-    moonIcon.classList.toggle('hidden');
+function syncThemeToggleUI(theme) {
+  themeToggleButtons.forEach((button) => {
+    const sunIcon = button.querySelector('[data-theme-icon-sun]');
+    const moonIcon = button.querySelector('[data-theme-icon-moon]');
+    const label = button.querySelector('[data-theme-label]');
 
-    if (document.documentElement.classList.contains('dark')) {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    } else {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
+    if (sunIcon) {
+      sunIcon.classList.toggle('hidden', theme !== 'light');
     }
+    if (moonIcon) {
+      moonIcon.classList.toggle('hidden', theme === 'light');
+    }
+    if (label) {
+      label.textContent = theme === 'dark' ? 'LIGHT' : 'DARK';
+    }
+  });
+}
+
+if (themeToggleButtons.length > 0) {
+  const currentTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+  syncThemeToggleUI(currentTheme);
+
+  themeToggleButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const activeTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+      applyTheme(activeTheme === 'dark' ? 'light' : 'dark');
+    });
   });
 }
 

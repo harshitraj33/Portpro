@@ -26,7 +26,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        document.documentElement.classList.add('dark');
+        (function () {
+            const savedTheme = localStorage.getItem('theme');
+            const theme = savedTheme === 'light' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', theme);
+            document.documentElement.classList.toggle('dark', theme === 'dark');
+        })();
     </script>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <style>
@@ -164,6 +169,94 @@
                 text-shadow: 0 0 12px rgba(190, 139, 0, 0.8), 0 0 20px rgba(251, 102, 76, 0.6);
             }
         }
+
+        .theme-toggle-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.45rem 0.75rem;
+            border: 1px solid #00a8e8;
+            color: #00a8e8;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            transition: all 0.2s ease;
+        }
+
+        .theme-toggle-btn:hover {
+            background: #00a8e8;
+            color: #0a0a0a;
+        }
+
+        :root[data-theme='light'] {
+            color-scheme: light;
+        }
+
+        :root[data-theme='light'] body,
+        :root[data-theme='light'] main,
+        :root[data-theme='light'] footer {
+            background: #ffffff !important;
+            color: #000000 !important;
+        }
+
+        :root[data-theme='light'] nav,
+        :root[data-theme='light'] #mobile-menu,
+        :root[data-theme='light'] .poi-card,
+        :root[data-theme='light'] .poi-input,
+        :root[data-theme='light'] .scanlines::before {
+            background: #ffffff !important;
+        }
+
+        :root[data-theme='light'] nav,
+        :root[data-theme='light'] footer,
+        :root[data-theme='light'] #mobile-menu,
+        :root[data-theme='light'] .poi-card,
+        :root[data-theme='light'] .poi-input,
+        :root[data-theme='light'] [class*='border-[#333]'] {
+            border-color: #000000 !important;
+            box-shadow: none !important;
+        }
+
+        :root[data-theme='light'] [class*='bg-[#0a0a0a]'],
+        :root[data-theme='light'] [class*='bg-[#0d1117]'] {
+            background-color: #ffffff !important;
+        }
+
+        :root[data-theme='light'] [class*='text-white'],
+        :root[data-theme='light'] [class*='text-gray-300'],
+        :root[data-theme='light'] [class*='text-gray-400'],
+        :root[data-theme='light'] [class*='text-gray-500'],
+        :root[data-theme='light'] .prompt,
+        :root[data-theme='light'] p,
+        :root[data-theme='light'] span,
+        :root[data-theme='light'] li,
+        :root[data-theme='light'] h1,
+        :root[data-theme='light'] h2,
+        :root[data-theme='light'] h3,
+        :root[data-theme='light'] h4,
+        :root[data-theme='light'] h5,
+        :root[data-theme='light'] h6 {
+            color: #000000 !important;
+            text-shadow: none !important;
+        }
+
+        :root[data-theme='light'] .poi-btn:hover,
+        :root[data-theme='light'] .poi-btn-red:hover,
+        :root[data-theme='light'] .theme-toggle-btn:hover {
+            color: #ffffff !important;
+        }
+
+        :root[data-theme='light'] .scanlines::before {
+            display: none;
+        }
+
+        :root[data-theme='light'] [class*='border-gray-'],
+        :root[data-theme='light'] .poi-card,
+        :root[data-theme='light'] .container-box,
+        :root[data-theme='light'] .content-box {
+            border-color: #000000 !important;
+        }
     </style>
 
     {% block extra_css %}{% endblock %}
@@ -201,6 +294,10 @@
                         <span class="flicker">SYSTEM ONLINE</span>
                     </div>
                     <div class="hidden md:flex items-center">
+                        <button type="button" data-theme-toggle class="theme-toggle-btn mr-2" aria-label="Toggle color theme">
+                            <i class="fas fa-moon" data-theme-icon-moon></i>
+                            <i class="fas fa-sun hidden" data-theme-icon-sun></i>
+                        </button>
                         <a href="https://drive.google.com/uc?export=download&id=1y7-lQQI_pLSsenDCa4fWgG96PMkteWnT" target="_blank" class="poi-btn-red poi-btn px-4 py-2 text-sm font-medium mr-2" download>
                             <i class="fas fa-file-pdf mr-2"></i>DOWNLOAD_CV
                         </a>
@@ -250,6 +347,10 @@
                 {% if user.is_authenticated %}
                 <a href="{% url 'accounts:admin_logout' %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:bg-[#0a0a0a] hover:text-[#ff0000]">[LOGOUT]</a>
                 {% endif %}
+                <button type="button" data-theme-toggle class="theme-toggle-btn w-full justify-center mt-2" aria-label="Toggle color theme">
+                    <i class="fas fa-moon" data-theme-icon-moon></i>
+                    <i class="fas fa-sun hidden" data-theme-icon-sun></i>
+                </button>
             </div>
         </div>
     </nav>
