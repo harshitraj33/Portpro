@@ -11,7 +11,13 @@ if (mobileMenuBtn && mobileMenu) {
 }
 
 // Theme Toggle Functionality
-const themeToggleButtons = document.querySelectorAll('[data-theme-toggle]');
+function getThemeToggleButtons() {
+  return document.querySelectorAll('[data-theme-toggle]');
+}
+
+function getCurrentTheme() {
+  return document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+}
 
 function syncThemeMetaColor(theme) {
   const themeMeta = document.querySelector('meta[name="theme-color"]');
@@ -30,7 +36,7 @@ function applyTheme(theme) {
 }
 
 function syncThemeToggleUI(theme) {
-  themeToggleButtons.forEach((button) => {
+  getThemeToggleButtons().forEach((button) => {
     const sunIcon = button.querySelector('[data-theme-icon-sun]');
     const moonIcon = button.querySelector('[data-theme-icon-moon]');
     const label = button.querySelector('[data-theme-label]');
@@ -47,18 +53,20 @@ function syncThemeToggleUI(theme) {
   });
 }
 
-if (themeToggleButtons.length > 0) {
-  const currentTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+if (getThemeToggleButtons().length > 0) {
+  const currentTheme = getCurrentTheme();
   syncThemeMetaColor(currentTheme);
   syncThemeToggleUI(currentTheme);
-
-  themeToggleButtons.forEach((button) => {
-    button.addEventListener('click', () => {
-      const activeTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
-      applyTheme(activeTheme === 'dark' ? 'light' : 'dark');
-    });
-  });
 }
+
+document.addEventListener('click', (event) => {
+  const toggleButton = event.target.closest('[data-theme-toggle]');
+  if (!toggleButton) {
+    return;
+  }
+  const activeTheme = getCurrentTheme();
+  applyTheme(activeTheme === 'dark' ? 'light' : 'dark');
+});
 
 // Greeting Functions
 const greetings = [
