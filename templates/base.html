@@ -31,6 +31,10 @@
             const theme = savedTheme === 'light' ? 'light' : 'dark';
             document.documentElement.setAttribute('data-theme', theme);
             document.documentElement.classList.toggle('dark', theme === 'dark');
+            const themeMeta = document.querySelector('meta[name="theme-color"]');
+            if (themeMeta) {
+                themeMeta.setAttribute('content', theme === 'light' ? '#ffffff' : '#0a0a0a');
+            }
         })();
     </script>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
@@ -256,6 +260,38 @@
         :root[data-theme='light'] .container-box,
         :root[data-theme='light'] .content-box {
             border-color: #000000 !important;
+        }
+
+        /* Mobile menu uses utility hover classes that need explicit light-theme overrides. */
+        :root[data-theme='light'] #mobile-menu {
+            background: #ffffff !important;
+            border-color: #000000 !important;
+        }
+
+        :root[data-theme='light'] #mobile-menu a,
+        :root[data-theme='light'] #mobile-menu button {
+            color: #000000 !important;
+        }
+
+        :root[data-theme='light'] #mobile-menu a:hover,
+        :root[data-theme='light'] #mobile-menu a:focus,
+        :root[data-theme='light'] #mobile-menu a:active {
+            background: #f3f4f6 !important;
+            color: #000000 !important;
+        }
+
+        :root[data-theme='light'] #mobile-menu .border-t {
+            border-color: #000000 !important;
+        }
+
+        :root[data-theme='light'] #mobile-menu-btn {
+            color: #000000 !important;
+        }
+
+        :root[data-theme='light'] #mobile-menu-btn:hover,
+        :root[data-theme='light'] #mobile-menu-btn:focus {
+            background: #f3f4f6 !important;
+            color: #000000 !important;
         }
     </style>
 

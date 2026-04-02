@@ -13,10 +13,19 @@ if (mobileMenuBtn && mobileMenu) {
 // Theme Toggle Functionality
 const themeToggleButtons = document.querySelectorAll('[data-theme-toggle]');
 
+function syncThemeMetaColor(theme) {
+  const themeMeta = document.querySelector('meta[name="theme-color"]');
+  if (!themeMeta) {
+    return;
+  }
+  themeMeta.setAttribute('content', theme === 'light' ? '#ffffff' : '#0a0a0a');
+}
+
 function applyTheme(theme) {
   document.documentElement.setAttribute('data-theme', theme);
   document.documentElement.classList.toggle('dark', theme === 'dark');
   localStorage.setItem('theme', theme);
+  syncThemeMetaColor(theme);
   syncThemeToggleUI(theme);
 }
 
@@ -40,6 +49,7 @@ function syncThemeToggleUI(theme) {
 
 if (themeToggleButtons.length > 0) {
   const currentTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+  syncThemeMetaColor(currentTheme);
   syncThemeToggleUI(currentTheme);
 
   themeToggleButtons.forEach((button) => {
