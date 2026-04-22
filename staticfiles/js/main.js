@@ -117,6 +117,27 @@ function createGreetingController(wrapper) {
   };
 }
 
+function showGraphicsPortfolioHint() {
+  const viewName = document.body?.dataset?.viewName || '';
+  const isHome = viewName === 'projects_app:home' || window.location.pathname === '/';
+  if (!isHome) {
+    return;
+  }
+
+  const hint = document.getElementById('graphics-portfolio-hint');
+  if (!hint) {
+    return;
+  }
+
+  setTimeout(() => {
+    hint.classList.add('show');
+  }, 250);
+
+  setTimeout(() => {
+    hint.classList.remove('show');
+  }, 3250);
+}
+
 // attach listeners on DOM ready so we don't rely on inline attributes
 window.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.profile-wrapper').forEach(wrapper => {
@@ -143,6 +164,8 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+
+  showGraphicsPortfolioHint();
 });
 
 // keep globals for backwards compatibility (inline handlers still work)
